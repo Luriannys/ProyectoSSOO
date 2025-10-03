@@ -18,6 +18,8 @@ public class ProyectoSSOO {
         // TODO code application logic here
         View v = new View();
         v.setVisible(true);
+        //tiempo
+        //memoria
         
     }
     

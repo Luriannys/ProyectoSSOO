@@ -8,13 +8,6 @@ package proyectossoo;
  *
  * @author rgabr
  */
-public class CPU {
-    /*WEY QUE VA A MANEJAR TODO XD 
-    */
-    //proceso en ejecucion
-    PC pc;
-    Proceso p1;
+public class MAR {
     
-    
-            
 }
