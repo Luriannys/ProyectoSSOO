@@ -9,5 +9,6 @@ package proyectossoo;
  * @author rgabr
  */
 public class MAR {
+    int contador;
     
 }

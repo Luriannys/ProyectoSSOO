@@ -10,5 +10,20 @@ package proyectossoo;
  */
 public class Scheduler {
    /* GUARDA EL PLANIFICADOR ACTUAL 
+    FCFS (Primero que entra sale)
+    round robin
+    SPN
+    SRt
+    HRRN
+    Feedback
     */
+    PC pc;
+    Cola listo;//organizar la lista dependiendo del plan 
+    Plan plan;
+    
+    public void ejec_plan(Plan plan){
+        
+    }
+    
+    
 }

@@ -16,7 +16,7 @@ public class Proceso {
     boolean ES_bound;
     int registros;
     String estado;
-    //Estado (Listo,Bkoqueado,Ejecutar,bloqueado suspendido, listo suspendido)
+    //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
     int ID ;
     //si esbound 
     int cicloex;
