@@ -33,11 +33,10 @@ public class Proceso {
     
     
 
-    public Proceso(String nombre, int cantidad_instrucciones, boolean CPU_bound, boolean ES_bound, int registros, String estado, int ID, int MAR, PC pc, int cicloex, int ciclofinex) {
+    public Proceso(String nombre, int cantidad_instrucciones, String bound, int registros, String estado, int ID, int MAR, PC pc, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
-        this.CPU_bound = CPU_bound;
-        this.ES_bound = ES_bound;
+        this.bound = bound;
         this.registros = registros;
         this.estado = estado;
         this.ID = ID;
