@@ -18,12 +18,26 @@ public class Proceso {
     String estado;
     //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
     int ID ;
+    int MAR;
+    PC pc;
     //si esbound 
     int cicloex;
     int ciclofinex;
-    //CPU cpu;
-    
 
+    public Proceso(String nombre, int cantidad_instrucciones, boolean CPU_bound, boolean ES_bound, int registros, String estado, int ID, int MAR, PC pc, int cicloex, int ciclofinex) {
+        this.nombre = nombre;
+        this.cantidad_instrucciones = cantidad_instrucciones;
+        this.CPU_bound = CPU_bound;
+        this.ES_bound = ES_bound;
+        this.registros = registros;
+        this.estado = estado;
+        this.ID = ID;
+        this.MAR = MAR;
+        this.pc = pc;
+        this.cicloex = cicloex;
+        this.ciclofinex = ciclofinex;
+    }
+    
  
 
     public void getPCB(){
