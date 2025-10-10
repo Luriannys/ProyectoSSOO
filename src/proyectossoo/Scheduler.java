@@ -22,7 +22,7 @@ public class Scheduler {
     Plan plan;
     
     public void ejec_plan(Plan plan){
-        
+        this.plan.selec_plan();
     }
     
     
