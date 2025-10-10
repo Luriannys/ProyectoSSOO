@@ -12,8 +12,7 @@ package proyectossoo;
 public class Proceso {
     String nombre;
     int cantidad_instrucciones;
-    boolean CPU_bound;
-    boolean ES_bound;
+    String bound;
     int registros;
     String estado;
     //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
@@ -22,8 +21,15 @@ public class Proceso {
     int cicloex;
     int ciclofinex;
     //CPU cpu;
-    
 
+    public Proceso(String nombre, int cantidad_instrucciones, String bound) {
+        this.nombre = nombre;
+        this.cantidad_instrucciones = cantidad_instrucciones;
+        this.bound = bound;
+        this.estado = "Nuevo";
+    }
+    
+    
  
 
     public void getPCB(){
@@ -84,22 +90,14 @@ public class Proceso {
         this.cantidad_instrucciones = cantidad_instrucciones;
     }
 
-    public boolean getCPU_bound() {
-        return CPU_bound;
+    public String getBound() {
+        return bound;
     }
 
-    public void setCPU_bound(boolean CPU_bound) {
-        this.CPU_bound = CPU_bound;
+    public void setBound(String bound) {
+        this.bound = bound;
     }
-
-    public boolean getES_bound() {
-        return ES_bound;
-    }
-
-    public void setES_bound(boolean ES_bound) {
-        this.ES_bound = ES_bound;
-    }
-
+    
     public int getID() {
         return ID;
     }

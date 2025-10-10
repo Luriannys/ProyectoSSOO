@@ -4,6 +4,10 @@
  */
 package interfaces;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import proyectossoo.Proceso;
+
 /**
  *
  * @author luria
@@ -17,8 +21,26 @@ public class View extends javax.swing.JFrame {
      */
     public View() {
         initComponents();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        Runnable runnable;
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(500);
+                        clockLabel.setText(formatter.format(LocalDateTime.now()));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,25 +51,36 @@ public class View extends javax.swing.JFrame {
     private void initComponents() {
 
         viewApp = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        nameOfProcess = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        numberOfInstructions = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        bounds = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        cyclesOfExceptions = new javax.swing.JSpinner();
+        jLabel12 = new javax.swing.JLabel();
+        cyclesOfSatisfaction = new javax.swing.JSpinner();
+        createBottom = new javax.swing.JButton();
         settings = new javax.swing.JPanel();
         cycleDurationLabel = new javax.swing.JLabel();
-        cycleDuration = new javax.swing.JComboBox<>();
         planificationPolicyLabel = new javax.swing.JLabel();
         planificationPolicy = new javax.swing.JComboBox<>();
         saveSettings = new javax.swing.JButton();
+        cycleDuration = new javax.swing.JSpinner();
         process = new javax.swing.JPanel();
         shortTimeLabel = new javax.swing.JLabel();
         shortTimePane = new javax.swing.JScrollPane();
-        shortTime = new javax.swing.JList<>();
+        bloked = new javax.swing.JList<>();
         mediumTimeLabel = new javax.swing.JLabel();
         mediumTimePane = new javax.swing.JScrollPane();
-        mediumTime = new javax.swing.JList<>();
-        largeTimeLabel = new javax.swing.JLabel();
-        largeTimePane = new javax.swing.JScrollPane();
-        largeTime = new javax.swing.JList<>();
+        suspendedBlocked = new javax.swing.JList<>();
         blockedLabel = new javax.swing.JLabel();
         blockedPane = new javax.swing.JScrollPane();
-        blocked = new javax.swing.JList<>();
+        news = new javax.swing.JList<>();
         suspendedReadysLabel = new javax.swing.JLabel();
         suspendedReadysPane = new javax.swing.JScrollPane();
         suspendedReadys = new javax.swing.JList<>();
@@ -61,6 +94,9 @@ public class View extends javax.swing.JFrame {
         runningPane = new javax.swing.JPanel();
         runningLabel = new javax.swing.JLabel();
         planPolicy = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         scheduler = new javax.swing.JPanel();
         logLabel = new javax.swing.JLabel();
         logPane = new javax.swing.JScrollPane();
@@ -73,18 +109,153 @@ public class View extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cycleDurationLabel.setText("Duración del ciclo");
+        jLabel8.setText("Nombre del proceso");
 
-        cycleDuration.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cycleDuration.addActionListener(new java.awt.event.ActionListener() {
+        nameOfProcess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cycleDurationActionPerformed(evt);
+                nameOfProcessActionPerformed(evt);
             }
         });
 
+        jLabel9.setText("Cantidad de instrucciones");
+
+        numberOfInstructions.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jLabel10.setText("CPU bound ó I/O bound");
+
+        bounds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU Bound", "I/O Bound" }));
+        bounds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boundsActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("# ciclos para generar una excepción");
+
+        cyclesOfExceptions.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        cyclesOfExceptions.setEnabled(false);
+
+        jLabel12.setText("# ciclos para satisfacer una excepción");
+
+        cyclesOfSatisfaction.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        cyclesOfSatisfaction.setEnabled(false);
+
+        createBottom.setText("CREAR");
+        createBottom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createBottomActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(249, 249, 249)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(nameOfProcess))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(67, 67, 67)
+                                        .addComponent(numberOfInstructions, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cyclesOfExceptions, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bounds, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(299, 299, 299))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(createBottom))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cyclesOfSatisfaction, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(295, 295, 295))))
+        );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bounds, cyclesOfExceptions, cyclesOfSatisfaction, numberOfInstructions});
+
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(168, 168, 168)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameOfProcess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(numberOfInstructions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(bounds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cyclesOfExceptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(cyclesOfSatisfaction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addComponent(createBottom)
+                .addContainerGap())
+        );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel8, nameOfProcess});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel9, numberOfInstructions});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bounds, jLabel10});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cyclesOfExceptions, jLabel11});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cyclesOfSatisfaction, jLabel12});
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addContainerGap())
+        );
+
+        viewApp.addTab("Creación de procesos", jPanel1);
+
+        cycleDurationLabel.setText("Duración del ciclo");
+
         planificationPolicyLabel.setText("Política de planificación");
 
-        planificationPolicy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        planificationPolicy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FIFO", "Round Robin", "SPN", "SRT", "HRRN", "Realimentación" }));
         planificationPolicy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 planificationPolicyActionPerformed(evt);
@@ -98,15 +269,17 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        cycleDuration.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
         javax.swing.GroupLayout settingsLayout = new javax.swing.GroupLayout(settings);
         settings.setLayout(settingsLayout);
         settingsLayout.setHorizontalGroup(
             settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsLayout.createSequentialGroup()
                 .addGap(130, 130, 130)
-                .addGroup(settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cycleDuration, 0, 163, Short.MAX_VALUE)
-                    .addComponent(cycleDurationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cycleDurationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cycleDuration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(planificationPolicy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,6 +290,9 @@ public class View extends javax.swing.JFrame {
                 .addComponent(saveSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(346, 346, 346))
         );
+
+        settingsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cycleDuration, planificationPolicy});
+
         settingsLayout.setVerticalGroup(
             settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingsLayout.createSequentialGroup()
@@ -125,51 +301,44 @@ public class View extends javax.swing.JFrame {
                     .addComponent(planificationPolicyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cycleDurationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(planificationPolicy, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cycleDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cycleDuration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(150, 150, 150)
                 .addComponent(saveSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(200, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
+
+        settingsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cycleDuration, planificationPolicy});
 
         viewApp.addTab("Configuración", settings);
 
-        shortTimeLabel.setText("Bloq suspendidos corto plazo");
+        shortTimeLabel.setText("Bloqueados");
 
-        shortTime.setModel(new javax.swing.AbstractListModel<String>() {
+        bloked.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        shortTimePane.setViewportView(shortTime);
+        shortTimePane.setViewportView(bloked);
 
-        mediumTimeLabel.setText("Bloq suspendidos mediano plazo");
+        mediumTimeLabel.setText("Bloq suspendidos");
 
-        mediumTime.setModel(new javax.swing.AbstractListModel<String>() {
+        suspendedBlocked.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        mediumTimePane.setViewportView(mediumTime);
+        mediumTimePane.setViewportView(suspendedBlocked);
 
-        largeTimeLabel.setText("Bloq suspendidos largo plazo");
+        blockedLabel.setText("Nuevos");
 
-        largeTime.setModel(new javax.swing.AbstractListModel<String>() {
+        news.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        largeTimePane.setViewportView(largeTime);
-
-        blockedLabel.setText("Bloqueados");
-
-        blocked.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        blockedPane.setViewportView(blocked);
+        blockedPane.setViewportView(news);
 
         suspendedReadysLabel.setText("Listos suspendidos");
 
@@ -218,13 +387,25 @@ public class View extends javax.swing.JFrame {
         );
         runningPaneLayout.setVerticalGroup(
             runningPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(runningPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(runningLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, runningPaneLayout.createSequentialGroup()
+                .addContainerGap(8, Short.MAX_VALUE)
+                .addComponent(runningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         planPolicy.setText("Política de planificación: ");
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("CORTO PLAZO");
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("LARGO PLAZO");
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("MEDIANO PLAZO");
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout processLayout = new javax.swing.GroupLayout(process);
         process.setLayout(processLayout);
@@ -234,78 +415,101 @@ public class View extends javax.swing.JFrame {
                 .addGap(83, 83, 83)
                 .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(planPolicy, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(readysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(shortTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processLayout.createSequentialGroup()
+                                    .addGap(366, 366, 366)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(processLayout.createSequentialGroup()
+                                    .addComponent(planPolicy, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(10, 10, 10)
+                                    .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(processLayout.createSequentialGroup()
+                                            .addComponent(readysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(10, 10, 10)
+                                            .addComponent(shortTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(processLayout.createSequentialGroup()
+                                .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(blockedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(blockedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(finishedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(processLayout.createSequentialGroup()
                         .addComponent(runningPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(readysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(suspendedReadysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(suspendedReadysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(shortTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(mediumTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(mediumTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(finishedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(blockedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(blockedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(largeTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(largeTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(processLayout.createSequentialGroup()
+                                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(processLayout.createSequentialGroup()
+                                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(suspendedReadysLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(suspendedReadysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(10, 10, 10)
+                                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(mediumTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(mediumTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(processLayout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(readysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(shortTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(61, 61, 61))))
         );
         processLayout.setVerticalGroup(
             processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(processLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(planPolicy)
                     .addComponent(readysLabel)
                     .addComponent(shortTimeLabel))
                 .addGap(4, 4, 4)
-                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runningPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(readysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(suspendedReadysLabel)
-                        .addGap(4, 4, 4)
-                        .addComponent(suspendedReadysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(runningPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))
                     .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(shortTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(mediumTimeLabel)
-                        .addGap(4, 4, 4)
-                        .addComponent(mediumTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
-                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(readysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(shortTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(processLayout.createSequentialGroup()
+                                .addComponent(suspendedReadysLabel)
+                                .addGap(4, 4, 4)
+                                .addComponent(suspendedReadysPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(processLayout.createSequentialGroup()
+                                .addComponent(mediumTimeLabel)
+                                .addGap(4, 4, 4)
+                                .addComponent(mediumTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)))
+                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(processLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(finishedLabel)
-                        .addGap(4, 4, 4)
-                        .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(blockedLabel)
-                        .addGap(4, 4, 4)
-                        .addComponent(blockedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(largeTimeLabel)
-                        .addGap(4, 4, 4)
-                        .addComponent(largeTimePane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(processLayout.createSequentialGroup()
+                                .addComponent(finishedLabel)
+                                .addGap(4, 4, 4)
+                                .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(processLayout.createSequentialGroup()
+                                .addComponent(blockedLabel)
+                                .addGap(4, 4, 4)
+                                .addComponent(blockedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 117, Short.MAX_VALUE))
         );
 
         viewApp.addTab("Procesos", process);
@@ -354,7 +558,7 @@ public class View extends javax.swing.JFrame {
                 .addGroup(schedulerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(schedulerPane, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
                     .addComponent(logPane))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
 
         viewApp.addTab("Planificador", scheduler);
@@ -375,7 +579,7 @@ public class View extends javax.swing.JFrame {
         graphsLayout.setVerticalGroup(
             graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, graphsLayout.createSequentialGroup()
-                .addContainerGap(121, Short.MAX_VALUE)
+                .addContainerGap(216, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(121, 121, 121))
         );
@@ -390,7 +594,7 @@ public class View extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(viewApp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(viewApp, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
         );
 
         pack();
@@ -401,13 +605,35 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_planificationPolicyActionPerformed
 
-    private void cycleDurationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cycleDurationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cycleDurationActionPerformed
-
     private void saveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveSettingsActionPerformed
+
+    private void boundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boundsActionPerformed
+        // TODO add your handling code here:
+        if ((String) bounds.getSelectedItem() == "I/O Bound"){
+            cyclesOfExceptions.setEnabled(true);
+            cyclesOfSatisfaction.setEnabled(true);
+        } else {
+            cyclesOfExceptions.setEnabled(false);
+            cyclesOfSatisfaction.setEnabled(false);
+        }
+    }//GEN-LAST:event_boundsActionPerformed
+
+    private void nameOfProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameOfProcessActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameOfProcessActionPerformed
+
+    private void createBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBottomActionPerformed
+        // TODO add your handling code here:
+        
+        String nameNewProcess = nameOfProcess.getText();
+        int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
+        String boundNewProcess = (String) bounds.getSelectedItem();     
+        
+        Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess);
+        System.out.println(newProcess.getNombre());
+    }//GEN-LAST:event_createBottomActionPerformed
 
     /**
      * @param args the command line arguments
@@ -435,26 +661,40 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> blocked;
     private javax.swing.JLabel blockedLabel;
     private javax.swing.JScrollPane blockedPane;
+    private javax.swing.JList<String> bloked;
+    private javax.swing.JComboBox<String> bounds;
     private javax.swing.JLabel clockLabel;
-    private javax.swing.JComboBox<String> cycleDuration;
+    private javax.swing.JButton createBottom;
+    private javax.swing.JSpinner cycleDuration;
     private javax.swing.JLabel cycleDurationLabel;
+    private javax.swing.JSpinner cyclesOfExceptions;
+    private javax.swing.JSpinner cyclesOfSatisfaction;
     private javax.swing.JList<String> finished;
     private javax.swing.JLabel finishedLabel;
     private javax.swing.JScrollPane finishedPane;
     private javax.swing.JPanel graphs;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> largeTime;
-    private javax.swing.JLabel largeTimeLabel;
-    private javax.swing.JScrollPane largeTimePane;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel logLabel;
     private javax.swing.JList<String> logList;
     private javax.swing.JScrollPane logPane;
-    private javax.swing.JList<String> mediumTime;
     private javax.swing.JLabel mediumTimeLabel;
     private javax.swing.JScrollPane mediumTimePane;
+    private javax.swing.JTextField nameOfProcess;
+    private javax.swing.JList<String> news;
+    private javax.swing.JSpinner numberOfInstructions;
     private javax.swing.JLabel planPolicy;
     private javax.swing.JComboBox<String> planificationPolicy;
     private javax.swing.JLabel planificationPolicyLabel;
@@ -470,9 +710,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JList<String> schedulerList;
     private javax.swing.JScrollPane schedulerPane;
     private javax.swing.JPanel settings;
-    private javax.swing.JList<String> shortTime;
     private javax.swing.JLabel shortTimeLabel;
     private javax.swing.JScrollPane shortTimePane;
+    private javax.swing.JList<String> suspendedBlocked;
     private javax.swing.JList<String> suspendedReadys;
     private javax.swing.JLabel suspendedReadysLabel;
     private javax.swing.JScrollPane suspendedReadysPane;
