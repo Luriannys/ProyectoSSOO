@@ -14,6 +14,9 @@ public class PC {
     Proceso P_siguiente;
     int contador;
 
+    public void siguiente_proceso(){
+        
+    }
     public Proceso getP_actual() {
         return P_actual;
     }

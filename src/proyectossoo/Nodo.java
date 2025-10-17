@@ -15,6 +15,13 @@ public class Nodo {
     Nodo anterior, siguiente;
     //Metodos
 
+    public Nodo(Proceso proceso) {
+        this.num = num;
+        this.proceso = proceso;
+        this.anterior = null;
+        this.siguiente = null;
+    }
+
     public int getNum() {
         return num;
     }

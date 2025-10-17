@@ -31,36 +31,71 @@ public class Cola {
     
 
     public void mas_pequeno(){
-        Nodo mini;
-        Nodo sig, actual;
-        Cola aux = new Cola("aux");
-        mini= this.getCabeza();
-        actual=this.getCabeza();
-        sig=this.getCabeza().getSiguiente();
-        int i;
-        for (i=0;i<this.getTamano();i++){
-            if(sig.getProceso().getCantidad_instrucciones()<actual.getProceso().getCantidad_instrucciones()){
-                
-                mini=sig;
-                aux.add(aux,mini);
-                
-                
+        if (estaVacia()){
+            return;
+        }
+        Cola colaAuxiliar = new Cola("a");
+       // int tamano = 0;
+        Nodo temp = cabeza;
+       /* while (temp != null) {
+            tamano++;
+            temp = temp.siguiente;
+        }*/
+        for (int i = 0; i < getTamano(); i++) {
+            Proceso min = desencolar();
+            int restantes = getTamano() - (i + 1);
+            
+            for (int j = 0; j < restantes; j++) {
+                Proceso actual = desencolar();
+                if (actual.getCantidad_instrucciones() < min.getCantidad_instrucciones()) {
+                add(min);
+                min = actual;
+            } else {
+                add(actual);
+            }
+        }
+        colaAuxiliar.add(min);
+    }
+
+    while (!colaAuxiliar.estaVacia()) {
+        add(colaAuxiliar.desencolar());
+    }
                      
          
                 
             }
+    
+    
+    
+
+  
+    public void add(Proceso p){
+         Nodo nodo = new Nodo(p);
+        if(estaVacia()){
+            setCabeza(nodo);
+            setCola(nodo);          
+        }else{
+            getCola().setSiguiente(nodo);
+            setCola(nodo);
         }
     }
-    public void add(Cola cola,Nodo nodo){
-        if(cola.getTamano()==0){
-            cola.setCabeza(nodo);
-            cola.setCola(nodo);
-            
-           
+      public boolean estaVacia() {
+        return cabeza == null;
+    }
+    public Proceso desencolar(){
+        if (estaVacia()) {
+        // Manejar error o devolver un valor de indicador
+            throw new IllegalStateException("La cola está vacía"); 
         }else{
-            cola.getCola().setSiguiente(nodo);
-            cola.setCola(nodo);
+            Proceso p1 = this.getCabeza().getProceso();
+            this.setCabeza(this.getCabeza().getSiguiente());
+            
+        if (this.getCabeza() == null) {
+            this.setCola(null);
         }
+            return p1;
+        }
+        
     }
     
     public String getNombre() {

@@ -12,6 +12,7 @@ package proyectossoo;
 public class Proceso {
     String nombre;
     int cantidad_instrucciones;
+    int instrucciones_ejecutadas;
     String bound;
     int registros;
     String estado;
@@ -33,12 +34,13 @@ public class Proceso {
     
     
 
-    public Proceso(String nombre, int cantidad_instrucciones, String bound, int registros, String estado, int ID, int MAR, PC pc, int cicloex, int ciclofinex) {
+    public Proceso(String nombre, int cantidad_instrucciones, String bound, int registros, int ID, int MAR, PC pc, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
+        this.instrucciones_ejecutadas =0;
         this.bound = bound;
         this.registros = registros;
-        this.estado = estado;
+        this.estado = "Nuevo";
         this.ID = ID;
         this.MAR = MAR;
         this.pc = pc;
@@ -46,7 +48,9 @@ public class Proceso {
         this.ciclofinex = ciclofinex;
     }
     
- 
+    public void crearProceso(){
+        
+    }
 
     public void getPCB(){
         this.getRegistros();

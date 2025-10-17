@@ -20,6 +20,9 @@ public class ProyectoSSOO {
         v.setVisible(true);
         //tiempo
         //memoria
+        Proceso p1 = new Proceso("p1",15,"CPUBound");
+        Cola listo = new Cola("Listo");
+        listo.add(p1);
         
     }
     
