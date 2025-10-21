@@ -25,31 +25,26 @@ public class Proceso {
     int ciclofinex;
     //CPU cpu;
 
-    public Proceso(String nombre, int cantidad_instrucciones, String bound) {
+   /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
         this.bound = bound;
         this.estado = "Nuevo";
-    }
+    }*/
     
     
 
-    public Proceso(String nombre, int cantidad_instrucciones, String bound, int registros, int ID, int MAR, PC pc, int cicloex, int ciclofinex) {
+    public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
-        this.instrucciones_ejecutadas =0;
         this.bound = bound;
-        this.registros = registros;
         this.estado = "Nuevo";
-        this.ID = ID;
-        this.MAR = MAR;
-        this.pc = pc;
         this.cicloex = cicloex;
         this.ciclofinex = ciclofinex;
     }
     
     public void crearProcesos(String nombre, int cantidad_instrucciones, String bound){
-        Proceso p1 = new Proceso(nombre,cantidad_instrucciones,bound);
+        Proceso p1 = new Proceso(nombre,cantidad_instrucciones,bound,0,0);
         
     }
 

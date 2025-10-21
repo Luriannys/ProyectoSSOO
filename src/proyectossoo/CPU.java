@@ -13,42 +13,59 @@ public class CPU {
     */
     //proceso en ejecucion
     PC pc;
-    Proceso p1;
     
     
-    public void ejecutar_p(Proceso p1, Thread t1,long tiempo){
+    
+    
+    public void ejecutar_p(Proceso p1, Thread t1,long tiempo,Cola bloq){
         
         int i;
         int v =p1.getCantidad_instrucciones();
-        for (i=0;i<v;i++){
-            if ("ES".equals(this.p1.getBound())){
-                this.p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
+        int e = p1.getCicloex();
+        
+        for (i=0;i<e;i++){
+            if ("I/O Bound".equals(p1.getBound())){
+                p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
                 //aqui el hilo espera el tiempo del ciclo
-                if (this.p1.getCicloex()==i){
+                 try {
+                    //aqui el hilo espera el tiempo del ciclo
+                    t1.sleep(tiempo*100);
+                } catch (InterruptedException ex) {
+                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                if (p1.getCicloex()==i){
                     p1.setEstado("Bloqueado");
+                    bloq.add(p1);
+                    System.out.println("Bloqueado");
                     //se mueve a cola de bloqueado
                     int u;
-                    for (u=0;u<p1.getCiclofinex()+p1.getCiclofinex();u++){
+                    for (u=0;u<p1.getCicloex()+p1.getCiclofinex();u++){
+                         try {
+                    //aqui el hilo espera el tiempo del ciclo
+                     t1.sleep(tiempo*100);
+                        } catch (InterruptedException ex) {
+                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
                         //hilo espero el tiempo del ciclo
                     }
                     p1.setEstado("Ejecutando");
-                    
+                    System.out.println(p1.getCantidad_instrucciones());
                     
                 }
             }else{
-                this.p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
+                for (i=0;i<v;i++){
+                p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
                 p1.setEstado("Ejecutando");
-               /* try {
+                try {
                     //aqui el hilo espera el tiempo del ciclo
-                   // t1.sleep(tiempo*100);
+                    t1.sleep(tiempo*100);
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }*/
+                }
                 System.out.println(p1.getCantidad_instrucciones());
-                
+                }
             }
         }
-        p1.setEstado("Terminado");
     }
 
     public PC getPc() {
@@ -59,12 +76,6 @@ public class CPU {
         this.pc = pc;
     }
 
-    public Proceso getP1() {
-        return p1;
-    }
 
-    public void setP1(Proceso p1) {
-        this.p1 = p1;
-    }
     
 }
