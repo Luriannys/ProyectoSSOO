@@ -16,14 +16,13 @@ public class ProyectoSSOO {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        View v = new View();
-        v.setVisible(true);
-        //tiempo
+        //View v = new View();
+        //v.setVisible(true);
+        long tiempo = 10;
         //memoria
-        Proceso p1 = new Proceso("p1",15,"CPUBound");
-        Cola listo = new Cola("Listo");
-        listo.add(p1);
-        
+       Scheduler a= new Scheduler();
+       a.iniciar(tiempo);
+       
     }
     
 }

@@ -48,7 +48,8 @@ public class Proceso {
         this.ciclofinex = ciclofinex;
     }
     
-    public void crearProceso(){
+    public void crearProcesos(String nombre, int cantidad_instrucciones, String bound){
+        Proceso p1 = new Proceso(nombre,cantidad_instrucciones,bound);
         
     }
 

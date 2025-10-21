@@ -14,7 +14,11 @@ public class PC {
     Proceso P_siguiente;
     int contador;
 
-    public void siguiente_proceso(){
+    public Proceso siguiente_proceso(Cola listo){
+        P_actual=listo.getCabeza().getProceso() ;
+        P_siguiente=listo.getCabeza().getSiguiente().getProceso();
+        contador++;
+        return this.getP_actual();
         
     }
     public Proceso getP_actual() {

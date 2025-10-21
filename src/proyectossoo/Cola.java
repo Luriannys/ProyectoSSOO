@@ -78,7 +78,22 @@ public class Cola {
             getCola().setSiguiente(nodo);
             setCola(nodo);
         }
+        this.tamano=tamano++;
     }
+    
+    public void add_listo(Proceso p){
+        Nodo nodo = new Nodo(p);
+        if(estaVacia()){
+            setCabeza(nodo);
+            setCola(nodo);          
+        }else{
+            getCola().setSiguiente(nodo);
+            setCola(nodo);
+        }
+        p.setEstado("Listo");
+        this.setTamano(this.getTamano()+1);
+    }
+    
       public boolean estaVacia() {
         return cabeza == null;
     }

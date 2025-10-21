@@ -10,6 +10,7 @@ package proyectossoo;
  */
 public class Plan {
     //Van los 6 tipos de planes 
+    //Capaz se meto todo en la clase cola
     //Atributos
     Cola listo;
     int plan;
