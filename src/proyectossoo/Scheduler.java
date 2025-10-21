@@ -24,6 +24,8 @@ public class Scheduler extends Thread {
     Plan plan;
     Cola bloq= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
+    Cola listoSuspendido = new Cola("Listo suspendido");
+    Cola bloqSuspendido = new Cola("Bloqueado suspendido");
     
     public void ejec_plan(Plan plan){
         this.plan.selec_plan();
@@ -51,7 +53,7 @@ public class Scheduler extends Thread {
         this.terminado.add(p1);
         
         
-        
+    
     }
     public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1){
         
@@ -63,4 +65,89 @@ public class Scheduler extends Thread {
     public void terminar_proceso(){
         
     }
+
+    public int getMemoria() {
+        return memoria;
+    }
+
+    public void setMemoria(int memoria) {
+        this.memoria = memoria;
+    }
+
+    public PC getPc() {
+        return pc;
+    }
+
+    public void setPc(PC pc) {
+        this.pc = pc;
+    }
+
+    public CPU getCpu() {
+        return cpu;
+    }
+
+    public void setCpu(CPU cpu) {
+        this.cpu = cpu;
+    }
+
+    public Cola getListo() {
+        return listo;
+    }
+
+    public void setListo(Cola listo) {
+        this.listo = listo;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public Cola getBloq() {
+        return bloq;
+    }
+
+    public void setBloq(Cola bloq) {
+        this.bloq = bloq;
+    }
+
+    public Cola getTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(Cola terminado) {
+        this.terminado = terminado;
+    }
+
+    public Cola getListoSuspendido() {
+        return listoSuspendido;
+    }
+
+    public void setListoSuspendido(Cola listoSuspendido) {
+        this.listoSuspendido = listoSuspendido;
+    }
+
+    public Cola getBloqSuspendido() {
+        return bloqSuspendido;
+    }
+
+    public void setBloqSuspendido(Cola bloqSuspendido) {
+        this.bloqSuspendido = bloqSuspendido;
+    }
+    
+    
+
+    public Scheduler() {
+        
+        Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
+        Cola bloq= new Cola("Bloqueado");
+        Cola terminado= new Cola("Terminado");
+    
+    }
+    
+    
+    
 }

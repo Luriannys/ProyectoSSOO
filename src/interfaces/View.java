@@ -6,7 +6,10 @@ package interfaces;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.DefaultListModel;
+import proyectossoo.Cola;
 import proyectossoo.Proceso;
+import proyectossoo.Scheduler;
 
 /**
  *
@@ -15,12 +18,33 @@ import proyectossoo.Proceso;
 public class View extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
-
+    Scheduler sch = new Scheduler();
+    
     /**
      * Creates new form View
      */
     public View() {
         initComponents();
+        DefaultListModel modelReady = new DefaultListModel<>();
+        createModel(modelReady, sch.getListo());
+        readys.setModel(modelReady);
+        
+        DefaultListModel modelBlocked = new DefaultListModel<>();
+        createModel(modelBlocked, sch.getBloq());
+        blocked.setModel(modelBlocked);
+        
+        DefaultListModel modelSuspendedReady = new DefaultListModel<>();
+        createModel(modelSuspendedReady, sch.getListoSuspendido());
+        suspendedReadys.setModel(modelSuspendedReady);
+      
+        DefaultListModel modelSuspendedBlocked = new DefaultListModel<>();
+        createModel(modelSuspendedBlocked, sch.getBloqSuspendido());
+        suspendedBlocked.setModel(modelSuspendedBlocked);
+        
+        DefaultListModel modelFinished = new DefaultListModel<>();
+        createModel(modelFinished, sch.getTerminado());
+        finished.setModel(modelFinished);
+  
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         Runnable runnable;
@@ -40,7 +64,7 @@ public class View extends javax.swing.JFrame {
         Thread thread = new Thread(runnable);
         thread.start();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,7 +98,7 @@ public class View extends javax.swing.JFrame {
         process = new javax.swing.JPanel();
         shortTimeLabel = new javax.swing.JLabel();
         shortTimePane = new javax.swing.JScrollPane();
-        bloked = new javax.swing.JList<>();
+        blocked = new javax.swing.JList<>();
         mediumTimeLabel = new javax.swing.JLabel();
         mediumTimePane = new javax.swing.JScrollPane();
         suspendedBlocked = new javax.swing.JList<>();
@@ -315,12 +339,12 @@ public class View extends javax.swing.JFrame {
 
         shortTimeLabel.setText("Bloqueados");
 
-        bloked.setModel(new javax.swing.AbstractListModel<String>() {
+        blocked.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        shortTimePane.setViewportView(bloked);
+        shortTimePane.setViewportView(blocked);
 
         mediumTimeLabel.setText("Bloq suspendidos");
 
@@ -594,13 +618,21 @@ public class View extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(viewApp, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+            .addComponent(viewApp)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void createModel(DefaultListModel model, Cola cola){
+        Cola leerCola = cola;
+        while (!leerCola.estaVacia()){
+            model.addElement(leerCola.getCabeza().getProceso().getNombre());
+            leerCola.desencolar();
+        }
+    }
+    
     private void planificationPolicyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_planificationPolicyActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_planificationPolicyActionPerformed
@@ -616,7 +648,9 @@ public class View extends javax.swing.JFrame {
             cyclesOfSatisfaction.setEnabled(true);
         } else {
             cyclesOfExceptions.setEnabled(false);
+            cyclesOfExceptions.setValue(0);
             cyclesOfSatisfaction.setEnabled(false);
+            cyclesOfSatisfaction.setValue(0);
         }
     }//GEN-LAST:event_boundsActionPerformed
 
@@ -632,6 +666,7 @@ public class View extends javax.swing.JFrame {
         String boundNewProcess = (String) bounds.getSelectedItem();     
         
         Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess);
+        sch.getListo().add_listo(newProcess);
         System.out.println(newProcess.getNombre());
     }//GEN-LAST:event_createBottomActionPerformed
 
@@ -661,9 +696,9 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> blocked;
     private javax.swing.JLabel blockedLabel;
     private javax.swing.JScrollPane blockedPane;
-    private javax.swing.JList<String> bloked;
     private javax.swing.JComboBox<String> bounds;
     private javax.swing.JLabel clockLabel;
     private javax.swing.JButton createBottom;

@@ -112,7 +112,7 @@ public class Cola {
         }
         
     }
-    
+        
     public String getNombre() {
         return nombre;
     }

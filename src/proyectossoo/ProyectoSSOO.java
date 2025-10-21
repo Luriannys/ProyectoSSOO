@@ -16,8 +16,8 @@ public class ProyectoSSOO {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        //View v = new View();
-        //v.setVisible(true);
+        View v = new View();
+        v.setVisible(true);
         long tiempo = 10;
         //memoria
        Scheduler a= new Scheduler();
