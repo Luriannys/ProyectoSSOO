@@ -663,9 +663,11 @@ public class View extends javax.swing.JFrame {
         
         String nameNewProcess = nameOfProcess.getText();
         int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
-        String boundNewProcess = (String) bounds.getSelectedItem();     
+        String boundNewProcess = (String) bounds.getSelectedItem();
+        int cicloex = (Integer) cyclesOfExceptions.getValue();
+        int ciclofinex = (Integer) cyclesOfSatisfaction.getValue();
         
-        Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess);
+        Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess, cicloex, ciclofinex);
         sch.getListo().add_listo(newProcess);
         System.out.println(newProcess.getNombre());
     }//GEN-LAST:event_createBottomActionPerformed

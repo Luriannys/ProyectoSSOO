@@ -84,13 +84,13 @@ public class Scheduler extends Thread {
         this.memoria = memoria;
     }
 
-    public PC getPc() {
-        return pc;
-    }
-
-    public void setPc(PC pc) {
-        this.pc = pc;
-    }
+//    public PC getPc() {
+//        return pc;
+//    }
+//
+//    public void setPc(PC pc) {
+//        this.pc = pc;
+//    }
 
     public CPU getCpu() {
         return cpu;
@@ -108,13 +108,13 @@ public class Scheduler extends Thread {
         this.listo = listo;
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
+//    public Plan getPlan() {
+//        return plan;
+//    }
+//
+//    public void setPlan(Plan plan) {
+//        this.plan = plan;
+//    }
 
     public Cola getBloq() {
         return bloq;
