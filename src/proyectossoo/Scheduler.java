@@ -20,7 +20,7 @@ public class Scheduler extends Thread {
     int memoria;
     //PC pc;
     CPU cpu;
-   
+   PC pc;
     Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
     //Plan plan;
     Cola bloq= new Cola("Bloqueado");
@@ -39,12 +39,12 @@ public class Scheduler extends Thread {
         Thread t1 = new Thread();
         
         t1.start();
-        PC pc = new PC();
-        Proceso p1 = new Proceso("a",21,"CPU",0,0);
+        
+        Proceso p1 = new Proceso("a",10,"CPU",0,0);
         listo.add_listo(p1);
-        Proceso p2 = new Proceso("b",21,"I/O Bound",5,3);
+        Proceso p2 = new Proceso("b",20,"I/O Bound",10,3);
         listo.add_listo(p2);
-        Proceso p3 = new Proceso("c",21,"CPU",0,0);
+        Proceso p3 = new Proceso("c",3,"CPU",0,0);
         listo.add_listo(p3);
         CPU cpu = new CPU();
         
@@ -65,7 +65,11 @@ public class Scheduler extends Thread {
     public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq){
         //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
         Proceso p1 = listo.getCabeza().getProceso();
+        Proceso p2 = listo.getCabeza().getSiguiente().getProceso();
         listo.desencolar();
+        
+        pc.setP_actual(p1);
+        pc.setP_siguiente(p1);
         
         cpu.ejecutar_p(p1,t1,tiempo,bloq);
         
@@ -146,6 +150,14 @@ public class Scheduler extends Thread {
 
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
+    }
+
+    public PC getPc() {
+        return pc;
+    }
+
+    public void setPc(PC pc) {
+        this.pc = pc;
     }
     
     

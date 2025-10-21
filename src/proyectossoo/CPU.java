@@ -12,8 +12,8 @@ public class CPU {
     /*WEY QUE VA A MANEJAR TODO XD 
     */
     //proceso en ejecucion
-    PC pc;
-    
+ 
+ 
     
     
     
@@ -22,24 +22,27 @@ public class CPU {
         int i;
         int v =p1.getCantidad_instrucciones();
         int e = p1.getCicloex();
-        
-        for (i=0;i<e;i++){
-            if ("I/O Bound".equals(p1.getBound())){
+        //poner el ciclo de excepcion 
+        if (e>0){
+            for (i=0;i<e;i++){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
-                //aqui el hilo espera el tiempo del ciclo
+                
+                System.out.println(p1.getCantidad_instrucciones());
                  try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(tiempo*100);
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
-                if (p1.getCicloex()==i){
+            }
+                
                     p1.setEstado("Bloqueado");
                     bloq.add(p1);
-                    System.out.println("Bloqueado");
+                    
                     //se mueve a cola de bloqueado
                     int u;
-                    for (u=0;u<p1.getCicloex()+p1.getCiclofinex();u++){
+                    for (u=e;u<p1.getCiclofinex();u++){
+                        System.out.println("Bloqueado"+u);
                          try {
                     //aqui el hilo espera el tiempo del ciclo
                      t1.sleep(tiempo*100);
@@ -47,12 +50,13 @@ public class CPU {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
                         //hilo espero el tiempo del ciclo
+                        
                     }
                     p1.setEstado("Ejecutando");
                     System.out.println(p1.getCantidad_instrucciones());
                     
                 }
-            }else{
+            else{
                 for (i=0;i<v;i++){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
                 p1.setEstado("Ejecutando");
@@ -66,15 +70,8 @@ public class CPU {
                 }
             }
         }
-    }
-
-    public PC getPc() {
-        return pc;
-    }
-
-    public void setPc(PC pc) {
-        this.pc = pc;
-    }
+    
+   
 
 
     

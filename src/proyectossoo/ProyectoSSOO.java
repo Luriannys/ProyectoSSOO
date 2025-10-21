@@ -18,7 +18,7 @@ public class ProyectoSSOO {
         // TODO code application logic here
         View v = new View();
         v.setVisible(true);
-        long tiempo = 10;
+        long tiempo = 5;
         //memoria
        Scheduler a= new Scheduler();
        a.iniciar(tiempo);
