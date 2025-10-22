@@ -13,6 +13,11 @@ public class PC {
     Proceso P_actual;
     Proceso P_siguiente;
     int contador;
+    
+
+    public PC(Cola listo) {
+        
+    }
 
     public Proceso siguiente_proceso(Cola listo){
         P_actual=listo.getCabeza().getProceso() ;

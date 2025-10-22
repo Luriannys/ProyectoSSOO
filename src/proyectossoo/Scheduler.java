@@ -20,7 +20,7 @@ public class Scheduler extends Thread {
     int memoria;
     //PC pc;
     CPU cpu;
-   PC pc;
+    PC pc;
     Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
     //Plan plan;
     Cola bloq= new Cola("Bloqueado");
@@ -47,10 +47,13 @@ public class Scheduler extends Thread {
         Proceso p3 = new Proceso("c",3,"CPU",0,0);
         listo.add_listo(p3);
         CPU cpu = new CPU();
-        
+        PC pc = new PC(listo);
+        pc.siguiente_proceso(listo);
+       
         int i;
-        for (i=0;i<listo.getTamano();i++){
-            this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq);
+        int t =listo.getTamano();
+        for (i=0;i<t;i++){
+            this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq,pc);
             this.terminar_proceso(p1,this.terminado);
         }
         int u;
@@ -62,16 +65,14 @@ public class Scheduler extends Thread {
         
     
     }
-    public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq){
+    public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq, PC pc){
         //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
-        Proceso p1 = listo.getCabeza().getProceso();
-        Proceso p2 = listo.getCabeza().getSiguiente().getProceso();
+        Proceso p1 = this.getListo().getCabeza().getProceso();
+        Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
+        
+         
         listo.desencolar();
-        
-        pc.setP_actual(p1);
-        pc.setP_siguiente(p1);
-        
-        cpu.ejecutar_p(p1,t1,tiempo,bloq);
+        cpu.ejecutar_p(p1,t1,tiempo,bloq,listo);
         
 }
     public void terminar_proceso(Proceso p1, Cola term){
