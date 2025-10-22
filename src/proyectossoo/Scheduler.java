@@ -21,7 +21,7 @@ public class Scheduler extends Thread {
     //PC pc;
     CPU cpu;
     PC pc;
-    Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
+    Cola listo= pc.getListo();//organizar la lista dependiendo del plan 
     //Plan plan;
     Cola bloq= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
@@ -52,7 +52,7 @@ public class Scheduler extends Thread {
        
         int i;
         int t =listo.getTamano();
-        for (i=0;i<t;i++){
+        for (i=0;i<t;i++){///PON WHILE PENDEJO
             this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq,pc);
             this.terminar_proceso(p1,this.terminado);
         }
@@ -60,7 +60,7 @@ public class Scheduler extends Thread {
         for (u=0;u<listo.getTamano();u++){
             
         }
-        this.terminado.add(p1);
+        
         
         
     
@@ -68,7 +68,7 @@ public class Scheduler extends Thread {
     public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq, PC pc){
         //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
         Proceso p1 = this.getListo().getCabeza().getProceso();
-        Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
+        //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         
          
         listo.desencolar();
@@ -160,16 +160,15 @@ public class Scheduler extends Thread {
     public void setPc(PC pc) {
         this.pc = pc;
     }
+
+    public Scheduler(CPU cpu, PC pc) {
+        this.cpu = cpu;
+        this.pc = pc;
+    }
     
     
 
-    public Scheduler() {
-        
-        Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
-        Cola bloq= new Cola("Bloqueado");
-        Cola terminado= new Cola("Terminado");
     
-    }
     
     
     

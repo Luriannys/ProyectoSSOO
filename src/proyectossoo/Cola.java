@@ -16,7 +16,7 @@ public class Cola {
     int tamano;
     /*listo, new, bloqueado, suspendido listo,suspendido bloqueado,largo,corto,mediano plazo,terminados*/
     //Metodos
-
+//cola de bloqueados ejecuta sus bloqueados
     public Cola(String nombre) {
         this.nombre = nombre;
         this.cabeza = null;

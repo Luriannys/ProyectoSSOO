@@ -13,6 +13,7 @@ public class PC {
     Proceso P_actual;
     Proceso P_siguiente;
     int contador;
+    Cola listo;
     
 
     public PC(Cola listo) {
@@ -40,6 +41,22 @@ public class PC {
 
     public void setP_siguiente(Proceso P_siguiente) {
         this.P_siguiente = P_siguiente;
+    }
+
+    public int getContador() {
+        return contador;
+    }
+
+    public void setContador(int contador) {
+        this.contador = contador;
+    }
+
+    public Cola getListo() {
+        return listo;
+    }
+
+    public void setListo(Cola listo) {
+        this.listo = listo;
     }
     
 
