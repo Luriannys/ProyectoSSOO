@@ -24,7 +24,7 @@ public class ProyectoSSOO {
         PC pc=new PC(listo);
         CPU cpu=new CPU();
         
-       Scheduler a= new Scheduler(cpu,pc);
+       Scheduler a= new Scheduler();
        a.iniciar(tiempo);
        
     }

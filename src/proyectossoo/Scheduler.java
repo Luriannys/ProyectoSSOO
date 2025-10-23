@@ -18,10 +18,10 @@ public class Scheduler extends Thread {
     Feedback
     */
     int memoria;
-    //PC pc;
-    CPU cpu;
     PC pc;
-    Cola listo= pc.getListo();//organizar la lista dependiendo del plan 
+    CPU cpu;
+    
+    Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
     //Plan plan;
     Cola bloq= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
@@ -50,16 +50,13 @@ public class Scheduler extends Thread {
         PC pc = new PC(listo);
         pc.siguiente_proceso(listo);
        
-        int i;
-        int t =listo.getTamano();
-        for (i=0;i<t;i++){///PON WHILE PENDEJO
+        
+        while (!listo.estaVacia()){
             this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq,pc);
             this.terminar_proceso(p1,this.terminado);
-        }
-        int u;
-        for (u=0;u<listo.getTamano();u++){
             
         }
+      
         
         
         
@@ -161,9 +158,8 @@ public class Scheduler extends Thread {
         this.pc = pc;
     }
 
-    public Scheduler(CPU cpu, PC pc) {
-        this.cpu = cpu;
-        this.pc = pc;
+    public Scheduler() {
+        
     }
     
     

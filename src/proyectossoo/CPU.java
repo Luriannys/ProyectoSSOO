@@ -12,7 +12,7 @@ public class CPU {
     /*WEY QUE VA A MANEJAR TODO XD 
     */
     //proceso en ejecucion
- 
+     Scheduler sch;
  
     
     
@@ -41,31 +41,9 @@ public class CPU {
                     bloq.add(p1);
                     
                     //se mueve a cola de bloqueado
-                    int u;
-                    for (u=0;u<p1.getCiclofinex();u++){
-                        System.out.println("Bloqueado"+u);
-                         try {
-                    //aqui el hilo espera el tiempo del ciclo
-                     t1.sleep(tiempo*100);
-                        } catch (InterruptedException ex) {
-                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-                        
-                        
-                    }
-                    bloq.desencolar();
-                    p1.setEstado("Ejecutando");
-                    for (i=e;i<v;i++){
-                        p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
-                        System.out.println(p1.getCantidad_instrucciones()); 
-                          System.out.println("Bloqueado"+u);
-                         try {
-                    //aqui el hilo espera el tiempo del ciclo
-                     t1.sleep(tiempo*100);
-                        } catch (InterruptedException ex) {
-                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-                    }
+                   
+                    
+                    
                                        
                 }else{
                 for (i=0;i<v;i++){
