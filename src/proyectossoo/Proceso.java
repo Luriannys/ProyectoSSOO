@@ -48,13 +48,14 @@ public class Proceso {
         
     }
 
-    public void getPCB(){
+    public String getPCB(){
         this.getRegistros();
         this.getID();
         this.getNombre();
         this.getEstado();
         //this.getMAR();
         //this.getPC();
+        return "this.getRegistros(), this.getID(), this.getNombre(), this.getEstado()";
     }
 
     public String getEstado() {

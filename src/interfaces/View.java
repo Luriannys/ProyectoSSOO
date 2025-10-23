@@ -4,9 +4,9 @@
  */
 package interfaces;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
+import proyectossoo.CPU;
 import proyectossoo.Cola;
 import proyectossoo.Proceso;
 import proyectossoo.Scheduler;
@@ -19,42 +19,62 @@ public class View extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
     Scheduler sch = new Scheduler();
+    CPU cpu = new CPU();
     
-    /**
-     * Creates new form View
-     */
+    //Vista completa
     public View() {
         initComponents();
+        
+        //Proceso que esta corriendo
+        String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
+        runningLabel.setText(actualprocess);
+        
+        //Cola de listos
         DefaultListModel modelReady = new DefaultListModel<>();
         createModel(modelReady, sch.getListo());
         readys.setModel(modelReady);
         
+        //Cola de bloqueados
         DefaultListModel modelBlocked = new DefaultListModel<>();
         createModel(modelBlocked, sch.getBloq());
         blocked.setModel(modelBlocked);
         
+        //Cola de listos suspendidos
         DefaultListModel modelSuspendedReady = new DefaultListModel<>();
         createModel(modelSuspendedReady, sch.getListoSuspendido());
         suspendedReadys.setModel(modelSuspendedReady);
       
+        //Cola de listos bloqueados
         DefaultListModel modelSuspendedBlocked = new DefaultListModel<>();
         createModel(modelSuspendedBlocked, sch.getBloqSuspendido());
         suspendedBlocked.setModel(modelSuspendedBlocked);
         
+        //Cola de terminados
         DefaultListModel modelFinished = new DefaultListModel<>();
         createModel(modelFinished, sch.getTerminado());
         finished.setModel(modelFinished);
   
-        
+        //Reloj/Cronometro
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        Runnable runnable;
-        runnable = new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                long inicio = System.currentTimeMillis(); // Marca de tiempo inicial
                 while (true) {
                     try {
                         Thread.sleep(500);
-                        clockLabel.setText(formatter.format(LocalDateTime.now()));
+                        long ahora = System.currentTimeMillis();
+                        long transcurrido = ahora - inicio;
+
+                        // Convertimos milisegundos a horas, minutos y segundos
+                        long segundos = (transcurrido / 1000);
+                        long horas = (segundos / 3600);
+                        long minutos = ((segundos % 3600) / 60);
+                        long seg = (segundos % 60);
+
+                        // Formateamos como HH:mm:ss
+                        String tiempo = String.format("%02d:%02d:%02d", horas, minutos, seg);
+                        clockLabel.setText(tiempo);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -102,9 +122,6 @@ public class View extends javax.swing.JFrame {
         mediumTimeLabel = new javax.swing.JLabel();
         mediumTimePane = new javax.swing.JScrollPane();
         suspendedBlocked = new javax.swing.JList<>();
-        blockedLabel = new javax.swing.JLabel();
-        blockedPane = new javax.swing.JScrollPane();
-        news = new javax.swing.JList<>();
         suspendedReadysLabel = new javax.swing.JLabel();
         suspendedReadysPane = new javax.swing.JScrollPane();
         suspendedReadys = new javax.swing.JList<>();
@@ -130,6 +147,7 @@ public class View extends javax.swing.JFrame {
         schedulerList = new javax.swing.JList<>();
         graphs = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -355,15 +373,6 @@ public class View extends javax.swing.JFrame {
         });
         mediumTimePane.setViewportView(suspendedBlocked);
 
-        blockedLabel.setText("Nuevos");
-
-        news.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        blockedPane.setViewportView(news);
-
         suspendedReadysLabel.setText("Listos suspendidos");
 
         suspendedReadys.setModel(new javax.swing.AbstractListModel<String>() {
@@ -455,14 +464,10 @@ public class View extends javax.swing.JFrame {
                                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(processLayout.createSequentialGroup()
                                 .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(blockedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(blockedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(finishedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(finishedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(processLayout.createSequentialGroup()
                         .addComponent(runningPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -523,15 +528,9 @@ public class View extends javax.swing.JFrame {
                     .addGroup(processLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(processLayout.createSequentialGroup()
-                                .addComponent(finishedLabel)
-                                .addGap(4, 4, 4)
-                                .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(processLayout.createSequentialGroup()
-                                .addComponent(blockedLabel)
-                                .addGap(4, 4, 4)
-                                .addComponent(blockedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(finishedLabel)
+                        .addGap(4, 4, 4)
+                        .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 117, Short.MAX_VALUE))
         );
@@ -610,6 +609,19 @@ public class View extends javax.swing.JFrame {
 
         viewApp.addTab("Gráficos", graphs);
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 870, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 695, Short.MAX_VALUE)
+        );
+
+        viewApp.addTab("tab6", jPanel3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -642,10 +654,13 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_saveSettingsActionPerformed
 
     private void boundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boundsActionPerformed
-        // TODO add your handling code here:
+        
+        //Si no es I/O Bound no permite la configuracion de ciclos de excepcion y ciclos de sastifaccion
         if ((String) bounds.getSelectedItem() == "I/O Bound"){
             cyclesOfExceptions.setEnabled(true);
+            cyclesOfExceptions.setValue(1);
             cyclesOfSatisfaction.setEnabled(true);
+            cyclesOfSatisfaction.setValue(1);
         } else {
             cyclesOfExceptions.setEnabled(false);
             cyclesOfExceptions.setValue(0);
@@ -659,8 +674,8 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_nameOfProcessActionPerformed
 
     private void createBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBottomActionPerformed
-        // TODO add your handling code here:
         
+        //Crea el nuevo proceso por parte del usuario
         String nameNewProcess = nameOfProcess.getText();
         int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
         String boundNewProcess = (String) bounds.getSelectedItem();
@@ -699,8 +714,6 @@ public class View extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> blocked;
-    private javax.swing.JLabel blockedLabel;
-    private javax.swing.JScrollPane blockedPane;
     private javax.swing.JComboBox<String> bounds;
     private javax.swing.JLabel clockLabel;
     private javax.swing.JButton createBottom;
@@ -724,13 +737,13 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel logLabel;
     private javax.swing.JList<String> logList;
     private javax.swing.JScrollPane logPane;
     private javax.swing.JLabel mediumTimeLabel;
     private javax.swing.JScrollPane mediumTimePane;
     private javax.swing.JTextField nameOfProcess;
-    private javax.swing.JList<String> news;
     private javax.swing.JSpinner numberOfInstructions;
     private javax.swing.JLabel planPolicy;
     private javax.swing.JComboBox<String> planificationPolicy;
