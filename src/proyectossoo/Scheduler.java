@@ -23,6 +23,8 @@ public class Scheduler implements Runnable {
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
     Cola plan = new Cola("Plan");
+    Semaforo sfbloq= new Semaforo();
+    Semaforo sflisto= new Semaforo();
     
     // Agregar proceso a cola Listo
     public void agregar_listo(Proceso p){
@@ -40,6 +42,7 @@ public class Scheduler implements Runnable {
     public void bloquear_proceso(Proceso p){
         p.setEstado("Bloqueado");
         bloq.add(p);
+        sfbloq.esperar();
     }
     
     // Suspender proceso listo
@@ -71,6 +74,12 @@ public class Scheduler implements Runnable {
         switch (s) {
             case "FIFO" -> {
                 // LOGICA FIFO
+                int i;
+                int e = this.getPlan().getTamano();
+                for(i=0;i<e;i++){
+                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+                    this.getPlan().desencolar();
+                }
             }
             case "Round Robin" -> {
                 // LOGICA ROUND ROBIN
@@ -94,7 +103,9 @@ public class Scheduler implements Runnable {
     }
     public void espera_bloqueados(){
         Thread t2 = new Thread();
+       
         if (bloq.getTamano()==0){
+            
             System.out.println("no hay bloqueados");
              try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -102,7 +113,7 @@ public class Scheduler implements Runnable {
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
-                         
+                  
 
         }else{
         t2.start();
@@ -122,9 +133,12 @@ public class Scheduler implements Runnable {
                 }
         this.agregar_listo(this.getBloq().getCabeza().getProceso());
         bloq.desencolar();
+        sfbloq.adquirir();
         
         
-    }}
+    }
+    }
+    
     
     public int getMemoria() {
         return memoria;
@@ -185,5 +199,15 @@ public class Scheduler implements Runnable {
     public Scheduler(long tiempo) {
         this.tiempo = tiempo;
     }
+
+    public long getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(long tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    
     
 }
