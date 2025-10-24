@@ -7,14 +7,6 @@ package proyectossoo;
  */
 public class Scheduler implements Runnable {
     
-    @Override
-    public void run(){
-        while(true){
-        this.espera_bloqueados();
-        }
-        
-    }
-
     int memoria; 
     long tiempo;
     Cola listo= new Cola("Listo");
@@ -23,6 +15,14 @@ public class Scheduler implements Runnable {
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
     Cola plan = new Cola("Plan");
+    
+    @Override
+    public void run(){
+        while(true){
+        this.espera_bloqueados();
+        }
+        
+    }
     
     // Agregar proceso a cola Listo
     public void agregar_listo(Proceso p){
@@ -180,9 +180,13 @@ public class Scheduler implements Runnable {
 
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
+    }   
+
+    public long getTiempo() {
+        return tiempo;
     }
 
-    public Scheduler(long tiempo) {
+    public void setTiempo(long tiempo) {
         this.tiempo = tiempo;
     }
     

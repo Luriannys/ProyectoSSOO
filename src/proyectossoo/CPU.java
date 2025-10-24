@@ -11,8 +11,10 @@ public class CPU implements Runnable {
     */
     //proceso en ejecucion
     
-    long tiempo;
-    Scheduler sch ;
+
+    Scheduler sch = new Scheduler() ;
+    long tiempo = sch.getTiempo();
+    Cola logList = new Cola("Log de Eventos");
     
     
     @Override
@@ -127,26 +129,22 @@ public class CPU implements Runnable {
 
     public void setSch(Scheduler sch) {
         this.sch = sch;
+    }   
+
+    public long getTiempo() {
+        return tiempo;
     }
 
-    public CPU(long tiempo,Scheduler sch) {
+    public void setTiempo(long tiempo) {
         this.tiempo = tiempo;
-        this.sch=sch;
     }
 
-    
-    
-   
+    public Cola getLogList() {
+        return logList;
+    }
 
-
+    public void setLogList(Cola logList) {
+        this.logList = logList;
+    }
     
 }
-
-
-    
-    
-   
-
-
-   
-

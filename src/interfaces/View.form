@@ -107,7 +107,7 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="cyclesOfExceptions" linkSize="6" min="-2" pref="68" max="-2" attributes="0"/>
-                                              <Component id="bounds" linkSize="6" min="-2" pref="145" max="-2" attributes="0"/>
+                                              <Component id="boundsProcess" linkSize="6" min="-2" pref="145" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -147,7 +147,7 @@
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel10" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="bounds" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="boundsProcess" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -194,7 +194,7 @@
                     <Property name="text" type="java.lang.String" value="CPU bound &#xf3; I/O bound"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="bounds">
+                <Component class="javax.swing.JComboBox" name="boundsProcess">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="2">
@@ -204,7 +204,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boundsActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boundsProcessActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -342,7 +342,7 @@
             <Component class="javax.swing.JSpinner" name="cycleDuration">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                  <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                  <SpinnerModel initial="1" minimum="1" numberType="java.lang.Long" stepSize="1" type="number"/>
                 </Property>
               </Properties>
             </Component>
