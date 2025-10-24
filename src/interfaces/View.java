@@ -13,7 +13,7 @@ import proyectossoo.Scheduler;
 
 /**
  *
- * @author luria
+ * @author Luri
  */
 public class View extends javax.swing.JFrame {
     
@@ -26,8 +26,14 @@ public class View extends javax.swing.JFrame {
         initComponents();
         
         //Proceso que esta corriendo
-        String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
-        runningLabel.setText(actualprocess);
+        //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
+        //runningLabel.setText(actualprocess);
+        
+        //Log de eventos
+        DefaultListModel eventLogList = new DefaultListModel<>();
+        Cola logQueue = new Cola("Log de Eventos");
+        createModel(eventLogList, logQueue);
+        logList.setModel(eventLogList);
         
         //Cola de listos
         DefaultListModel modelReady = new DefaultListModel<>();
@@ -64,7 +70,7 @@ public class View extends javax.swing.JFrame {
                     try {
                         Thread.sleep(500);
                         long ahora = System.currentTimeMillis();
-                        long transcurrido = ahora - inicio;
+                        long transcurrido = (ahora - inicio) / ((Integer) cycleDuration.getValue());
 
                         // Convertimos milisegundos a horas, minutos y segundos
                         long segundos = (transcurrido / 1000);
@@ -147,7 +153,6 @@ public class View extends javax.swing.JFrame {
         schedulerList = new javax.swing.JList<>();
         graphs = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -609,19 +614,6 @@ public class View extends javax.swing.JFrame {
 
         viewApp.addTab("Gráficos", graphs);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 870, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 695, Short.MAX_VALUE)
-        );
-
-        viewApp.addTab("tab6", jPanel3);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -637,24 +629,30 @@ public class View extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void createModel(DefaultListModel model, Cola cola){
-        Cola leerCola = cola;
-        while (!leerCola.estaVacia()){
-            model.addElement(leerCola.getCabeza().getProceso().getNombre());
-            leerCola.desencolar();
-        }
-    }
-    
-    private void planificationPolicyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_planificationPolicyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_planificationPolicyActionPerformed
-
     private void saveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveSettingsActionPerformed
 
+    private void planificationPolicyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_planificationPolicyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_planificationPolicyActionPerformed
+
+    private void createBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBottomActionPerformed
+
+        //Crea el nuevo proceso por parte del usuario
+        String nameNewProcess = nameOfProcess.getText();
+        int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
+        String boundNewProcess = (String) bounds.getSelectedItem();
+        int cicloex = (Integer) cyclesOfExceptions.getValue();
+        int ciclofinex = (Integer) cyclesOfSatisfaction.getValue();
+
+        Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess, cicloex, ciclofinex);
+        sch.getListo().add_listo(newProcess);
+        System.out.println(newProcess.getNombre());
+    }//GEN-LAST:event_createBottomActionPerformed
+
     private void boundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boundsActionPerformed
-        
+
         //Si no es I/O Bound no permite la configuracion de ciclos de excepcion y ciclos de sastifaccion
         if ((String) bounds.getSelectedItem() == "I/O Bound"){
             cyclesOfExceptions.setEnabled(true);
@@ -673,20 +671,14 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameOfProcessActionPerformed
 
-    private void createBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBottomActionPerformed
-        
-        //Crea el nuevo proceso por parte del usuario
-        String nameNewProcess = nameOfProcess.getText();
-        int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
-        String boundNewProcess = (String) bounds.getSelectedItem();
-        int cicloex = (Integer) cyclesOfExceptions.getValue();
-        int ciclofinex = (Integer) cyclesOfSatisfaction.getValue();
-        
-        Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess, cicloex, ciclofinex);
-        sch.getListo().add_listo(newProcess);
-        System.out.println(newProcess.getNombre());
-    }//GEN-LAST:event_createBottomActionPerformed
-
+    public void createModel(DefaultListModel model, Cola cola){
+        Cola leerCola = cola;
+        while (!leerCola.estaVacia()){
+            model.addElement(leerCola.getCabeza().getProceso().getNombre());
+            leerCola.desencolar();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -737,7 +729,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel logLabel;
     private javax.swing.JList<String> logList;
     private javax.swing.JScrollPane logPane;

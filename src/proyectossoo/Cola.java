@@ -4,6 +4,9 @@
  */
 package proyectossoo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author rgabr
@@ -24,7 +27,17 @@ public class Cola {
         this.tamano = 0;
     }
 
-      
+    public void addAtTheStart (Nodo newNodo) {
+        if (estaVacia()){
+            setCabeza(newNodo);
+            setCola(newNodo);
+        } else {
+            newNodo.setSiguiente(getCabeza());
+            getCabeza().setAnterior(newNodo);
+            setCabeza(newNodo);
+        }
+        tamano++;
+    }   
     
 
    

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package proyectossoo;
 
 /**
@@ -12,7 +9,7 @@ public class CPU {
     /*WEY QUE VA A MANEJAR TODO XD 
     */
     //proceso en ejecucion
-     Scheduler sch;
+    Scheduler sch;
  
     
     
