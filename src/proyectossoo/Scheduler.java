@@ -4,6 +4,8 @@
  */
 package proyectossoo;
 
+import java.util.HashSet;
+
 /**
  *
  * @author rgabr
@@ -17,60 +19,44 @@ public class Scheduler extends Thread {
     HRRN
     Feedback
     */
-    int memoria;
-//    PC pc;
-    CPU cpu;
-    
-    Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
-    //Plan plan;
-    Cola bloq= new Cola("Bloqueado");
+    int memoria; 
+    Cola listo= new Cola("Listo");
+    Cola bloqueado= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
+    Cola plan = new Cola("Plan");
     
-   /* public void ejec_plan(Plan plan){
-        this.plan.selec_plan();
-    }*/
+    // Agregar proceso a cola Listo
+    public void agregar_listo(Proceso newProceso){
+        listo.add(newProceso);
+        newProceso.setEstado("Listo");
+    }
     
-   
-
-   
-    public void agregar_proceso_cpu(CPU cpu, Cola listo,Cola bloq){
-        //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
-        Proceso p1 = this.getListo().getCabeza().getProceso();
-        //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
-        listo.desencolar();
-        cpu.ejecutar_p(p1,bloq,listo);
-        
-}
-    public void terminar_proceso(Proceso p1, Cola term){
-            p1.setEstado("Terminado");
-            term.add(p1);
-
+    // Terminar proceso y agregar a cola Terminados
+    public void terminar_proceso(Proceso p){
+        p.setEstado("Terminado");
+        terminado.add(p);
+    }
+    
+    //Bloquear proceso
+    public void bloquear_proceso(Proceso p){
+        p.setEstado("Bloqueado");
+        bloqueado.add(p);
     }
 
+    public void politica_planificacion(String s){
+        if (s.equals("FCFS")){
+            
+        }
+    }
+    
     public int getMemoria() {
         return memoria;
     }
 
     public void setMemoria(int memoria) {
         this.memoria = memoria;
-    }
-
-//    public PC getPc() {
-//        return pc;
-//    }
-//
-//    public void setPc(PC pc) {
-//        this.pc = pc;
-//    }
-
-    public CPU getCpu() {
-        return cpu;
-    }
-
-    public void setCpu(CPU cpu) {
-        this.cpu = cpu;
     }
 
     public Cola getListo() {
@@ -81,13 +67,13 @@ public class Scheduler extends Thread {
         this.listo = listo;
     }
 
-//    public Plan getPlan() {
-//        return plan;
-//    }
-//
-//    public void setPlan(Plan plan) {
-//        this.plan = plan;
-//    }
+    public Cola getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Cola plan) {
+        this.plan = plan;
+    }
 
     public Cola getBloq() {
         return bloq;

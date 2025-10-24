@@ -645,7 +645,7 @@ public class View extends javax.swing.JFrame {
         int ciclofinex = (Integer) cyclesOfSatisfaction.getValue();
 
         Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess, cicloex, ciclofinex);
-        sch.getListo().add_listo(newProcess);
+        sch.agregar_listo(newProcess);
         System.out.println(newProcess.getNombre());
     }//GEN-LAST:event_createBottomActionPerformed
 
