@@ -16,14 +16,17 @@ public class ProyectoSSOO {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        View v = new View();
-        v.setVisible(true);
-        long tiempo = 20;
-        Scheduler sch = new Scheduler(tiempo);
-        Thread t2 =new Thread(new CPU(tiempo,sch));
-        Thread t3 = new Thread(sch);
-        t2.start();
-        t3.start();
+//        View v = new View();
+//        v.setVisible(true);
+//        long tiempo = 20;
+//        Scheduler sch = new Scheduler(tiempo);
+//        Thread t2 =new Thread(new CPU(tiempo,sch));
+//        Thread t3 = new Thread(sch);
+//        t2.start();
+//        t3.start();
+
+        Controlador app = new Controlador();
+        app.start();
         
         
         
