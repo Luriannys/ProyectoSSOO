@@ -18,7 +18,7 @@ public class Scheduler extends Thread {
     Feedback
     */
     int memoria;
-    PC pc;
+//    PC pc;
     CPU cpu;
     
     Cola listo= new Cola("Listo");//organizar la lista dependiendo del plan 
@@ -46,12 +46,13 @@ public class Scheduler extends Thread {
         listo.add_listo(p2);
         Proceso p3 = new Proceso("c",3,"CPU",0,0);
         listo.add_listo(p3);
-        
-        pc.siguiente_proceso(listo);
+        CPU cpu = new CPU();
+//        PC pc = new PC(listo);
+//        pc.siguiente_proceso(listo);
        
         
         while (!listo.estaVacia()){
-            this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq,pc);
+            this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq);
             this.terminar_proceso(p1,this.terminado);
             
         }
@@ -61,7 +62,7 @@ public class Scheduler extends Thread {
         
     
     }
-    public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq, PC pc){
+    public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq){
         //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
         Proceso p1 = this.getListo().getCabeza().getProceso();
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
