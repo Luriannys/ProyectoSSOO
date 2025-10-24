@@ -204,13 +204,7 @@ public class Scheduler implements Runnable {
         this.tiempo = tiempo;
     }
 
-    public long getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(long tiempo) {
-        this.tiempo = tiempo;
-    }
+    
 
     
     
