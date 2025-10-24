@@ -120,4 +120,18 @@ public class Scheduler extends Thread {
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
     }
+<<<<<<< Updated upstream
+=======
+
+  
+
+  
+    
+    
+
+    
+    
+    
+    
+>>>>>>> Stashed changes
 }
