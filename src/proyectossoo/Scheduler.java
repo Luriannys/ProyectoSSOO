@@ -1,36 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package proyectossoo;
 
-import java.util.HashSet;
+package proyectossoo;
 
 /**
  *
  * @author rgabr
  */
 public class Scheduler extends Thread {
-   /* GUARDA EL PLANIFICADOR ACTUAL 
-    FCFS (Primero que entra sale)
-    round robin
-    SPN
-    SRt
-    HRRN
-    Feedback
-    */
+
     int memoria; 
     Cola listo= new Cola("Listo");
-    Cola bloqueado= new Cola("Bloqueado");
+    Cola bloq= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
     Cola plan = new Cola("Plan");
     
     // Agregar proceso a cola Listo
-    public void agregar_listo(Proceso newProceso){
-        listo.add(newProceso);
-        newProceso.setEstado("Listo");
+    public void agregar_listo(Proceso p){
+        listo.add(p);
+        p.setEstado("Listo");
     }
     
     // Terminar proceso y agregar a cola Terminados
@@ -39,15 +27,60 @@ public class Scheduler extends Thread {
         terminado.add(p);
     }
     
-    //Bloquear proceso
+    // Bloquear proceso
     public void bloquear_proceso(Proceso p){
         p.setEstado("Bloqueado");
-        bloqueado.add(p);
+        bloq.add(p);
+    }
+    
+    // Suspender proceso listo
+    public void suspender_listo(Proceso p){
+        p.setEstado("Listo suspendido");
+        listoSuspendido.add(p);
+        int nueva_memoria = memoria - p.getCantidad_instrucciones();
+        if (nueva_memoria < 0){
+            setMemoria(0);
+        } else {
+            setMemoria(nueva_memoria);
+        }
+    }
+    
+    // Suspender proceso bloqueado
+    public void suspender_bloqueado(Proceso p){
+        p.setEstado("Bloqueado suspendido");
+        bloqSuspendido.add(p);
+        int nueva_memoria = memoria - p.getCantidad_instrucciones();
+        if (nueva_memoria < 0){
+            setMemoria(0);
+        } else {
+            setMemoria(nueva_memoria);
+        }
     }
 
+    // Cambiar politica de planificacion
     public void politica_planificacion(String s){
-        if (s.equals("FCFS")){
-            
+        switch (s) {
+            case "FIFO" -> {
+                // LOGICA FIFO
+            }
+            case "Round Robin" -> {
+                // LOGICA ROUND ROBIN
+            }
+            case "SPN" -> {
+                // LOGICA SPN
+            }
+            case "SRT" -> {
+                // LOGICA SRT
+            }
+            case "HRRN" -> {
+                // LOGICA HRRN
+            }
+            case "Realimentación" -> {
+                // LOGICA REALIMENTACION
+            }
+            default -> {
+                
+            }
         }
     }
     
@@ -106,5 +139,5 @@ public class Scheduler extends Thread {
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
     }
-
+    
 }
