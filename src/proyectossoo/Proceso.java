@@ -19,7 +19,6 @@ public class Proceso {
     //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
     int ID ;
     int MAR;
-    PC pc;
     //si esbound 
     int cicloex;
     int ciclofinex;
