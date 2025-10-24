@@ -18,11 +18,7 @@ public class View extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
     Scheduler sch = new Scheduler();
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
-    
+
     //Vista completa
     public View() {
         initComponents();
