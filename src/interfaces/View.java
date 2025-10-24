@@ -6,7 +6,6 @@ package interfaces;
 
 import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
-import proyectossoo.CPU;
 import proyectossoo.Cola;
 import proyectossoo.Proceso;
 import proyectossoo.Scheduler;
@@ -19,7 +18,6 @@ public class View extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
     Scheduler sch = new Scheduler();
-    CPU cpu = new CPU();
     
     //Vista completa
     public View() {
@@ -70,7 +68,7 @@ public class View extends javax.swing.JFrame {
                     try {
                         Thread.sleep(500);
                         long ahora = System.currentTimeMillis();
-                        long transcurrido = (ahora - inicio) / ((Integer) cycleDuration.getValue());
+                        long transcurrido = ahora - inicio;
 
                         // Convertimos milisegundos a horas, minutos y segundos
                         long segundos = (transcurrido / 1000);

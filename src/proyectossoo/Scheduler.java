@@ -46,7 +46,6 @@ public class Scheduler extends Thread {
         listo.add_listo(p2);
         Proceso p3 = new Proceso("c",3,"CPU",0,0);
         listo.add_listo(p3);
-        CPU cpu = new CPU();
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
        
@@ -147,21 +146,4 @@ public class Scheduler extends Thread {
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
     }
-
-    public PC getPc() {
-        return pc;
-    }
-
-    public void setPc(PC pc) {
-        this.pc = pc;
-    }
-
-  
-    
-    
-
-    
-    
-    
-    
 }
