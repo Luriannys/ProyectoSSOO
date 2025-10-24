@@ -34,39 +34,13 @@ public class Scheduler extends Thread {
     
    
 
-    public void iniciar(long tiempo) {
-        
-        Thread t1 = new Thread();
-        
-        t1.start();
-        
-        Proceso p1 = new Proceso("a",10,"CPU",0,0);
-        listo.add_listo(p1);
-        Proceso p2 = new Proceso("b",20,"I/O Bound",10,3);
-        listo.add_listo(p2);
-        Proceso p3 = new Proceso("c",3,"CPU",0,0);
-        listo.add_listo(p3);
-//        PC pc = new PC(listo);
-//        pc.siguiente_proceso(listo);
-       
-        
-        while (!listo.estaVacia()){
-            this.agregar_proceso_cpu(cpu, listo,tiempo,t1,bloq);
-            this.terminar_proceso(p1,this.terminado);
-            
-        }
-      
-        
-        
-        
-    
-    }
-    public void agregar_proceso_cpu(CPU cpu, Cola listo,long tiempo, Thread t1,Cola bloq){
+   
+    public void agregar_proceso_cpu(CPU cpu, Cola listo,Cola bloq){
         //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
         Proceso p1 = this.getListo().getCabeza().getProceso();
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
-        cpu.ejecutar_p(p1,tiempo,bloq,listo);
+        cpu.ejecutar_p(p1,bloq,listo);
         
 }
     public void terminar_proceso(Proceso p1, Cola term){

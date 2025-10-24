@@ -18,6 +18,13 @@ public class ProyectoSSOO {
         // TODO code application logic here
         View v = new View();
         v.setVisible(true);
-        long tiempo = 5;            
+        long tiempo = 5;
+        
+        
+        CPU cpu=new CPU(tiempo);
+        
+        cpu.iniciar(tiempo);
+       
+       
     }
 }
