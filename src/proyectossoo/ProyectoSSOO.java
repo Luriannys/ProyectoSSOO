@@ -18,7 +18,7 @@ public class ProyectoSSOO {
         // TODO code application logic here
         View v = new View();
         v.setVisible(true);
-        long tiempo = 5;
+        long tiempo = 20;
         Scheduler sch = new Scheduler(tiempo);
         Thread t2 =new Thread(new CPU(tiempo,sch));
         Thread t3 = new Thread(sch);

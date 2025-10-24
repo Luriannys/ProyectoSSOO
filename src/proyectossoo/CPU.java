@@ -40,22 +40,21 @@ public class CPU implements Runnable {
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
        
-        
+      while(true){  
         while (!sch.listo.estaVacia()){
              
             this.ejecutar_p( sch.bloq, sch.listo);
             
              
         }
-        if (sch.listo.estaVacia()){
-            System.out.println("WEY SE ACABARON LOS PROCESOS");
-            
-}
+        //if (sch.listo.estaVacia()){
+           // System.out.println("WEY SE ACABARON LOS PROCESOS");
+            //}   
       
         
         
         
-    
+      }
     }
      
         
@@ -71,10 +70,12 @@ public class CPU implements Runnable {
         t1.start();
         int i;
         int v =p1.getCantidad_instrucciones();
-        int e = p1.getCicloex();
+        int e = p1.getCiclofinex();
         p1.setEstado("Ejecutando");
         //poner el ciclo de excepcion 
+        System.out.println("Procesando "+ p1.getNombre());
         if (e>0){
+            
             for (i=0;i<e;i++){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
                 
@@ -98,9 +99,11 @@ public class CPU implements Runnable {
                     
                                        
                 }else{
+            System.out.println("Ejecutando");
                 for (i=0;i<v;i++){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones()-1);
                 p1.setEstado("Ejecutando");
+                    
                 try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(tiempo*100);
@@ -113,7 +116,6 @@ public class CPU implements Runnable {
                  sch.terminar_proceso(p1);
                     System.out.println("Proceso Terminado");
             }
-        
         
         }
     

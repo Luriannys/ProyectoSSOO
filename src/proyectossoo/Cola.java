@@ -104,7 +104,7 @@ public class Cola {
         }else{
             Proceso p1 = this.getCabeza().getProceso();
             this.setCabeza(this.getCabeza().getSiguiente());
-            this.setTamano(tamano-1);
+            tamano--;
         if (this.getCabeza() == null) {
             this.setCola(null);
         }

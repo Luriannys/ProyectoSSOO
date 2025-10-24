@@ -98,7 +98,7 @@ public class Scheduler implements Runnable {
             System.out.println("no hay bloqueados");
              try {
                     //aqui el hilo espera el tiempo del ciclo
-                    t2.sleep(tiempo*1000);
+                    t2.sleep(tiempo*100);
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
@@ -120,7 +120,9 @@ public class Scheduler implements Runnable {
                 }
                 System.out.println("Bloqueado "+ this.getBloq().getCabeza().getProceso().getCiclofinex() );
                 }
+        this.agregar_listo(this.getBloq().getCabeza().getProceso());
         bloq.desencolar();
+        
         
     }}
     
