@@ -14,8 +14,9 @@ public class CPU {
     
     
     
-    public void ejecutar_p(Proceso p1, Thread t1,long tiempo,Cola bloq, Cola listo){
-        
+    public void ejecutar_p(Proceso p1,long tiempo,Cola bloq, Cola listo){
+        sch.iniciar(tiempo);
+        Thread t1 = new Thread();
         int i;
         int v =p1.getCantidad_instrucciones();
         int e = p1.getCicloex();
@@ -56,6 +57,18 @@ public class CPU {
                 }
             }
         }
+
+    public Scheduler getSch() {
+        return sch;
+    }
+
+    public void setSch(Scheduler sch) {
+        this.sch = sch;
+    }
+
+    public CPU(Scheduler sch) {
+        this.sch = sch;
+    }
     
    
 

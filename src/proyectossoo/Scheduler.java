@@ -46,8 +46,7 @@ public class Scheduler extends Thread {
         listo.add_listo(p2);
         Proceso p3 = new Proceso("c",3,"CPU",0,0);
         listo.add_listo(p3);
-        CPU cpu = new CPU();
-        PC pc = new PC(listo);
+        
         pc.siguiente_proceso(listo);
        
         
@@ -66,10 +65,8 @@ public class Scheduler extends Thread {
         //agarra el primero de la cola de listos lo desencola y al cpu para ejecitar
         Proceso p1 = this.getListo().getCabeza().getProceso();
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
-        
-         
         listo.desencolar();
-        cpu.ejecutar_p(p1,t1,tiempo,bloq,listo);
+        cpu.ejecutar_p(p1,tiempo,bloq,listo);
         
 }
     public void terminar_proceso(Proceso p1, Cola term){
@@ -158,9 +155,7 @@ public class Scheduler extends Thread {
         this.pc = pc;
     }
 
-    public Scheduler() {
-        
-    }
+  
     
     
 

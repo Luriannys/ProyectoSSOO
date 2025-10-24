@@ -19,13 +19,12 @@ public class ProyectoSSOO {
         View v = new View();
         v.setVisible(true);
         long tiempo = 5;
-        int memoria = 1000000000;
-        Cola listo= new Cola("Listo");
-        PC pc=new PC(listo);
+        
+        
         CPU cpu=new CPU();
         
-       Scheduler a= new Scheduler();
-       a.iniciar(tiempo);
+        cpu.getSch().iniciar(tiempo);
+       
        
     }
     
