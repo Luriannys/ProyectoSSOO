@@ -5,9 +5,18 @@ package proyectossoo;
  *
  * @author rgabr
  */
-public class Scheduler extends Thread {
+public class Scheduler implements Runnable {
+    
+    @Override
+    public void run(){
+        while(true){
+        this.espera_bloqueados();
+        }
+        
+    }
 
     int memoria; 
+    long tiempo;
     Cola listo= new Cola("Listo");
     Cola bloq= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
@@ -83,6 +92,37 @@ public class Scheduler extends Thread {
             }
         }
     }
+    public void espera_bloqueados(){
+        Thread t2 = new Thread();
+        if (bloq.getTamano()==0){
+            System.out.println("no hay bloqueados");
+             try {
+                    //aqui el hilo espera el tiempo del ciclo
+                    t2.sleep(tiempo*1000);
+                } catch (InterruptedException ex) {
+                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                         
+
+        }else{
+        t2.start();
+            System.out.println("Procesando bloqueado");
+        int i;
+        int v=this.getBloq().getCabeza().getProceso().getCiclofinex();
+        for (i=0;i<v;i++){
+                this.getBloq().getCabeza().getProceso().setCiclofinex(this.getBloq().getCabeza().getProceso().getCiclofinex()-1);
+                
+                try {
+                    //aqui el hilo espera el tiempo del ciclo
+                    t2.sleep(tiempo*100);
+                } catch (InterruptedException ex) {
+                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                System.out.println("Bloqueado "+ this.getBloq().getCabeza().getProceso().getCiclofinex() );
+                }
+        bloq.desencolar();
+        
+    }}
     
     public int getMemoria() {
         return memoria;
@@ -138,6 +178,10 @@ public class Scheduler extends Thread {
 
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
+    }
+
+    public Scheduler(long tiempo) {
+        this.tiempo = tiempo;
     }
     
 }

@@ -10,8 +10,10 @@ public class CPU implements Runnable {
     /*WEY QUE VA A MANEJAR TODO XD 
     */
     //proceso en ejecucion
-    Scheduler sch = new Scheduler();
+    
     long tiempo;
+    Scheduler sch ;
+    
     
     @Override
     public void run(){
@@ -28,11 +30,11 @@ public class CPU implements Runnable {
         
         
         
-        Proceso p1 = new Proceso("a",10,"CPU",0,0);
+        Proceso p1 = new Proceso("a",10,"CPU",5,4);
         sch.agregar_listo(p1);
         Proceso p2 = new Proceso("b",13,"I/O Bound",10,3);
         sch.agregar_listo(p2);
-        Proceso p3 = new Proceso("c",5,"CPU",0,0);
+        Proceso p3 = new Proceso("c",5,"CPU",4,3);
         sch.agregar_listo(p3);
         
 //        PC pc = new PC(listo);
@@ -85,10 +87,10 @@ public class CPU implements Runnable {
                 }
             }
                     System.out.println("Bloqueado");
-                    Thread t2 = new Thread();
-                    t2.start();
+                    
+                    sch.bloquear_proceso(p1);
                     p1.setEstado("Bloqueado");
-                    bloq.add(p1);
+                    
                    
                     //se mueve a cola de bloqueado
                    //metodo del scheduler que movera el proceso a bloqueado
@@ -125,8 +127,9 @@ public class CPU implements Runnable {
         this.sch = sch;
     }
 
-    public CPU(long tiempo) {
+    public CPU(long tiempo,Scheduler sch) {
         this.tiempo = tiempo;
+        this.sch=sch;
     }
 
     

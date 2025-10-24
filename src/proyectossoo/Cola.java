@@ -83,7 +83,7 @@ public class Cola {
 
   
     public void add(Proceso p){
-         Nodo nodo = new Nodo(p);
+        Nodo nodo = new Nodo(p);
         if(estaVacia()){
             setCabeza(nodo);
             setCola(nodo);          
@@ -91,7 +91,7 @@ public class Cola {
             getCola().setSiguiente(nodo);
             setCola(nodo);
         }
-        this.tamano=tamano++;
+        tamano++;
     }
    
       public boolean estaVacia() {

@@ -17,7 +17,8 @@ import proyectossoo.Scheduler;
 public class View extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
-    Scheduler sch = new Scheduler();
+    long tiempo =5;
+    Scheduler sch = new Scheduler(tiempo);
 
     //Vista completa
     public View() {

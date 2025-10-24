@@ -19,11 +19,14 @@ public class ProyectoSSOO {
         View v = new View();
         v.setVisible(true);
         long tiempo = 5;
+        Scheduler sch = new Scheduler(tiempo);
+        Thread t2 =new Thread(new CPU(tiempo,sch));
+        Thread t3 = new Thread(sch);
+        t2.start();
+        t3.start();
         
         
-        CPU cpu=new CPU(tiempo);
         
-        cpu.iniciar(tiempo);
        
        
     }
