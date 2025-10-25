@@ -5,15 +5,26 @@ package proyectossoo;
  *
  * @author rgabr
  */
-public class Scheduler extends Thread {
-
+public class Scheduler implements Runnable {
+    
     int memoria; 
+    long tiempo;
     Cola listo= new Cola("Listo");
     Cola bloq= new Cola("Bloqueado");
     Cola terminado= new Cola("Terminado");
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
     Cola plan = new Cola("Plan");
+    Semaforo sfbloq= new Semaforo();
+    Semaforo sflisto= new Semaforo();
+    
+    @Override
+    public void run(){
+        while(true){
+        this.espera_bloqueados();
+        }
+        
+    }
     
     // Agregar proceso a cola Listo
     public void agregar_listo(Proceso p){
@@ -31,6 +42,7 @@ public class Scheduler extends Thread {
     public void bloquear_proceso(Proceso p){
         p.setEstado("Bloqueado");
         bloq.add(p);
+        sfbloq.esperar();
     }
     
     // Suspender proceso listo
@@ -62,6 +74,12 @@ public class Scheduler extends Thread {
         switch (s) {
             case "FIFO" -> {
                 // LOGICA FIFO
+                int i;
+                int e = this.getPlan().getTamano();
+                for(i=0;i<e;i++){
+                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+                    this.getPlan().desencolar();
+                }
             }
             case "Round Robin" -> {
                 // LOGICA ROUND ROBIN
@@ -83,6 +101,44 @@ public class Scheduler extends Thread {
             }
         }
     }
+    public void espera_bloqueados(){
+        Thread t2 = new Thread();
+       
+        if (bloq.getTamano()==0){
+            
+            System.out.println("no hay bloqueados");
+             try {
+                    //aqui el hilo espera el tiempo del ciclo
+                    t2.sleep(tiempo*100);
+                } catch (InterruptedException ex) {
+                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                  
+
+        }else{
+        t2.start();
+            System.out.println("Procesando bloqueado");
+        int i;
+        int v=this.getBloq().getCabeza().getProceso().getCiclofinex();
+        for (i=0;i<v;i++){
+                this.getBloq().getCabeza().getProceso().setCiclofinex(this.getBloq().getCabeza().getProceso().getCiclofinex()-1);
+                
+                try {
+                    //aqui el hilo espera el tiempo del ciclo
+                    t2.sleep(tiempo*100);
+                } catch (InterruptedException ex) {
+                    System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                }
+                System.out.println("Bloqueado "+ this.getBloq().getCabeza().getProceso().getCiclofinex() );
+                }
+        this.agregar_listo(this.getBloq().getCabeza().getProceso());
+        bloq.desencolar();
+        sfbloq.adquirir();
+        
+        
+    }
+    }
+    
     
     public int getMemoria() {
         return memoria;
@@ -138,6 +194,18 @@ public class Scheduler extends Thread {
 
     public void setBloqSuspendido(Cola bloqSuspendido) {
         this.bloqSuspendido = bloqSuspendido;
+    }   
+
+    public long getTiempo() {
+        return tiempo;
     }
+
+    public void setTiempo(long tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    
+
+    
     
 }

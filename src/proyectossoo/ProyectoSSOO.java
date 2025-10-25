@@ -16,14 +16,21 @@ public class ProyectoSSOO {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        View v = new View();
-        v.setVisible(true);
-        long tiempo = 5;
+//        View v = new View();
+//        v.setVisible(true);
+//        long tiempo = 20;
+//        
+
+        Controlador app = new Controlador();
+        
+          Thread t2 =new Thread(app.getCpu());
+       Thread t3 = new Thread(app.getCpu().getSch());
+        t2.start();
+        t3.start();
+        app.start();
         
         
-        CPU cpu=new CPU(tiempo);
         
-        cpu.iniciar(tiempo);
        
        
     }

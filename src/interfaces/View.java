@@ -6,9 +6,18 @@ package interfaces;
 
 import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import proyectossoo.CPU;
 import proyectossoo.Cola;
 import proyectossoo.Proceso;
-import proyectossoo.Scheduler;
 
 /**
  *
@@ -16,48 +25,59 @@ import proyectossoo.Scheduler;
  */
 public class View extends javax.swing.JFrame {
     
+    private Controlador controlador;
+    
+    public View(Controlador controlador){
+        this.controlador = controlador;
+        
+        initComponents();
+        
+        //Reloj/Cronometro
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                long inicio = System.currentTimeMillis(); // Marca de tiempo inicial
+                while (true) {
+                    try {
+                        Thread.sleep(500);
+                        long ahora = System.currentTimeMillis();
+                        long transcurrido = ahora - inicio;
+
+                        // Convertimos milisegundos a horas, minutos y segundos
+                        long segundos = (transcurrido / 1000);
+                        long horas = (segundos / 3600);
+                        long minutos = ((segundos % 3600) / 60);
+                        long seg = (segundos % 60);
+
+                        // Formateamos como HH:mm:ss
+                        String tiempo = String.format("%02d:%02d:%02d", horas, minutos, seg);
+                        clockLabel.setText(tiempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+    
+    public void createModel(DefaultListModel model, Cola cola){
+        Cola leerCola = cola;
+        while (!leerCola.estaVacia()){
+            model.addElement(leerCola.getCabeza().getProceso().getNombre());
+            leerCola.desencolar();
+            }
+    }
+
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
-    Scheduler sch = new Scheduler();
 
     //Vista completa
     public View() {
         initComponents();
         
-        //Proceso que esta corriendo
-        //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
-        //runningLabel.setText(actualprocess);
-        
-        //Log de eventos
-        DefaultListModel eventLogList = new DefaultListModel<>();
-        Cola logQueue = new Cola("Log de Eventos");
-        createModel(eventLogList, logQueue);
-        logList.setModel(eventLogList);
-        
-        //Cola de listos
-        DefaultListModel modelReady = new DefaultListModel<>();
-        createModel(modelReady, sch.getListo());
-        readys.setModel(modelReady);
-        
-        //Cola de bloqueados
-        DefaultListModel modelBlocked = new DefaultListModel<>();
-        createModel(modelBlocked, sch.getBloq());
-        blocked.setModel(modelBlocked);
-        
-        //Cola de listos suspendidos
-        DefaultListModel modelSuspendedReady = new DefaultListModel<>();
-        createModel(modelSuspendedReady, sch.getListoSuspendido());
-        suspendedReadys.setModel(modelSuspendedReady);
-      
-        //Cola de listos bloqueados
-        DefaultListModel modelSuspendedBlocked = new DefaultListModel<>();
-        createModel(modelSuspendedBlocked, sch.getBloqSuspendido());
-        suspendedBlocked.setModel(modelSuspendedBlocked);
-        
-        //Cola de terminados
-        DefaultListModel modelFinished = new DefaultListModel<>();
-        createModel(modelFinished, sch.getTerminado());
-        finished.setModel(modelFinished);
-  
         //Reloj/Cronometro
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         Runnable runnable = new Runnable() {
@@ -89,6 +109,434 @@ public class View extends javax.swing.JFrame {
         thread.start();
     }
 
+    public JList<String> getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(JList<String> blocked) {
+        this.blocked = blocked;
+    }
+
+    public JComboBox<String> getBoundsProcess() {
+        return boundsProcess;
+    }
+
+    public void setBoundsProcess(JComboBox<String> boundsProcess) {
+        this.boundsProcess = boundsProcess;
+    }
+
+    public JLabel getClockLabel() {
+        return clockLabel;
+    }
+
+    public void setClockLabel(JLabel clockLabel) {
+        this.clockLabel = clockLabel;
+    }
+
+    public JButton getCreateBottom() {
+        return createBottom;
+    }
+
+    public void setCreateBottom(JButton createBottom) {
+        this.createBottom = createBottom;
+    }
+
+    public JSpinner getCycleDuration() {
+        return cycleDuration;
+    }
+
+    public void setCycleDuration(JSpinner cycleDuration) {
+        this.cycleDuration = cycleDuration;
+    }
+
+    public JLabel getCycleDurationLabel() {
+        return cycleDurationLabel;
+    }
+
+    public void setCycleDurationLabel(JLabel cycleDurationLabel) {
+        this.cycleDurationLabel = cycleDurationLabel;
+    }
+
+    public JSpinner getCyclesOfExceptions() {
+        return cyclesOfExceptions;
+    }
+
+    public void setCyclesOfExceptions(JSpinner cyclesOfExceptions) {
+        this.cyclesOfExceptions = cyclesOfExceptions;
+    }
+
+    public JSpinner getCyclesOfSatisfaction() {
+        return cyclesOfSatisfaction;
+    }
+
+    public void setCyclesOfSatisfaction(JSpinner cyclesOfSatisfaction) {
+        this.cyclesOfSatisfaction = cyclesOfSatisfaction;
+    }
+
+    public JList<String> getFinished() {
+        return finished;
+    }
+
+    public void setFinished(JList<String> finished) {
+        this.finished = finished;
+    }
+
+    public JLabel getFinishedLabel() {
+        return finishedLabel;
+    }
+
+    public void setFinishedLabel(JLabel finishedLabel) {
+        this.finishedLabel = finishedLabel;
+    }
+
+    public JScrollPane getFinishedPane() {
+        return finishedPane;
+    }
+
+    public void setFinishedPane(JScrollPane finishedPane) {
+        this.finishedPane = finishedPane;
+    }
+
+    public JPanel getGraphs() {
+        return graphs;
+    }
+
+    public void setGraphs(JPanel graphs) {
+        this.graphs = graphs;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel10() {
+        return jLabel10;
+    }
+
+    public void setjLabel10(JLabel jLabel10) {
+        this.jLabel10 = jLabel10;
+    }
+
+    public JLabel getjLabel11() {
+        return jLabel11;
+    }
+
+    public void setjLabel11(JLabel jLabel11) {
+        this.jLabel11 = jLabel11;
+    }
+
+    public JLabel getjLabel12() {
+        return jLabel12;
+    }
+
+    public void setjLabel12(JLabel jLabel12) {
+        this.jLabel12 = jLabel12;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
+    }
+
+    public JLabel getjLabel6() {
+        return jLabel6;
+    }
+
+    public void setjLabel6(JLabel jLabel6) {
+        this.jLabel6 = jLabel6;
+    }
+
+    public JLabel getjLabel8() {
+        return jLabel8;
+    }
+
+    public void setjLabel8(JLabel jLabel8) {
+        this.jLabel8 = jLabel8;
+    }
+
+    public JLabel getjLabel9() {
+        return jLabel9;
+    }
+
+    public void setjLabel9(JLabel jLabel9) {
+        this.jLabel9 = jLabel9;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
+
+    public void setjPanel1(JPanel jPanel1) {
+        this.jPanel1 = jPanel1;
+    }
+
+    public JPanel getjPanel2() {
+        return jPanel2;
+    }
+
+    public void setjPanel2(JPanel jPanel2) {
+        this.jPanel2 = jPanel2;
+    }
+
+    public JLabel getLogLabel() {
+        return logLabel;
+    }
+
+    public void setLogLabel(JLabel logLabel) {
+        this.logLabel = logLabel;
+    }
+
+    public JList<String> getLogList() {
+        return logList;
+    }
+
+    public void setLogList(JList<String> logList) {
+        this.logList = logList;
+    }
+
+    public JScrollPane getLogPane() {
+        return logPane;
+    }
+
+    public void setLogPane(JScrollPane logPane) {
+        this.logPane = logPane;
+    }
+
+    public JLabel getMediumTimeLabel() {
+        return mediumTimeLabel;
+    }
+
+    public void setMediumTimeLabel(JLabel mediumTimeLabel) {
+        this.mediumTimeLabel = mediumTimeLabel;
+    }
+
+    public JScrollPane getMediumTimePane() {
+        return mediumTimePane;
+    }
+
+    public void setMediumTimePane(JScrollPane mediumTimePane) {
+        this.mediumTimePane = mediumTimePane;
+    }
+
+    public JTextField getNameOfProcess() {
+        return nameOfProcess;
+    }
+
+    public void setNameOfProcess(JTextField nameOfProcess) {
+        this.nameOfProcess = nameOfProcess;
+    }
+
+    public JSpinner getNumberOfInstructions() {
+        return numberOfInstructions;
+    }
+
+    public void setNumberOfInstructions(JSpinner numberOfInstructions) {
+        this.numberOfInstructions = numberOfInstructions;
+    }
+
+    public JLabel getPlanPolicy() {
+        return planPolicy;
+    }
+
+    public void setPlanPolicy(JLabel planPolicy) {
+        this.planPolicy = planPolicy;
+    }
+
+    public JComboBox<String> getPlanificationPolicy() {
+        return planificationPolicy;
+    }
+
+    public void setPlanificationPolicy(JComboBox<String> planificationPolicy) {
+        this.planificationPolicy = planificationPolicy;
+    }
+
+    public JLabel getPlanificationPolicyLabel() {
+        return planificationPolicyLabel;
+    }
+
+    public void setPlanificationPolicyLabel(JLabel planificationPolicyLabel) {
+        this.planificationPolicyLabel = planificationPolicyLabel;
+    }
+
+    public JPanel getProcess() {
+        return process;
+    }
+
+    public void setProcess(JPanel process) {
+        this.process = process;
+    }
+
+    public JList<String> getReadys() {
+        return readys;
+    }
+
+    public void setReadys(JList<String> readys) {
+        this.readys = readys;
+    }
+
+    public JLabel getReadysLabel() {
+        return readysLabel;
+    }
+
+    public void setReadysLabel(JLabel readysLabel) {
+        this.readysLabel = readysLabel;
+    }
+
+    public JScrollPane getReadysPane() {
+        return readysPane;
+    }
+
+    public void setReadysPane(JScrollPane readysPane) {
+        this.readysPane = readysPane;
+    }
+
+    public JLabel getRunningLabel() {
+        return runningLabel;
+    }
+
+    public void setRunningLabel(JLabel runningLabel) {
+        this.runningLabel = runningLabel;
+    }
+
+    public JPanel getRunningPane() {
+        return runningPane;
+    }
+
+    public void setRunningPane(JPanel runningPane) {
+        this.runningPane = runningPane;
+    }
+
+    public JButton getSaveSettings() {
+        return saveSettings;
+    }
+
+    public void setSaveSettings(JButton saveSettings) {
+        this.saveSettings = saveSettings;
+    }
+
+    public JPanel getScheduler() {
+        return scheduler;
+    }
+
+    public void setScheduler(JPanel scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public JLabel getSchedulerLabel() {
+        return schedulerLabel;
+    }
+
+    public void setSchedulerLabel(JLabel schedulerLabel) {
+        this.schedulerLabel = schedulerLabel;
+    }
+
+    public JList<String> getSchedulerList() {
+        return schedulerList;
+    }
+
+    public void setSchedulerList(JList<String> schedulerList) {
+        this.schedulerList = schedulerList;
+    }
+
+    public JScrollPane getSchedulerPane() {
+        return schedulerPane;
+    }
+
+    public void setSchedulerPane(JScrollPane schedulerPane) {
+        this.schedulerPane = schedulerPane;
+    }
+
+    public JPanel getSettings() {
+        return settings;
+    }
+
+    public void setSettings(JPanel settings) {
+        this.settings = settings;
+    }
+
+    public JLabel getShortTimeLabel() {
+        return shortTimeLabel;
+    }
+
+    public void setShortTimeLabel(JLabel shortTimeLabel) {
+        this.shortTimeLabel = shortTimeLabel;
+    }
+
+    public JScrollPane getShortTimePane() {
+        return shortTimePane;
+    }
+
+    public void setShortTimePane(JScrollPane shortTimePane) {
+        this.shortTimePane = shortTimePane;
+    }
+
+    public JList<String> getSuspendedBlocked() {
+        return suspendedBlocked;
+    }
+
+    public void setSuspendedBlocked(JList<String> suspendedBlocked) {
+        this.suspendedBlocked = suspendedBlocked;
+    }
+
+    public JList<String> getSuspendedReadys() {
+        return suspendedReadys;
+    }
+
+    public void setSuspendedReadys(JList<String> suspendedReadys) {
+        this.suspendedReadys = suspendedReadys;
+    }
+
+    public JLabel getSuspendedReadysLabel() {
+        return suspendedReadysLabel;
+    }
+
+    public void setSuspendedReadysLabel(JLabel suspendedReadysLabel) {
+        this.suspendedReadysLabel = suspendedReadysLabel;
+    }
+
+    public JScrollPane getSuspendedReadysPane() {
+        return suspendedReadysPane;
+    }
+
+    public void setSuspendedReadysPane(JScrollPane suspendedReadysPane) {
+        this.suspendedReadysPane = suspendedReadysPane;
+    }
+
+    public JTabbedPane getViewApp() {
+        return viewApp;
+    }
+
+    public void setViewApp(JTabbedPane viewApp) {
+        this.viewApp = viewApp;
+    }
+
+   
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,7 +555,7 @@ public class View extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         numberOfInstructions = new javax.swing.JSpinner();
         jLabel10 = new javax.swing.JLabel();
-        bounds = new javax.swing.JComboBox<>();
+        boundsProcess = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         cyclesOfExceptions = new javax.swing.JSpinner();
         jLabel12 = new javax.swing.JLabel();
@@ -168,10 +616,10 @@ public class View extends javax.swing.JFrame {
 
         jLabel10.setText("CPU bound ó I/O bound");
 
-        bounds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU Bound", "I/O Bound" }));
-        bounds.addActionListener(new java.awt.event.ActionListener() {
+        boundsProcess.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU Bound", "I/O Bound" }));
+        boundsProcess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boundsActionPerformed(evt);
+                boundsProcessActionPerformed(evt);
             }
         });
 
@@ -220,7 +668,7 @@ public class View extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cyclesOfExceptions, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bounds, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(boundsProcess, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(299, 299, 299))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -234,7 +682,7 @@ public class View extends javax.swing.JFrame {
                         .addGap(295, 295, 295))))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bounds, cyclesOfExceptions, cyclesOfSatisfaction, numberOfInstructions});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {boundsProcess, cyclesOfExceptions, cyclesOfSatisfaction, numberOfInstructions});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +698,7 @@ public class View extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(bounds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(boundsProcess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -268,7 +716,7 @@ public class View extends javax.swing.JFrame {
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel9, numberOfInstructions});
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bounds, jLabel10});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {boundsProcess, jLabel10});
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cyclesOfExceptions, jLabel11});
 
@@ -314,7 +762,7 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        cycleDuration.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        cycleDuration.setModel(new javax.swing.SpinnerNumberModel(1L, 1L, null, 1L));
 
         javax.swing.GroupLayout settingsLayout = new javax.swing.GroupLayout(settings);
         settings.setLayout(settingsLayout);
@@ -640,19 +1088,21 @@ public class View extends javax.swing.JFrame {
         //Crea el nuevo proceso por parte del usuario
         String nameNewProcess = nameOfProcess.getText();
         int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
-        String boundNewProcess = (String) bounds.getSelectedItem();
+        String boundNewProcess = (String) boundsProcess.getSelectedItem();
         int cicloex = (Integer) cyclesOfExceptions.getValue();
         int ciclofinex = (Integer) cyclesOfSatisfaction.getValue();
-
+        
         Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess, cicloex, ciclofinex);
-        sch.agregar_listo(newProcess);
+        controlador.getCpu().getSch().getPlan().add(newProcess);
+        
+        
         System.out.println(newProcess.getNombre());
     }//GEN-LAST:event_createBottomActionPerformed
 
-    private void boundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boundsActionPerformed
+    private void boundsProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boundsProcessActionPerformed
 
         //Si no es I/O Bound no permite la configuracion de ciclos de excepcion y ciclos de sastifaccion
-        if ((String) bounds.getSelectedItem() == "I/O Bound"){
+        if ((String) boundsProcess.getSelectedItem() == "I/O Bound"){
             cyclesOfExceptions.setEnabled(true);
             cyclesOfExceptions.setValue(1);
             cyclesOfSatisfaction.setEnabled(true);
@@ -663,19 +1113,11 @@ public class View extends javax.swing.JFrame {
             cyclesOfSatisfaction.setEnabled(false);
             cyclesOfSatisfaction.setValue(0);
         }
-    }//GEN-LAST:event_boundsActionPerformed
+    }//GEN-LAST:event_boundsProcessActionPerformed
 
     private void nameOfProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameOfProcessActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameOfProcessActionPerformed
-
-    public void createModel(DefaultListModel model, Cola cola){
-        Cola leerCola = cola;
-        while (!leerCola.estaVacia()){
-            model.addElement(leerCola.getCabeza().getProceso().getNombre());
-            leerCola.desencolar();
-        }
-    }
     
     /**
      * @param args the command line arguments
@@ -704,7 +1146,7 @@ public class View extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> blocked;
-    private javax.swing.JComboBox<String> bounds;
+    private javax.swing.JComboBox<String> boundsProcess;
     private javax.swing.JLabel clockLabel;
     private javax.swing.JButton createBottom;
     private javax.swing.JSpinner cycleDuration;
