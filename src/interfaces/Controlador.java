@@ -43,8 +43,8 @@ public class Controlador extends Thread{
             //runningLabel.setText(actualprocess);
 
             //Log de eventos
-            if (createModel(cpu.getLogList()) != view.getLogList().getModel()){
-                DefaultListModel eventLogList = createModel(cpu.getLogList());
+            if (cpu.getLogList().createModel() != view.getLogList().getModel()){
+                DefaultListModel eventLogList = cpu.getLogList().createModel();
                 view.getLogList().setModel(eventLogList);
             }
             

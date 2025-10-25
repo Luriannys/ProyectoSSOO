@@ -62,16 +62,7 @@ public class View extends javax.swing.JFrame {
         Thread thread = new Thread(runnable);
         thread.start();
     }
-    
-    public void createModel(DefaultListModel model, Cola cola){
-        Cola leerCola = cola;
-        while (!leerCola.estaVacia()){
-            model.addElement(leerCola.getCabeza().getProceso().getNombre());
-            leerCola.desencolar();
-            }
-    }
-
-    
+       
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
 
     //Vista completa

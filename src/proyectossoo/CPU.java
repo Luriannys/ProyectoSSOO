@@ -14,7 +14,7 @@ public class CPU implements Runnable {
 
     Scheduler sch = new Scheduler() ;
     long tiempo = sch.getTiempo();
-    Cola logList = new Cola("Log de Eventos");
+    Pila logList = new Pila();
     Semaforo sf;
     
     
@@ -148,11 +148,11 @@ public class CPU implements Runnable {
         this.sf = sf;
     }
 
-    public Cola getLogList() {
+    public Pila getLogList() {
         return logList;
     }
 
-    public void setLogList(Cola logList) {
+    public void setLogList(Pila logList) {
         this.logList = logList;
     }
     
