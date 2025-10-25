@@ -1,4 +1,3 @@
-
 package interfaces;
 
 import javax.swing.DefaultListModel;
@@ -10,82 +9,79 @@ import proyectossoo.Nodo;
  *
  * @author Luri
  */
-public class Controlador extends Thread{
-    
-    
+public class Controlador extends Thread {
+
     private CPU cpu = new CPU();
     private View view = new View(this);
 
-    
     public Controlador() {
         view.setVisible(true);
         cpu.setTiempo((long) view.getCycleDuration().getValue());
         cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
     }
-    
-    public DefaultListModel createModel(Cola cola){
+
+    public DefaultListModel createModel(Cola cola) {
         DefaultListModel model = new DefaultListModel();
         Nodo actual = cola.getCabeza();
-        while (actual != null){
+        while (actual != null) {
             model.addElement(actual.getProceso().getNombre());
             actual = actual.getSiguiente();
-            }
+        }
         return model;
     }
 
     @Override
-    public void run(){
-    
-        while(true){
-            
+    public void run() {
+
+        while (true) {
+
             //Proceso que esta corriendo
             //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
             //runningLabel.setText(actualprocess);
-
             //Log de eventos
-            if (cpu.getLogList().createModel() != view.getLogList().getModel()){
+            if (cpu.getLogList().createModel() != view.getLogList().getModel()) {
                 DefaultListModel eventLogList = cpu.getLogList().createModel();
                 view.getLogList().setModel(eventLogList);
             }
-            
+
             //Planificador
-            if (createModel(cpu.getSch().getPlan()) != view.getSchedulerList().getModel()){
+            if (createModel(cpu.getSch().getPlan()) != view.getSchedulerList().getModel()) {
                 DefaultListModel planList = createModel(cpu.getSch().getPlan());
                 view.getLogList().setModel(planList);
             }
 
             //Cola de listos
-            if (createModel(cpu.getSch().getListo()) != view.getReadys().getModel()){
+            if (createModel(cpu.getSch().getListo()) != view.getReadys().getModel()) {
                 DefaultListModel modelReady = createModel(cpu.getSch().getListo());
                 view.getReadys().setModel(modelReady);
             }
 
             //Cola de bloqueados
-            if (createModel(cpu.getSch().getBloq()) != view.getBlocked().getModel()){
+            if (createModel(cpu.getSch().getBloq()) != view.getBlocked().getModel()) {
                 DefaultListModel modelBlocked = createModel(cpu.getSch().getBloq());
                 view.getBlocked().setModel(modelBlocked);
             }
 
             //Cola de listos suspendidos
-            if (createModel(cpu.getSch().getListoSuspendido()) != view.getSuspendedReadys().getModel()){
+            if (createModel(cpu.getSch().getListoSuspendido()) != view.getSuspendedReadys().getModel()) {
                 DefaultListModel modelSuspendedReady = createModel(cpu.getSch().getListoSuspendido());
                 view.getBlocked().setModel(modelSuspendedReady);
             }
 
             //Cola de listos bloqueados
-            if (createModel(cpu.getSch().getBloqSuspendido()) != view.getSuspendedBlocked().getModel()){
+            if (createModel(cpu.getSch().getBloqSuspendido()) != view.getSuspendedBlocked().getModel()) {
                 DefaultListModel modelSuspendedBlocked = createModel(cpu.getSch().getBloqSuspendido());
                 view.getBlocked().setModel(modelSuspendedBlocked);
             }
 
             //Cola de terminados
-            if (createModel(cpu.getSch().getTerminado()) != view.getFinished().getModel()){
+            if (createModel(cpu.getSch().getTerminado()) != view.getFinished().getModel()) {
                 DefaultListModel modelFinished = createModel(cpu.getSch().getTerminado());
                 view.getBlocked().setModel(modelFinished);
-            }     
+            }
         }
     }
-    
+
     public View getView() {
         return view;
     }
@@ -101,7 +97,5 @@ public class Controlador extends Thread{
     public void setCpu(CPU cpu) {
         this.cpu = cpu;
     }
-    
-    
-    
+
 }

@@ -1,15 +1,11 @@
 package proyectossoo;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author rgabr
  */
 public class Proceso {
+
     String nombre;
     int cantidad_instrucciones;
     int instrucciones_ejecutadas;
@@ -17,22 +13,19 @@ public class Proceso {
     int registros;
     String estado;
     //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
-    int ID ;
+    int ID;
     int MAR;
     //si esbound 
     int cicloex;
     int ciclofinex;
     //CPU cpu;
 
-   /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
+    /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
         this.bound = bound;
         this.estado = "Nuevo";
     }*/
-    
-    
-
     public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
@@ -41,20 +34,20 @@ public class Proceso {
         this.cicloex = cicloex;
         this.ciclofinex = ciclofinex;
     }
-    
-    public void crearProcesos(String nombre, int cantidad_instrucciones, String bound){
-        Proceso p1 = new Proceso(nombre,cantidad_instrucciones,bound,0,0);
-        
+
+    public void crearProcesos(String nombre, int cantidad_instrucciones, String bound) {
+        Proceso p1 = new Proceso(nombre, cantidad_instrucciones, bound, 0, 0);
+
     }
 
-    public String getPCB(){
+    public String getPCB() {
         this.getRegistros();
         this.getID();
         this.getNombre();
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "this.getRegistros(), this.getID(), this.getNombre(), this.getEstado()";
+        return "<html>Nombre: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "</html>";
     }
 
     public String getEstado() {
@@ -72,8 +65,7 @@ public class Proceso {
     public void setRegistros(int registros) {
         this.registros = registros;
     }
-    
-    
+
     public int getCicloex() {
         return cicloex;
     }
@@ -89,7 +81,7 @@ public class Proceso {
     public void setCiclofinex(int ciclofinex) {
         this.ciclofinex = ciclofinex;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -113,7 +105,7 @@ public class Proceso {
     public void setBound(String bound) {
         this.bound = bound;
     }
-    
+
     public int getID() {
         return ID;
     }
@@ -121,5 +113,5 @@ public class Proceso {
     public void setID(int ID) {
         this.ID = ID;
     }
-    
+
 }

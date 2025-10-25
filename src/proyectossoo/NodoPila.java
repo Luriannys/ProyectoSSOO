@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyectossoo;
 
 /**
@@ -9,11 +5,11 @@ package proyectossoo;
  * @author Luri
  */
 public class NodoPila {
-    
+
     //Atributos
     String texto;
     NodoPila anterior, siguiente;
-    
+
     //Metodos
     public NodoPila(String texto) {
         this.texto = texto;
@@ -44,5 +40,5 @@ public class NodoPila {
     public void setSiguiente(NodoPila siguiente) {
         this.siguiente = siguiente;
     }
-    
+
 }

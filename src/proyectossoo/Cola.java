@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyectossoo;
 
 import java.util.HashSet;
@@ -12,11 +8,13 @@ import java.util.Set;
  * @author rgabr
  */
 public class Cola {
+
     //Atributos 
     String nombre;
     Nodo cabeza;
     Nodo cola;
     int tamano;
+
     /*listo, new, bloqueado, suspendido listo,suspendido bloqueado,largo,corto,mediano plazo,terminados*/
     //Metodos
 //cola de bloqueados ejecuta sus bloqueados
@@ -27,8 +25,8 @@ public class Cola {
         this.tamano = 0;
     }
 
-    public void addAtTheStart (Nodo newNodo) {
-        if (estaVacia()){
+    public void addAtTheStart(Nodo newNodo) {
+        if (estaVacia()) {
             setCabeza(newNodo);
             setCola(newNodo);
         } else {
@@ -37,83 +35,73 @@ public class Cola {
             setCabeza(newNodo);
         }
         tamano++;
-    }   
-    
+    }
 
-   
-    
-
-    public void mas_pequeno(){
-        if (estaVacia()){
+    public void mas_pequeno() {
+        if (estaVacia()) {
             return;
         }
         Cola colaAuxiliar = new Cola("a");
-       // int tamano = 0;
+        // int tamano = 0;
         Nodo temp = cabeza;
-       /* while (temp != null) {
+        /* while (temp != null) {
             tamano++;
             temp = temp.siguiente;
         }*/
         for (int i = 0; i < getTamano(); i++) {
             Proceso min = desencolar();
             int restantes = getTamano() - (i + 1);
-            
+
             for (int j = 0; j < restantes; j++) {
                 Proceso actual = desencolar();
                 if (actual.getCantidad_instrucciones() < min.getCantidad_instrucciones()) {
-                add(min);
-                min = actual;
-            } else {
-                add(actual);
+                    add(min);
+                    min = actual;
+                } else {
+                    add(actual);
+                }
             }
+            colaAuxiliar.add(min);
         }
-        colaAuxiliar.add(min);
+
+        while (!colaAuxiliar.estaVacia()) {
+            add(colaAuxiliar.desencolar());
+        }
+
     }
 
-    while (!colaAuxiliar.estaVacia()) {
-        add(colaAuxiliar.desencolar());
-    }
-                     
-         
-                
-            }
-    
-    
-    
-
-  
-    public void add(Proceso p){
+    public void add(Proceso p) {
         Nodo nodo = new Nodo(p);
-        if(estaVacia()){
+        if (estaVacia()) {
             setCabeza(nodo);
-            setCola(nodo);          
-        }else{
+            setCola(nodo);
+        } else {
             getCola().setSiguiente(nodo);
             setCola(nodo);
         }
         tamano++;
     }
-   
-      public boolean estaVacia() {
+
+    public boolean estaVacia() {
         return cabeza == null;
     }
-    public Proceso desencolar(){
+
+    public Proceso desencolar() {
         if (estaVacia()) {
-        // Manejar error o devolver un valor de indicador
-            throw new IllegalStateException("La cola está vacía"); 
-        }else{
+            // Manejar error o devolver un valor de indicador
+            throw new IllegalStateException("La cola está vacía");
+        } else {
             Proceso p1 = this.getCabeza().getProceso();
             this.setCabeza(this.getCabeza().getSiguiente());
             tamano--;
-        if (this.getCabeza() == null) {
-            this.setCola(null);
-        }
+            if (this.getCabeza() == null) {
+                this.setCola(null);
+            }
             return p1;
         }
-        
+
     }
-        
-   
+
     public String getNombre() {
         return nombre;
     }
@@ -142,8 +130,6 @@ public class Cola {
         return tamano;
     }
 
- 
-    
     public void setTamano(int tamano) {
         this.tamano = tamano;
     }
