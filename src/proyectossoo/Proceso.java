@@ -47,7 +47,7 @@ public class Proceso {
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "<html>Nombre: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "</html>";
+        return "<html>Nombre: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>----------------------------" + "</html>";
     }
 
     public String getEstado() {

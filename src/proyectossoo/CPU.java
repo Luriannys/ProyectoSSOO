@@ -30,13 +30,12 @@ public class CPU implements Runnable {
         sch.getPlan().add(p2);
         Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
         sch.getPlan().add(p3);
-        sch.politica_planificacion("FIFO");
+        
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
 
         while (true) {            
             while (!sch.listo.estaVacia()) {
-                
                 this.ejecutar_p(sch.bloq, sch.listo);
                 
             }

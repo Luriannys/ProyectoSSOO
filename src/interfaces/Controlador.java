@@ -38,16 +38,17 @@ public class Controlador extends Thread {
             //Proceso que esta corriendo
             //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
             //runningLabel.setText(actualprocess);
+            
+            //Visualizacion de la etiqueta politica de planificacion
+            view.getPlanPolicy().setText("Política de planificación: " + (String)view.getPlanificationPolicy().getSelectedItem());
+            
+            //Seleccion de la politica de planificacion
+            cpu.getSch().politica_planificacion((String)view.getPlanificationPolicy().getSelectedItem());
+                       
             //Log de eventos
             if (cpu.getLogList().createModel() != view.getLogList().getModel()) {
                 DefaultListModel eventLogList = cpu.getLogList().createModel();
                 view.getLogList().setModel(eventLogList);
-            }
-
-            //Planificador
-            if (createModel(cpu.getSch().getPlan()) != view.getSchedulerList().getModel()) {
-                DefaultListModel planList = createModel(cpu.getSch().getPlan());
-                view.getLogList().setModel(planList);
             }
 
             //Cola de listos
@@ -65,19 +66,19 @@ public class Controlador extends Thread {
             //Cola de listos suspendidos
             if (createModel(cpu.getSch().getListoSuspendido()) != view.getSuspendedReadys().getModel()) {
                 DefaultListModel modelSuspendedReady = createModel(cpu.getSch().getListoSuspendido());
-                view.getBlocked().setModel(modelSuspendedReady);
+                view.getSuspendedReadys().setModel(modelSuspendedReady);
             }
 
             //Cola de listos bloqueados
             if (createModel(cpu.getSch().getBloqSuspendido()) != view.getSuspendedBlocked().getModel()) {
                 DefaultListModel modelSuspendedBlocked = createModel(cpu.getSch().getBloqSuspendido());
-                view.getBlocked().setModel(modelSuspendedBlocked);
+                view.getSuspendedBlocked().setModel(modelSuspendedBlocked);
             }
 
             //Cola de terminados
             if (createModel(cpu.getSch().getTerminado()) != view.getFinished().getModel()) {
                 DefaultListModel modelFinished = createModel(cpu.getSch().getTerminado());
-                view.getBlocked().setModel(modelFinished);
+                view.getFinished().setModel(modelFinished);
             }
         }
     }

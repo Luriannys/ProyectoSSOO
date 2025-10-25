@@ -32,6 +32,7 @@ public class Pila {
         size++;
     }
     
+    // Crea modelo para meterlo en JList del log
     public DefaultListModel createModel(){
         DefaultListModel model = new DefaultListModel();
         NodoPila actual = this.getCima();

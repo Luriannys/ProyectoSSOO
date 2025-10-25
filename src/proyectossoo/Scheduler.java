@@ -16,6 +16,7 @@ public class Scheduler implements Runnable {
     Cola plan = new Cola("Plan");
     Semaforo sfbloq = new Semaforo();
     Semaforo sflisto = new Semaforo();
+    
 
     @Override
     public void run() {
