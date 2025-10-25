@@ -12,6 +12,9 @@ public class Nodo {
     Nodo anterior, siguiente;
     //Metodos
 
+    public Nodo() {
+    }
+    
     public Nodo(Proceso proceso) {
         this.num = num;
         this.proceso = proceso;

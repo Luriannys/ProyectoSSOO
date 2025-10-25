@@ -16,6 +16,7 @@ public class Scheduler implements Runnable {
     Cola plan = new Cola("Plan");
     Semaforo sfbloq = new Semaforo();
     Semaforo sflisto = new Semaforo();
+    int ciclosRR=0;
 
     @Override
     public void run() {
@@ -41,7 +42,7 @@ public class Scheduler implements Runnable {
     public void bloquear_proceso(Proceso p) {
         p.setEstado("Bloqueado");
         bloq.add(p);
-        sfbloq.esperar();
+        
     }
 
     // Suspender proceso listo
@@ -76,12 +77,22 @@ public class Scheduler implements Runnable {
                 int i;
                 int e = this.getPlan().getTamano();
                 for (i = 0; i < e; i++) {
+                    if ("Nuevo"!=this.getPlan().getCabeza().getProceso().getEstado()){
+                        
+                    }
                     this.agregar_listo(this.getPlan().getCabeza().getProceso());
                     this.getPlan().desencolar();
                 }
             }
             case "Round Robin" -> {
                 // LOGICA ROUND ROBIN
+                this.setCiclosRR(5);
+                int i;
+                int e = this.getPlan().getTamano();
+                for (i = 0; i < e; i++) {
+                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+                    this.getPlan().desencolar();
+                }
             }
             case "SPN" -> {
                 // LOGICA SPN
@@ -109,7 +120,7 @@ public class Scheduler implements Runnable {
             System.out.println("no hay bloqueados");
             try {
                 //aqui el hilo espera el tiempo del ciclo
-                t2.sleep(tiempo * 100);
+                t2.sleep(tiempo * 10000);
             } catch (InterruptedException ex) {
                 System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
@@ -124,7 +135,7 @@ public class Scheduler implements Runnable {
 
                 try {
                     //aqui el hilo espera el tiempo del ciclo
-                    t2.sleep(tiempo * 100);
+                    t2.sleep(tiempo * 10000);
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
@@ -132,7 +143,7 @@ public class Scheduler implements Runnable {
             }
             this.agregar_listo(this.getBloq().getCabeza().getProceso());
             bloq.desencolar();
-            sfbloq.adquirir();
+           
 
         }
     }
@@ -199,6 +210,17 @@ public class Scheduler implements Runnable {
 
     public void setTiempo(long tiempo) {
         this.tiempo = tiempo;
+    }
+
+    public int getCiclosRR() {
+        return ciclosRR;
+    }
+
+    public void setCiclosRR(int ciclosRR) {
+        this.ciclosRR = ciclosRR;
+    }
+
+    public Scheduler() {
     }
 
 }
