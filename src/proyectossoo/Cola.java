@@ -37,37 +37,28 @@ public class Cola {
         tamano++;
     }
 
-    public void mas_pequeno() {
-        if (estaVacia()) {
+        public void sort() {
+        if (cabeza == null) {
             return;
         }
-        Cola colaAuxiliar = new Cola("a");
-        // int tamano = 0;
-        Nodo temp = cabeza;
-        /* while (temp != null) {
-            tamano++;
-            temp = temp.siguiente;
-        }*/
-        for (int i = 0; i < getTamano(); i++) {
-            Proceso min = desencolar();
-            int restantes = getTamano() - (i + 1);
 
-            for (int j = 0; j < restantes; j++) {
-                Proceso actual = desencolar();
-                if (actual.getCantidad_instrucciones() < min.getCantidad_instrucciones()) {
-                    add(min);
-                    min = actual;
-                } else {
-                    add(actual);
+        boolean huboIntercambio;
+        do {
+            huboIntercambio = false;
+            Nodo actual = cabeza;
+
+            while (actual.siguiente != null) {
+                if (actual.getProceso().getCantidad_instrucciones() > actual.siguiente.getProceso().getCantidad_instrucciones()) {
+                    // Intercambiar los valores
+                    Proceso temp = actual.getProceso();
+                    actual.setProceso(actual.siguiente.getProceso());
+                    actual.siguiente.setProceso(temp);
+
+                    huboIntercambio = true;
                 }
+                actual = actual.siguiente;
             }
-            colaAuxiliar.add(min);
-        }
-
-        while (!colaAuxiliar.estaVacia()) {
-            add(colaAuxiliar.desencolar());
-        }
-
+        } while (huboIntercambio);
     }
 
     public void add(Proceso p) {
