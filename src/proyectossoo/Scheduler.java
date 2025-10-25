@@ -76,45 +76,45 @@ public class Scheduler implements Runnable {
         switch (s) {
             case "FIFO" -> {
                 // LOGICA FIFO
-                int i;
-                int e = this.getPlan().getTamano();
-                for (i = 0; i < e; i++) {
-                    if ("Nuevo"!=this.getPlan().getCabeza().getProceso().getEstado()){
-                        
-                    }
-                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
-                    this.getPlan().desencolar();
-                }
+//                int i;
+//                int e = this.getPlan().getTamano();
+//                for (i = 0; i < e; i++) {
+//                    if ("Nuevo"!=this.getPlan().getCabeza().getProceso().getEstado()){
+//                        
+//                    }
+//                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+//                    this.getPlan().desencolar();
+//                }
             }
             case "Round Robin" -> {
                 // LOGICA ROUND ROBIN
                 this.setCiclosRR(5);
-                int i;
-                int e = this.getPlan().getTamano();
-                for (i = 0; i < e; i++) {
-                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
-                    this.getPlan().desencolar();
-                }
+//                int i;
+//                int e = this.getPlan().getTamano();
+//                for (i = 0; i < e; i++) {
+//                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+//                    this.getPlan().desencolar();
+//                }
             }
             case "SPN" -> {
                 // LOGICA SPN
-             this.getPlan().sort();
-             int i;
-                int e = this.getPlan().getTamano();
-                for (i = 0; i < e; i++) {
-                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
-                    this.getPlan().desencolar();
-                }
+             this.getListo().sort();
+//             int i;
+//                int e = this.getListo().getTamano();
+//                for (i = 0; i < e; i++) {
+//                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+//                    this.getPlan().desencolar();
+//                }
             }
             case "SRT" -> {
                 // LOGICA SRT
                 this.getPlan().sort();
-                int i;
-                int e = this.getPlan().getTamano();
-                for (i = 0; i < e; i++) {
-                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
-                    this.getPlan().desencolar();
-                }
+//                int i;
+//                int e = this.getPlan().getTamano();
+//                for (i = 0; i < e; i++) {
+//                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+//                    this.getPlan().desencolar();
+//                }
             }
             case "HRRN" -> {
                 // LOGICA HRRN

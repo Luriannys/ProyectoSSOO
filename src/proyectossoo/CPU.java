@@ -25,13 +25,13 @@ public class CPU implements Runnable {
     public void iniciar(long tiempo) {
         
         Proceso p1 = new Proceso("a", 10, "CPU", 3, 4);
-        sch.getPlan().add(p1);
+        sch.agregar_listo(p1);
         Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0);
-        sch.getPlan().add(p2);
+        sch.agregar_listo(p2);
         Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
-        sch.getPlan().add(p3);
+        sch.agregar_listo(p3);
         Proceso p4 = new Proceso("d", 4, "CPU", 0, 0);
-        sch.getPlan().add(p4);
+        sch.agregar_listo(p4);
         
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
@@ -42,9 +42,9 @@ public class CPU implements Runnable {
                 
                 if(sch.getCiclosRR()!=0){
                     this.ejecutar_RR(sch.bloq, sch.listo);
-                }
+                }else{
                     this.ejecutar_p(sch.bloq, sch.listo);
-                
+                }
                 
                 
             }
