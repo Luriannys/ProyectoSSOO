@@ -18,6 +18,8 @@ public class Scheduler implements Runnable {
     Cola plan = new Cola("Plan");
     Semaforo sfbloq = new Semaforo();
     Semaforo sflisto = new Semaforo();
+    Cola p0 = new Cola("Prioridad alta");
+    Cola p1 = new Cola("Prioridad baja");
     int ciclosRR=0;
 
     @Override
@@ -119,9 +121,41 @@ public class Scheduler implements Runnable {
             case "HRRN" -> {
                 // LOGICA HRRN
                 
+                
+                
+                    
+                
             }
             case "Realimentación" -> {
                 // LOGICA REALIMENTACION
+                int i;
+                this.setCiclosRR(5);
+                
+                int e = this.getListo().getTamano();
+                for (i = 0; i < e; i++) {
+                    if(this.getListo().getCabeza().getProceso().getPrioridad()==0){
+                        this.getP0().add(this.getListo().getCabeza().getProceso());
+                    }else if(this.getListo().getCabeza().getProceso().getPrioridad()==1){
+                         this.getP1().add(this.getListo().getCabeza().getProceso());
+                    }else{
+                        this.getP1().add(this.getListo().getCabeza().getProceso());
+                    }
+                    this.getListo().desencolar();
+                }
+                int p0=this.getP0().getTamano();
+                int p1=this.getP0().getTamano();
+                if(p0!=0){
+                    for(i=0;i<p0;i++){
+                    this.agregar_listo(this.getP0().getCabeza().getProceso());
+                    this.getP0().desencolar();
+                }
+                }
+                if(p1!=0){
+                for(i=0;i<p1;i++){
+                    this.agregar_listo(this.getP1().getCabeza().getProceso());
+                    this.getP1().desencolar();
+                }
+                }
             }
             default -> {
 
@@ -369,6 +403,22 @@ public class Scheduler implements Runnable {
     }
 
     public Scheduler() {
+    }
+
+    public Cola getP0() {
+        return p0;
+    }
+
+    public void setP0(Cola p0) {
+        this.p0 = p0;
+    }
+
+    public Cola getP1() {
+        return p1;
+    }
+
+    public void setP1(Cola p1) {
+        this.p1 = p1;
     }
 
     

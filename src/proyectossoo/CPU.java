@@ -24,9 +24,9 @@ public class CPU implements Runnable {
     
     public void iniciar(long tiempo) {
         
-        Proceso p1 = new Proceso("a", 10, "CPU", 3, 4);
+        Proceso p1 = new Proceso("a", 10, "CPU", 3, 4,1);
         sch.agregar_listo(p1);
-        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0);
+        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0,1);
         sch.agregar_listo(p2);
         Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
         sch.agregar_listo(p3);
@@ -37,7 +37,7 @@ public class CPU implements Runnable {
 //        pc.siguiente_proceso(listo);
 
         while (true) {     
-            sch.politica_planificacion("SPN");
+            sch.politica_planificacion("Realimentación");
             while (!sch.listo.estaVacia()) {
                 
                 if(sch.getCiclosRR()!=0){

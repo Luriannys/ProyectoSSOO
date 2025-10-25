@@ -19,7 +19,7 @@ public class Proceso {
     int cicloex;
     int ciclofinex;
     int tiempoLlegada;
-    //CPU cpu;
+    int prioridad ;
 
     /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
         this.nombre = nombre;
@@ -49,6 +49,16 @@ public class Proceso {
         this.estado = "Nuevo";
         this.cicloex = cicloex;
         this.ciclofinex = ciclofinex;
+        this.prioridad = 0;
+    }
+    public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex,int prioridad) {
+         this.nombre = nombre;
+        this.cantidad_instrucciones = cantidad_instrucciones;
+        this.bound = bound;
+        this.estado = "Nuevo";
+        this.cicloex = cicloex;
+        this.ciclofinex = ciclofinex;
+        this.prioridad=prioridad;
     }
 
     public void crearProcesos(String nombre, int cantidad_instrucciones, String bound) {
@@ -137,6 +147,16 @@ public class Proceso {
     public void setTiempoLlegada(int tiempoLlegada) {
         this.tiempoLlegada = tiempoLlegada;
     }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    
 
    
 
