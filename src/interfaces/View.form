@@ -327,8 +327,6 @@
                         <StringItem index="14" value="Item 5"/>
                       </StringArray>
                     </Property>
-                    <Property name="fixedCellWidth" type="int" value="0"/>
-                    <Property name="layoutOrientation" type="int" value="1"/>
                     <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
                     <Property name="visibleRowCount" type="int" value="0"/>
                   </Properties>
@@ -601,7 +599,7 @@
                 <Component class="javax.swing.JSpinner" name="cyclesOfExceptions">
                   <Properties>
                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                      <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -614,7 +612,7 @@
                 <Component class="javax.swing.JSpinner" name="cyclesOfSatisfaction">
                   <Properties>
                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                      <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>

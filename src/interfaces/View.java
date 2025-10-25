@@ -199,8 +199,6 @@ public class View extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        finished.setFixedCellWidth(0);
-        finished.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
         finished.setVerifyInputWhenFocusTarget(false);
         finished.setVisibleRowCount(0);
         finishedPane.setViewportView(finished);
@@ -364,12 +362,12 @@ public class View extends javax.swing.JFrame {
 
         jLabel11.setText("# ciclos para generar una excepción");
 
-        cyclesOfExceptions.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        cyclesOfExceptions.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         cyclesOfExceptions.setEnabled(false);
 
         jLabel12.setText("# ciclos para satisfacer una excepción");
 
-        cyclesOfSatisfaction.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        cyclesOfSatisfaction.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         cyclesOfSatisfaction.setEnabled(false);
 
         createBottom.setText("CREAR");
@@ -591,15 +589,43 @@ public class View extends javax.swing.JFrame {
 
     private void createBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBottomActionPerformed
 
+        boolean valido = true;
+
+        if ("I/O Bound".equals((String) boundsProcess.getSelectedItem())) {
+            // Verifica que un proceso I/O Bound tenga cuantos ciclos necesita para una excepcion
+            if ((Integer) cyclesOfExceptions.getValue() <= 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Es necesario el número de ciclos para que se genere una excepción en un proceso I/O Bound",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                valido = false;
+            }
+            // Verifica que un proceso I/O Bound tenga cuantos ciclos necesita para satisfacer una excepcion
+            if ((Integer) cyclesOfSatisfaction.getValue() <= 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Es necesario el número de ciclos para que se genere una excepción en un proceso I/O Bound",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                valido = false;
+            }
+            // Verifica que el numero de instrucciones sea mayor que el numero de ciclos que necesita para una excepcion
+            if ((Integer) numberOfInstructions.getValue() < (Integer) cyclesOfExceptions.getValue()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "El numero de instrucciones debe ser mayor que el numero de ciclos para que se genere una excepcion",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                valido = false;
+            }
+        }
+        
         //Crea el nuevo proceso por parte del usuario
-        if (("I/O Bound".equals((String) boundsProcess.getSelectedItem())) && ((Integer) numberOfInstructions.getValue() < (Integer) cyclesOfExceptions.getValue()) ) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "El numero de instrucciones debe ser mayor que el numero de ciclos para que se genere una excepcion",
-                    "Advertencia",
-                    JOptionPane.WARNING_MESSAGE
-            );
-        } else {
+        if (valido == true) {
             String nameNewProcess = nameOfProcess.getText();
             int instructionsNewProcess = (Integer) numberOfInstructions.getValue();
             String boundNewProcess = (String) boundsProcess.getSelectedItem();
@@ -618,16 +644,16 @@ public class View extends javax.swing.JFrame {
     private void boundsProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boundsProcessActionPerformed
 
         //Si no es I/O Bound no permite la configuracion de ciclos de excepcion y ciclos de sastifaccion
-        if ("I/O Bound".equals((String) boundsProcess.getSelectedItem())) {
+        if ("CPU Bound".equals((String) boundsProcess.getSelectedItem())) {
+            cyclesOfExceptions.setValue(0);
+            cyclesOfExceptions.setEnabled(false);
+            cyclesOfSatisfaction.setValue(0);
+            cyclesOfSatisfaction.setEnabled(false);
+        } else {
             cyclesOfExceptions.setEnabled(true);
             cyclesOfExceptions.setValue(1);
             cyclesOfSatisfaction.setEnabled(true);
             cyclesOfSatisfaction.setValue(1);
-        } else {
-            cyclesOfExceptions.setEnabled(false);
-            cyclesOfExceptions.setValue(0);
-            cyclesOfSatisfaction.setEnabled(false);
-            cyclesOfSatisfaction.setValue(0);
         }
     }//GEN-LAST:event_boundsProcessActionPerformed
 
