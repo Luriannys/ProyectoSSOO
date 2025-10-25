@@ -18,6 +18,7 @@ public class Proceso {
     //si esbound 
     int cicloex;
     int ciclofinex;
+    int tiempoLlegada;
     //CPU cpu;
 
     /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
@@ -26,6 +27,21 @@ public class Proceso {
         this.bound = bound;
         this.estado = "Nuevo";
     }*/
+    public double calcularFactorRespuesta(int tiempoActual) {
+        // Tiempo de Espera (Tw) = Tiempo Actual (T) - Tiempo de Llegada (Ta)
+        int tiempoEspera = tiempoActual - this.tiempoLlegada; 
+        
+        // HRRN Ratio = (Tw + Ts) / Ts
+        // donde Ts = cantidadInstrucciones
+        
+        if (this.cantidad_instrucciones == 0) {
+            // Prevenir división por cero si la ráfaga es 0 (caso teórico, pero seguro)
+            return Double.MAX_VALUE;
+        }
+
+        // El cálculo debe ser con números de punto flotante (double) para precisión
+        return (double) (tiempoEspera + this.cantidad_instrucciones) / this.cantidad_instrucciones;
+    }
     public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
@@ -113,5 +129,15 @@ public class Proceso {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+    public int getTiempoLlegada() {
+        return tiempoLlegada;
+    }
+
+    public void setTiempoLlegada(int tiempoLlegada) {
+        this.tiempoLlegada = tiempoLlegada;
+    }
+
+   
 
 }

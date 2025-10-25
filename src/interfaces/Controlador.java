@@ -43,7 +43,7 @@ public class Controlador extends Thread {
             view.getPlanPolicy().setText("Política de planificación: " + (String)view.getPlanificationPolicy().getSelectedItem());
             
             //Seleccion de la politica de planificacion
-            cpu.getSch().politica_planificacion((String)view.getPlanificationPolicy().getSelectedItem());
+            //cpu.getSch().politica_planificacion((String)view.getPlanificationPolicy().getSelectedItem());
                        
             //Log de eventos
             if (cpu.getLogList().createModel() != view.getLogList().getModel()) {

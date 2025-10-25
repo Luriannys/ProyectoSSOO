@@ -1,5 +1,7 @@
 package proyectossoo;
 
+import java.util.Set;
+
 /**
  *
  * @author rgabr
@@ -96,12 +98,27 @@ public class Scheduler implements Runnable {
             }
             case "SPN" -> {
                 // LOGICA SPN
+             this.getPlan().sort();
+             int i;
+                int e = this.getPlan().getTamano();
+                for (i = 0; i < e; i++) {
+                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+                    this.getPlan().desencolar();
+                }
             }
             case "SRT" -> {
                 // LOGICA SRT
+                this.getPlan().sort();
+                int i;
+                int e = this.getPlan().getTamano();
+                for (i = 0; i < e; i++) {
+                    this.agregar_listo(this.getPlan().getCabeza().getProceso());
+                    this.getPlan().desencolar();
+                }
             }
             case "HRRN" -> {
                 // LOGICA HRRN
+                
             }
             case "Realimentación" -> {
                 // LOGICA REALIMENTACION
@@ -111,7 +128,138 @@ public class Scheduler implements Runnable {
             }
         }
     }
+    public static Nodo seleccionarProcesoHRRN(Nodo cabeza, int tiempoActual) {
+        
+        if (cabeza == null) {
+            return null;
+        }
 
+        // 1. Inicializar con el nodo cabeza
+        Nodo nodoSeleccionado = cabeza;
+        // Calcular el Factor de Respuesta del primer proceso
+        double mayorFactorRespuesta = cabeza.getProceso().calcularFactorRespuesta(tiempoActual);
+
+        // 2. Iterar sobre el resto de la lista
+        Nodo actual = cabeza.getSiguiente();
+
+        while (actual != null) {
+            // 3. Calcular el factor de respuesta para el proceso actual
+            double factorActual = actual.getProceso().calcularFactorRespuesta(tiempoActual);
+            
+            // 4. Comparar: HRRN selecciona el MÁS ALTO (mayor)
+            if (factorActual > mayorFactorRespuesta) {
+                mayorFactorRespuesta = factorActual;
+                nodoSeleccionado = actual;
+            }
+            
+            actual = actual.getSiguiente();
+        }
+
+        return nodoSeleccionado;
+    }
+    public void SPN(){
+        /*static void sort(int[] arr) {
+        int n = arr.length;
+        int temp = 0;
+         for(int i=0; i < n; i++){
+                 for(int x=1; x < (n-i); x++){
+                          if(arr[x-1] > arr[x]){
+                                 temp = arr[x-1];
+                                 arr[x-1] = arr[x];
+                                 arr[x] = temp;
+                         }
+
+                 }
+         }*/
+                    int n =this.getPlan().getTamano();
+                    Proceso temp= new Proceso("aux",0,"", 0, 0);
+                    this.getPlan().addAtTheStart(new Nodo());
+                    Nodo aux = this.getPlan().getCabeza();
+                            
+//                    for (int i=0;i<n;i++){
+//                        for(int x=1;x<(n-i);x++){
+//                            if(this.getPlan().getCabeza().getProceso().getCantidad_instrucciones()>this.getPlan().getCabeza().getSiguiente().getProceso().getCantidad_instrucciones()){
+//                                temp=this.getPlan().getCabeza().getProceso();
+//                                this.getPlan().setCabeza(this.getPlan().getCabeza().getSiguiente());
+//                                this.getPlan().getCabeza().getSiguiente().setProceso(temp);
+//                            }
+//                        }
+//                    }
+
+//                    static void ordenarBurbuja(Nodo cabeza) {
+//    if (cabeza == null) return;
+//
+//    boolean huboIntercambio;
+//    do {
+//        huboIntercambio = false;
+//        Nodo actual = cabeza;
+//
+//        while (actual.siguiente != null) {
+//            if (actual.valor > actual.siguiente.valor) {
+//                // Intercambiar los valores
+//                int temp = actual.valor;
+//                actual.valor = actual.siguiente.valor;
+//                actual.siguiente.valor = temp;
+//
+//                huboIntercambio = true;
+//            }
+//            actual = actual.siguiente;
+//        }
+//    } while (huboIntercambio);
+//}
+                    for (int i=0;i<n;i++){
+                        for(int x=1;x<(n-i);x++){
+                            if (aux.getSiguiente() != null){
+                                aux = aux.getSiguiente();
+                                if(aux.getProceso().getCantidad_instrucciones()>aux.getSiguiente().getProceso().getCantidad_instrucciones()){
+                                temp=aux.getProceso();
+                                aux.setProceso(aux.getSiguiente().getProceso());
+                                aux.getSiguiente().setProceso(temp);
+                                
+                            }
+                        } else {
+                            break;
+                            }
+                            
+                            
+                            
+                    }
+
+
+//                    Proceso p1=this.getPlan().getCabeza().getProceso();
+//                    Proceso p2 = this.getPlan().getCabeza().getSiguiente().getProceso();
+//                    if(p1.getCantidad_instrucciones()>p2.getCantidad_instrucciones()){
+//                       this.getPlan().desencolar();
+//                       this.getPlan().add(p1);
+//                        
+//                        SPN();
+                       
+                        
+                    
+                
+                
+                    }}
+    public Proceso spn2(){
+         if (this.getPlan().getCabeza()== null) {
+              
+            return null;
+         }
+        Nodo nodoSeleccionado = this.getPlan().getCabeza();
+        int menorInstrucciones = this.getPlan().getCabeza().getProceso().getCantidad_instrucciones();
+        
+        Nodo actual = this.getPlan().getCabeza().getSiguiente();
+
+        while (actual != null) {
+            int instruccionesActuales = actual.getProceso().getCantidad_instrucciones();
+              if (instruccionesActuales < menorInstrucciones) {
+                menorInstrucciones = instruccionesActuales;
+                nodoSeleccionado = actual;
+            }
+              actual = actual.getSiguiente();
+        }
+        
+        return nodoSeleccionado.getProceso();
+    }
     public void espera_bloqueados() {
         Thread t2 = new Thread();
 
@@ -120,7 +268,7 @@ public class Scheduler implements Runnable {
             System.out.println("no hay bloqueados");
             try {
                 //aqui el hilo espera el tiempo del ciclo
-                t2.sleep(tiempo * 10000);
+                t2.sleep(tiempo * 1000);
             } catch (InterruptedException ex) {
                 System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
@@ -135,7 +283,7 @@ public class Scheduler implements Runnable {
 
                 try {
                     //aqui el hilo espera el tiempo del ciclo
-                    t2.sleep(tiempo * 10000);
+                    t2.sleep(tiempo * 1000);
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
@@ -222,5 +370,7 @@ public class Scheduler implements Runnable {
 
     public Scheduler() {
     }
+
+    
 
 }

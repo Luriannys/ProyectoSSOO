@@ -36,7 +36,7 @@ public class Cola {
         }
         tamano++;
     }
-
+        
         public void sort() {
         if (cabeza == null) {
             return;
