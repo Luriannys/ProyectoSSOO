@@ -8,7 +8,7 @@ public class Semaforo {
 
     boolean contador = true;
 
-    public void adquirir() {
+    public void bloquear() {
         if (contador) {
             contador = false;
         } else {
@@ -16,7 +16,7 @@ public class Semaforo {
         }
     }
 
-    public void esperar() {
+    public void desbloquear() {
         if (!contador) {
             contador = true;
         }

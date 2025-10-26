@@ -19,7 +19,7 @@ public class CPU implements Runnable {
     Scheduler sch = new Scheduler();
     long tiempo = sch.getTiempo();
     Pila logList = new Pila();
-    Semaforo sf;
+    Semaforo sf= new Semaforo();
     Nodo n = new Nodo();
 
     @Override
@@ -74,6 +74,7 @@ public class CPU implements Runnable {
         int v = p1.getCantidad_instrucciones();
         int e = p1.getCiclofinex();
         p1.setEstado("Ejecutando");
+        sf.bloquear();
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
         if (e > 0) {
@@ -84,6 +85,7 @@ public class CPU implements Runnable {
                    if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
+                sf.desbloquear();
             }
                }
                 System.out.println(p1.getCantidad_instrucciones());
@@ -113,11 +115,13 @@ public class CPU implements Runnable {
         } else {
             System.out.println("Ejecutando");
             p1.setEstado("Ejecutando");
+            sf.bloquear();
             for (i = 0; i < v; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
+                sf.desbloquear();
             }
                 try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -131,12 +135,14 @@ public class CPU implements Runnable {
                     sch.setMemoria(sch.getMemoria()+p1.getCantidad_instrucciones_iniciales());
                     sch.agregar_listo(p1);
                     System.out.println("Se te acabo el tiempo perro");
+                    sf.desbloquear();
 
                     break;
                 }
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
+                sf.desbloquear();
             }
             }
             
@@ -159,9 +165,11 @@ public class CPU implements Runnable {
         p1.setEstado("Ejecutando");
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
+        sf.bloquear();
         if (e > 0) {
 
             for (i = 0; i < e; i++) {
+                
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
@@ -174,7 +182,7 @@ public class CPU implements Runnable {
                 } catch (InterruptedException ex) {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
-            }
+            }sf.desbloquear();
             System.out.println("Bloqueado");
 
             sch.bloquear_proceso(p1);
@@ -183,6 +191,7 @@ public class CPU implements Runnable {
             //metodo del scheduler que movera el proceso a bloqueado
         } else {
             System.out.println("Ejecutando");
+            sf.bloquear();
             for (i = 0; i < v; i++) {
                 
                 if(p1.getCantidad_instrucciones()>0){
@@ -200,7 +209,7 @@ public class CPU implements Runnable {
                     sch.terminar_proceso(p1);
                     System.out.println("Proceso Terminado");
                 }
-            }
+            }sf.desbloquear();
             
         }
     }
