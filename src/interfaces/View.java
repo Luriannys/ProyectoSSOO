@@ -1,6 +1,8 @@
 package interfaces;
 
+import java.awt.BorderLayout;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,6 +18,10 @@ import proyectossoo.CPU;
 import proyectossoo.Cola;
 import proyectossoo.NodoPila;
 import proyectossoo.Proceso;
+import org.jfree.chart.*;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -27,10 +33,9 @@ public class View extends javax.swing.JFrame {
 
     public View(Controlador controlador) {
         this.controlador = controlador;
-        
+
         initComponents();
 
-           
     }
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
@@ -90,7 +95,10 @@ public class View extends javax.swing.JFrame {
         cyclesOfSatisfaction = new javax.swing.JSpinner();
         createBottom = new javax.swing.JButton();
         graphs = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        throughputPane = new javax.swing.JPanel();
+        utilizacionProcesadorPane = new javax.swing.JPanel();
+        tiempoRespuestaPane = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -172,7 +180,7 @@ public class View extends javax.swing.JFrame {
                     .addComponent(saveSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(initSimulation, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(loadSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         settingsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cycleDuration, planificationPolicy});
@@ -331,7 +339,7 @@ public class View extends javax.swing.JFrame {
                             .addComponent(shortTimePane)
                             .addComponent(mediumTimePane)
                             .addComponent(finishedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         viewApp.addTab("Procesos", process);
@@ -424,7 +432,7 @@ public class View extends javax.swing.JFrame {
         creationProcessLayout.setVerticalGroup(
             creationProcessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, creationProcessLayout.createSequentialGroup()
-                .addContainerGap(146, Short.MAX_VALUE)
+                .addContainerGap(160, Short.MAX_VALUE)
                 .addGroup(creationProcessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameOfProcess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -481,25 +489,58 @@ public class View extends javax.swing.JFrame {
 
         viewApp.addTab("Creación de procesos", jPanel1);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("GRAFICO");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.red));
+        javax.swing.GroupLayout throughputPaneLayout = new javax.swing.GroupLayout(throughputPane);
+        throughputPane.setLayout(throughputPaneLayout);
+        throughputPaneLayout.setHorizontalGroup(
+            throughputPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        throughputPaneLayout.setVerticalGroup(
+            throughputPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Throughput", throughputPane);
+
+        javax.swing.GroupLayout utilizacionProcesadorPaneLayout = new javax.swing.GroupLayout(utilizacionProcesadorPane);
+        utilizacionProcesadorPane.setLayout(utilizacionProcesadorPaneLayout);
+        utilizacionProcesadorPaneLayout.setHorizontalGroup(
+            utilizacionProcesadorPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        utilizacionProcesadorPaneLayout.setVerticalGroup(
+            utilizacionProcesadorPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Utilización del procesador", utilizacionProcesadorPane);
+
+        javax.swing.GroupLayout tiempoRespuestaPaneLayout = new javax.swing.GroupLayout(tiempoRespuestaPane);
+        tiempoRespuestaPane.setLayout(tiempoRespuestaPaneLayout);
+        tiempoRespuestaPaneLayout.setHorizontalGroup(
+            tiempoRespuestaPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        tiempoRespuestaPaneLayout.setVerticalGroup(
+            tiempoRespuestaPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Tiempo de respuesta", tiempoRespuestaPane);
 
         javax.swing.GroupLayout graphsLayout = new javax.swing.GroupLayout(graphs);
         graphs.setLayout(graphsLayout);
         graphsLayout.setHorizontalGroup(
             graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphsLayout.createSequentialGroup()
-                .addGap(339, 339, 339)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1054, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 89, Short.MAX_VALUE))
         );
         graphsLayout.setVerticalGroup(
             graphsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphsLayout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         viewApp.addTab("Gráficos", graphs);
@@ -512,7 +553,7 @@ public class View extends javax.swing.JFrame {
 
     private void saveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsActionPerformed
         // TODO add your handling code here:
-        controlador.getCpu().guardarDatos((Long)getCycleDuration().getValue());
+        controlador.getCpu().guardarDatos((Long) getCycleDuration().getValue());
         controlador.getCpu().getLogList().apilar(new NodoPila("Se ha guardado las configuraciones en el archivo 'configuraciones.csv'"));
     }//GEN-LAST:event_saveSettingsActionPerformed
 
@@ -556,7 +597,7 @@ public class View extends javax.swing.JFrame {
                 valido = false;
             }
         }
-        
+
         //Crea el nuevo proceso por parte del usuario
         if (valido == true) {
             String nameNewProcess = nameOfProcess.getText();
@@ -598,6 +639,27 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameOfProcessFocusGained
 
+    public ChartPanel crearGraficoLineasThroughput() {
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Throughput",
+                "Ciclo",
+                "Proceso/seg",
+                controlador.getDatasetThroughput()
+        );
+        return new ChartPanel(chart);
+    }
+
+    public ChartPanel crearGraficoLineasCPU() {
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Utilización del Procesador",
+                "Ciclo",
+                "%",
+                controlador.getDatasetCPU()
+        );
+        return new ChartPanel(chart);
+    }
+
+
     private void initSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initSimulationActionPerformed
         // TODO add your handling code here:
         controlador.getCpu().getLogList().apilar(new NodoPila("Iniciando simulación"));
@@ -605,6 +667,21 @@ public class View extends javax.swing.JFrame {
         Thread t3 = new Thread(controlador.getCpu().getSch());
         t2.start();
         t3.start();
+
+        //Grafica throughput
+        getThroughputPane().removeAll(); // Limpia el panel
+        getThroughputPane().setLayout(new BorderLayout());
+        getThroughputPane().add(crearGraficoLineasThroughput(), BorderLayout.CENTER);
+        getThroughputPane().revalidate();
+        getThroughputPane().repaint();
+
+        //Grafica utilizacion del procesador
+        getUtilizacionProcesadorPane().removeAll();
+        getUtilizacionProcesadorPane().setLayout(new BorderLayout());
+        getUtilizacionProcesadorPane().add(crearGraficoLineasCPU(), BorderLayout.CENTER);
+        getUtilizacionProcesadorPane().revalidate();
+        getUtilizacionProcesadorPane().repaint();
+
     }//GEN-LAST:event_initSimulationActionPerformed
 
     private void loadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSettingsActionPerformed
@@ -732,14 +809,6 @@ public class View extends javax.swing.JFrame {
 
     public void setGraphs(JPanel graphs) {
         this.graphs = graphs;
-    }
-
-    public JLabel getjLabel1() {
-        return jLabel1;
-    }
-
-    public void setjLabel1(JLabel jLabel1) {
-        this.jLabel1 = jLabel1;
     }
 
     public JLabel getjLabel10() {
@@ -998,6 +1067,70 @@ public class View extends javax.swing.JFrame {
         this.PCLabel = PCLabel;
     }
 
+    public Controlador getControlador() {
+        return controlador;
+    }
+
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
+    }
+
+    public JPanel getCreationProcess() {
+        return creationProcess;
+    }
+
+    public void setCreationProcess(JPanel creationProcess) {
+        this.creationProcess = creationProcess;
+    }
+
+    public JButton getInitSimulation() {
+        return initSimulation;
+    }
+
+    public void setInitSimulation(JButton initSimulation) {
+        this.initSimulation = initSimulation;
+    }
+
+    public JTabbedPane getjTabbedPane1() {
+        return jTabbedPane1;
+    }
+
+    public void setjTabbedPane1(JTabbedPane jTabbedPane1) {
+        this.jTabbedPane1 = jTabbedPane1;
+    }
+
+    public JButton getLoadSettings() {
+        return loadSettings;
+    }
+
+    public void setLoadSettings(JButton loadSettings) {
+        this.loadSettings = loadSettings;
+    }
+
+    public JPanel getThroughputPane() {
+        return throughputPane;
+    }
+
+    public void setThroughputPane(JPanel throughputPane) {
+        this.throughputPane = throughputPane;
+    }
+
+    public JPanel getTiempoRespuestaPane() {
+        return tiempoRespuestaPane;
+    }
+
+    public void setTiempoRespuestaPane(JPanel tiempoRespuestaPane) {
+        this.tiempoRespuestaPane = tiempoRespuestaPane;
+    }
+
+    public JPanel getUtilizacionProcesadorPane() {
+        return utilizacionProcesadorPane;
+    }
+
+    public void setUtilizacionProcesadorPane(JPanel utilizacionProcesadorPane) {
+        this.utilizacionProcesadorPane = utilizacionProcesadorPane;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel PCLabel;
     private javax.swing.JList<String> blocked;
@@ -1014,7 +1147,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JScrollPane finishedPane;
     private javax.swing.JPanel graphs;
     private javax.swing.JButton initSimulation;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1022,6 +1154,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton loadSettings;
     private javax.swing.JList<String> logList;
     private javax.swing.JScrollPane logPane;
@@ -1045,6 +1178,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JList<String> suspendedReadys;
     private javax.swing.JLabel suspendedReadysLabel;
     private javax.swing.JScrollPane suspendedReadysPane;
+    private javax.swing.JPanel throughputPane;
+    private javax.swing.JPanel tiempoRespuestaPane;
+    private javax.swing.JPanel utilizacionProcesadorPane;
     private javax.swing.JTabbedPane viewApp;
     // End of variables declaration//GEN-END:variables
 }
