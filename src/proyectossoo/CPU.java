@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 
 /**
  *
@@ -23,7 +22,7 @@ public class CPU implements Runnable {
     Semaforo sf = new Semaforo();
     Nodo n = new Nodo();
     long tiempo_cpu = 0;
-    int pc = 0;
+    String pc = "";
     long sumaTiemposRespuesta = 0;
 
     @Override
@@ -34,8 +33,8 @@ public class CPU implements Runnable {
 
     public void iniciar(long tiempo) {
 
-        Proceso p1 = new Proceso("Proceso 0", 10, "CPU Bound", 0, 0, 1);
-        sch.agregar_listo(p1);
+//        Proceso p1 = new Proceso("Proceso 0", 10, "CPU Bound", 0, 0, 1);
+//        sch.agregar_listo(p1);
 //        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0, 1);
         //      sch.agregar_listo(p2);
         //    Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
@@ -66,7 +65,7 @@ public class CPU implements Runnable {
         int u = this.sch.getCiclosRR();
 
         Proceso p1 = sch.getListo().getCabeza().getProceso();
-        pc++;
+//        pc++;
         n.setProceso(p1);
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
@@ -92,6 +91,7 @@ public class CPU implements Runnable {
                 if (p1.getCantidad_instrucciones() <= 0) {
                     sch.terminar_proceso(p1);
                     System.out.println("Proceso Terminado");
+                    calcularTiempoRespuesta();
                     sf.desbloquear();
                     break;
 
@@ -169,7 +169,7 @@ public class CPU implements Runnable {
 
         Proceso p1 = sch.getListo().getCabeza().getProceso();
         n.setProceso(p1);
-        pc++;
+//        pc++;
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
 
@@ -194,6 +194,7 @@ public class CPU implements Runnable {
                 if (p1.getCantidad_instrucciones() <= 0) {
                     sch.terminar_proceso(p1);
                     System.out.println("Proceso Terminado");
+                    registrarProcesoCompletado(p1);
                     getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
                     break;
 
@@ -233,6 +234,7 @@ public class CPU implements Runnable {
                 if (p1.getCantidad_instrucciones() <= 0) {
                     sch.terminar_proceso(p1);
                     System.out.println("Proceso Terminado");
+                    registrarProcesoCompletado(p1);
                     getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
                     break;
                 }
@@ -328,8 +330,8 @@ public class CPU implements Runnable {
         return ((double) tiempo_cpu / sch.getTranscurrido()) * 100;
     }
 
-    public void registrarProcesoCompletado(long tiempoLlegada, long tiempoInicio) {
-        sumaTiemposRespuesta += (tiempoInicio - tiempoLlegada);
+    public void registrarProcesoCompletado(Proceso p) {
+        sumaTiemposRespuesta += (p.getTiempoSalida() - p.getTiempoLlegada());
     }
 
     public double calcularTiempoRespuesta() {
@@ -383,11 +385,11 @@ public class CPU implements Runnable {
         this.tiempo_cpu = tiempo_cpu;
     }
 
-    public int getPc() {
+    public String getPc() {
         return pc;
     }
 
-    public void setPc(int pc) {
+    public void setPc(String pc) {
         this.pc = pc;
     }
 

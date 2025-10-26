@@ -94,6 +94,10 @@ public class Controlador extends Thread {
             cpu.setTiempo((long) view.getCycleDuration().getValue());
             cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
             cpu.getSch().setTranscurrido(segundos);
+            
+            if (cpu.getSch().getListo().getCabeza() != null){
+                cpu.setPc(cpu.getSch().getListo().getCabeza().getProceso().getMAR());
+            }
 
             //Visualizacion de la etiqueta politica de planificacion
             view.getPlanPolicy().setText("Política de planificación: " + (String) view.getPlanificationPolicy().getSelectedItem());

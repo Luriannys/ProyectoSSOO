@@ -14,11 +14,12 @@ public class Proceso {
     String estado;
     //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
     int ID;
-    int MAR;
+    String MAR;
     //si esbound 
     int cicloex;
     int ciclofinex;
-    int tiempoLlegada;
+    long tiempoLlegada = 0L;
+    long tiempoSalida = 0L;
     int prioridad ;
     
 
@@ -52,6 +53,9 @@ public class Proceso {
         this.cicloex = cicloex;
         this.ciclofinex = ciclofinex;
         this.prioridad = 0;
+        this.tiempoLlegada =  System.currentTimeMillis();
+        this.ID = System.identityHashCode(this);
+        this.MAR = "0x" + Integer.toHexString(ID);
     }
     public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex,int prioridad) {
          this.nombre = nombre;
@@ -62,6 +66,7 @@ public class Proceso {
         this.cicloex = cicloex;
         this.ciclofinex = ciclofinex;
         this.prioridad=prioridad;
+        this.tiempoLlegada =  System.currentTimeMillis();
     }
 
     public void crearProcesos(String nombre, int cantidad_instrucciones, String bound) {
@@ -70,13 +75,7 @@ public class Proceso {
     }
 
     public String getPCBLog() {
-        this.getRegistros();
-        this.getID();
-        this.getNombre();
-        this.getEstado();
-        //this.getMAR();
-        //this.getPC();
-        return "<html>" + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>Tamaño: " + Integer.toString(getCantidad_instrucciones_iniciales()) + "<br>Tipo: " + getBound() + "<br>----------------------------" + "</html>";
+        return "<html>" + "<br>ID: " + getID() + "<br>MAR: " + getMAR() + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>Tamaño: " + Integer.toString(getCantidad_instrucciones_iniciales()) + "<br>Tipo: " + getBound() + "<br>----------------------------" + "</html>";
     }
 
     public String getPCB() {
@@ -86,7 +85,7 @@ public class Proceso {
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "<html>" + "<br>Nombre: " + getNombre() + "<br>Tamaño: " + Integer.toString(getCantidad_instrucciones_iniciales()) + "<br>Tipo: " + getBound() + "<br>----------------------------" + "</html>";
+        return "<html>" + "<br>ID: " + getID() + "<br>MAR: " + getMAR() + "<br>Nombre: " + getNombre() + "<br>Tamaño: " + Integer.toString(getCantidad_instrucciones_iniciales()) + "<br>Tipo: " + getBound() + "<br>----------------------------" + "</html>";
     }
     
     public String getEstado() {
@@ -153,14 +152,6 @@ public class Proceso {
         this.ID = ID;
     }
 
-    public int getTiempoLlegada() {
-        return tiempoLlegada;
-    }
-
-    public void setTiempoLlegada(int tiempoLlegada) {
-        this.tiempoLlegada = tiempoLlegada;
-    }
-
     public int getPrioridad() {
         return prioridad;
     }
@@ -177,14 +168,30 @@ public class Proceso {
         this.cantidad_instrucciones_iniciales = cantidad_instrucciones_iniciales;
     }
 
-    public int getMAR() {
+    public String getMAR() {
         return MAR;
     }
 
-    public void setMAR(int MAR) {
+    public void setMAR(String MAR) {
         this.MAR = MAR;
     }
 
+    public long getTiempoSalida() {
+        return tiempoSalida;
+    }
+
+    public void setTiempoSalida(long tiempoSalida) {
+        this.tiempoSalida = tiempoSalida;
+    }
+
+    public long getTiempoLlegada() {
+        return tiempoLlegada;
+    }
+
+    public void setTiempoLlegada(long tiempoLlegada) {
+        this.tiempoLlegada = tiempoLlegada;
+    }
+    
     
 
    

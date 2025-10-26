@@ -1,8 +1,5 @@
 package proyectossoo;
 
-import java.util.Arrays;
-import java.util.Set;
-
 /**
  *
  * @author rgabr
@@ -50,6 +47,8 @@ public class Scheduler implements Runnable {
     // Terminar proceso y agregar a cola Terminados
     public void terminar_proceso(Proceso p) {
         p.setEstado("Terminado");
+        p.setTiempoSalida(System.currentTimeMillis());
+        
         terminado.add(p);
         this.setMemoria(this.getMemoria()+p.getCantidad_instrucciones_iniciales());
     }
