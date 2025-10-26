@@ -13,7 +13,6 @@ public class NodoPila {
     //Metodos
     public NodoPila(String texto) {
         this.texto = texto;
-        this.anterior = null;
         this.siguiente = null;
     }
 
@@ -23,14 +22,6 @@ public class NodoPila {
 
     public void setTexto(String texto) {
         this.texto = texto;
-    }
-
-    public NodoPila getAnterior() {
-        return anterior;
-    }
-
-    public void setAnterior(NodoPila anterior) {
-        this.anterior = anterior;
     }
 
     public NodoPila getSiguiente() {
