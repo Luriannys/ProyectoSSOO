@@ -123,29 +123,7 @@ public class Scheduler implements Runnable {
             }
             case "HRRN" -> {
                 // LOGICA HRRN
-               
-        
-
-        // 1. Inicializar con el nodo cabeza
-        Nodo nodoSeleccionado = this.getListo().getCabeza();
-        // Calcular el Factor de Respuesta del primer proceso
-        double mayorFactorRespuesta = this.getListo().getCabeza().getProceso().calcularFactorRespuesta(getTranscurrido());
-
-        // 2. Iterar sobre el resto de la lista
-        Nodo actual = this.getListo().getCabeza().getSiguiente();
-
-        while (actual != null) {
-            // 3. Calcular el factor de respuesta para el proceso actual
-            double factorActual = actual.getProceso().calcularFactorRespuesta(getTranscurrido());
-            
-            // 4. Comparar: HRRN selecciona el MÁS ALTO (mayor)
-            if (factorActual > mayorFactorRespuesta) {
-                mayorFactorRespuesta = factorActual;
-                nodoSeleccionado = actual;
-            }
-            
-            actual = actual.getSiguiente();
-        }
+              this.listo.add(this.getListo().sorthrrn(this));
 
         
     
@@ -161,12 +139,16 @@ public class Scheduler implements Runnable {
                 
                 int e = this.getListo().getTamano();
                 for (i = 0; i < e; i++) {
-                    if(this.getListo().getCabeza().getProceso().getPrioridad()==0){
-                        this.getP0().add(this.getListo().getCabeza().getProceso());
-                    }else if(this.getListo().getCabeza().getProceso().getPrioridad()==1){
-                         this.getP1().add(this.getListo().getCabeza().getProceso());
-                    }else{
-                        this.getP1().add(this.getListo().getCabeza().getProceso());
+                    switch (this.getListo().getCabeza().getProceso().getPrioridad()) {
+                        case 0:
+                            this.getP0().add(this.getListo().getCabeza().getProceso());
+                            break;
+                        case 1:
+                            this.getP1().add(this.getListo().getCabeza().getProceso());
+                            break;
+                        default:
+                            this.getP1().add(this.getListo().getCabeza().getProceso());
+                            break;
                     }
                     this.getListo().desencolar();
                 }

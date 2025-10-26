@@ -60,6 +60,35 @@ public class Cola {
             }
         } while (huboIntercambio);
     }
+    public Proceso sorthrrn(Scheduler sch){
+        if (cabeza == null) {
+            return null;
+        }
+
+        // 1. Inicializar con el nodo cabeza
+        Nodo nodoSeleccionado = cabeza;
+        // Calcular el Factor de Respuesta del primer proceso
+        double mayorFactorRespuesta = cabeza.getProceso().calcularFactorRespuesta(sch.getTranscurrido());
+
+        // 2. Iterar sobre el resto de la lista
+        Nodo actual = cabeza.getSiguiente();
+
+        while (actual != null) {
+            // 3. Calcular el factor de respuesta para el proceso actual
+            double factorActual = actual.getProceso().calcularFactorRespuesta(sch.getTranscurrido());
+            
+            // 4. Comparar: HRRN selecciona el MÁS ALTO (mayor)
+            if (factorActual > mayorFactorRespuesta) {
+                mayorFactorRespuesta = factorActual;
+                nodoSeleccionado = actual;
+            }
+            
+            actual = actual.getSiguiente();
+        }
+
+        return nodoSeleccionado.getProceso();
+    }
+    
 
     public void add(Proceso p) {
         Nodo nodo = new Nodo(p);

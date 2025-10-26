@@ -11,8 +11,6 @@ public class Semaforo {
     public void bloquear() {
         if (contador) {
             contador = false;
-        } else {
-            System.out.println("No hay acceso");
         }
     }
 

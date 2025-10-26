@@ -30,7 +30,7 @@ public class Proceso {
     }*/
     public double calcularFactorRespuesta(Long tiempoActual) {
         // Tiempo de Espera (Tw) = Tiempo Actual (T) - Tiempo de Llegada (Ta)
-        Long tiempoEspera = tiempoActual - this.tiempoLlegada; 
+        Long tiempoEspera = tiempoActual; 
         
         // HRRN Ratio = (Tw + Ts) / Ts
         // donde Ts = cantidadInstrucciones

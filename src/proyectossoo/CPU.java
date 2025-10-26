@@ -32,12 +32,12 @@ public class CPU implements Runnable {
         
         Proceso p1 = new Proceso("Proceso 0", 10, "CPU", 6, 4,1);
         sch.agregar_listo(p1);
-        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0, 1);
-        sch.agregar_listo(p2);
-        Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
-        sch.agregar_listo(p3);
-        Proceso p4 = new Proceso("d", 90, "CPU", 0, 0);
-        sch.agregar_listo(p4);
+//        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0, 1);
+  //      sch.agregar_listo(p2);
+    //    Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
+    //    sch.agregar_listo(p3);
+      //  Proceso p4 = new Proceso("d", 90, "CPU", 0, 0);
+        //sch.agregar_listo(p4);
 
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
