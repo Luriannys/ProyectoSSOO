@@ -21,6 +21,7 @@ public class CPU implements Runnable {
     Pila logList = new Pila();
     Semaforo sf= new Semaforo();
     Nodo n = new Nodo();
+    int tiempo_cpu=0;
 
     @Override
     public void run() {
@@ -82,14 +83,16 @@ public class CPU implements Runnable {
 
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
+                
                if(p1.getCantidad_instrucciones()==0){
-                   if (p1.getCantidad_instrucciones() == 0) {
+                   
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
                 sf.desbloquear();
-            }
+            
                }
                 System.out.println(p1.getCantidad_instrucciones());
+                this.tiempo_cpu++;
                 try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(Duration.ofSeconds(tiempo));
@@ -119,6 +122,7 @@ public class CPU implements Runnable {
            
             sf.bloquear();
             for (i = 0; i < v; i++) {
+                this.tiempo_cpu++;
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
@@ -172,7 +176,7 @@ public class CPU implements Runnable {
         if (e > 0) {
 
             for (i = 0; i < e; i++) {
-               
+               this.tiempo_cpu++;
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
@@ -196,7 +200,7 @@ public class CPU implements Runnable {
             System.out.println("Ejecutando");
             sf.bloquear();
             for (i = 0; i < v; i++) {
-                
+                this.tiempo_cpu++;
                 if(p1.getCantidad_instrucciones()>0){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 p1.setEstado("Ejecutando");
@@ -330,6 +334,14 @@ public class CPU implements Runnable {
 
     public void setN(Nodo n) {
         this.n = n;
+    }
+
+    public int getTiempo_cpu() {
+        return tiempo_cpu;
+    }
+
+    public void setTiempo_cpu(int tiempo_cpu) {
+        this.tiempo_cpu = tiempo_cpu;
     }
 
 }
