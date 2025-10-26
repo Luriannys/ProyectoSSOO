@@ -22,8 +22,9 @@ public class CPU implements Runnable {
     Pila logList = new Pila();
     Semaforo sf = new Semaforo();
     Nodo n = new Nodo();
-    int tiempo_cpu = 0;
-    int pc = 0;
+    long tiempo_cpu=0;
+    int pc=0;
+    MetricasRendimiento mr=new MetricasRendimiento();
 
     @Override
     public void run() {
@@ -47,8 +48,8 @@ public class CPU implements Runnable {
         while (true) {
             sch.politica_planificacion(this.getSch().getPlan());
             while (!sch.listo.estaVacia()) {
-
-                if (sch.getCiclosRR() != 0) {
+                mr.registrarCPUOcupada(tiempo_cpu);
+                if(sch.getCiclosRR()!=0){
                     this.ejecutar_RR(sch.bloq, sch.listo);
                 } else {
                     this.ejecutar_p(sch.bloq, sch.listo);
@@ -88,15 +89,15 @@ public class CPU implements Runnable {
 
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-
-                if (p1.getCantidad_instrucciones() <= 0) {
-
-                    sch.terminar_proceso(p1);
-                    System.out.println("Proceso Terminado");
-                    sf.desbloquear();
-                    break;
-
-                }
+                
+               if(p1.getCantidad_instrucciones()<=0){
+                   mr.registrarProcesoCompletado(tiempo, tiempo_cpu);
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+                sf.desbloquear();
+                break;
+            
+               }
                 System.out.println(p1.getCantidad_instrucciones());
                 this.tiempo_cpu++;
                 try {
@@ -129,13 +130,14 @@ public class CPU implements Runnable {
                 this.tiempo_cpu++;
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() <= 0) {
-                    sch.terminar_proceso(p1);
-                    System.out.println("Proceso Terminado");
-                    getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
-                    sf.desbloquear();
-                    break;
-
-                }
+                mr.registrarProcesoCompletado(tiempo, tiempo_cpu);
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                sf.desbloquear();
+                break;
+               
+            }
                 try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(Duration.ofSeconds(tiempo));
@@ -147,17 +149,18 @@ public class CPU implements Runnable {
                 if (u == 0 && p1.getCantidad_instrucciones() > 0) {
                     sch.setMemoria(sch.getMemoria() + p1.getCantidad_instrucciones_iniciales());
                     sch.agregar_listo(p1);
-                    System.out.println("Se te acabo el tiempo perro");
+                    System.out.println("Se te acabo el tiempo ");
                     sf.desbloquear();
 
                     break;
                 }
                 if (p1.getCantidad_instrucciones() == 0) {
-                    sch.terminar_proceso(p1);
-                    sf.desbloquear();
-                    System.out.println("Proceso Terminado");
-                    getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
-                    break;
+                     mr.registrarProcesoCompletado(tiempo, tiempo_cpu);
+                sch.terminar_proceso(p1);
+                sf.desbloquear();
+                System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                break;
 
                 }
             }
@@ -193,10 +196,11 @@ public class CPU implements Runnable {
                 this.tiempo_cpu++;
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() <= 0) {
-                    sch.terminar_proceso(p1);
-                    System.out.println("Proceso Terminado");
-                    getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
-                    break;
+                sch.terminar_proceso(p1);
+                 mr.registrarProcesoCompletado(tiempo, tiempo_cpu);
+                System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                break;
 
                 }
                 System.out.println(p1.getCantidad_instrucciones());
@@ -232,9 +236,10 @@ public class CPU implements Runnable {
                 }
                 System.out.println(p1.getCantidad_instrucciones());
                 if (p1.getCantidad_instrucciones() <= 0) {
-                    sch.terminar_proceso(p1);
-                    System.out.println("Proceso Terminado");
-                    getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                     mr.registrarProcesoCompletado(tiempo, tiempo_cpu);
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
                     break;
                 }
 
