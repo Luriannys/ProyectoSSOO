@@ -22,6 +22,7 @@ public class CPU implements Runnable {
     Semaforo sf= new Semaforo();
     Nodo n = new Nodo();
     int tiempo_cpu=0;
+    int pc=0;
 
     @Override
     public void run() {
@@ -65,6 +66,7 @@ public class CPU implements Runnable {
         int u = this.sch.getCiclosRR();
 
         Proceso p1 = sch.getListo().getCabeza().getProceso();
+        pc++;
         n.setProceso(p1);
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
@@ -161,6 +163,7 @@ public class CPU implements Runnable {
 
         Proceso p1 = sch.getListo().getCabeza().getProceso();
         n.setProceso(p1);
+        pc++;
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
         
