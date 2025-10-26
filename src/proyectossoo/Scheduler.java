@@ -16,7 +16,7 @@ public class Scheduler implements Runnable {
     Cola terminado = new Cola("Terminado");
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
-    Cola plan = new Cola("Plan");
+    String plan ;
     Semaforo sfbloq = new Semaforo();
     Semaforo sflisto = new Semaforo();
     Cola p0 = new Cola("Prioridad alta");
@@ -209,10 +209,10 @@ public class Scheduler implements Runnable {
 
                  }
          }*/
-                    int n =this.getPlan().getTamano();
+                   /* int n =this.getPlan().getTamano();
                     Proceso temp= new Proceso("aux",0,"", 0, 0);
                     this.getPlan().addAtTheStart(new Nodo());
-                    Nodo aux = this.getPlan().getCabeza();
+                    Nodo aux = this.getPlan().getCabeza();*/
                             
 //                    for (int i=0;i<n;i++){
 //                        for(int x=1;x<(n-i);x++){
@@ -245,7 +245,7 @@ public class Scheduler implements Runnable {
 //        }
 //    } while (huboIntercambio);
 //}
-                    for (int i=0;i<n;i++){
+                   /* for (int i=0;i<n;i++){
                         for(int x=1;x<(n-i);x++){
                             if (aux.getSiguiente() != null){
                                 aux = aux.getSiguiente();
@@ -276,9 +276,9 @@ public class Scheduler implements Runnable {
                     
                 
                 
-                    }}
+                    }}*/}
     public Proceso spn2(){
-         if (this.getPlan().getCabeza()== null) {
+        /* if (this.getPlan().getCabeza()== null) {
               
             return null;
          }
@@ -297,7 +297,27 @@ public class Scheduler implements Runnable {
         }
         
         return nodoSeleccionado.getProceso();
-    }
+    }*/ return null;
+        /* if (this.getPlan().getCabeza()== null) {
+              
+            return null;
+         }
+        Nodo nodoSeleccionado = this.getPlan().getCabeza();
+        int menorInstrucciones = this.getPlan().getCabeza().getProceso().getCantidad_instrucciones();
+        
+        Nodo actual = this.getPlan().getCabeza().getSiguiente();
+
+        while (actual != null) {
+            int instruccionesActuales = actual.getProceso().getCantidad_instrucciones();
+              if (instruccionesActuales < menorInstrucciones) {
+                menorInstrucciones = instruccionesActuales;
+                nodoSeleccionado = actual;
+            }
+              actual = actual.getSiguiente();
+        }
+        
+        return nodoSeleccionado.getProceso();
+    }*/}
     public void espera_bloqueados() {
         Thread t2 = new Thread();
 
@@ -383,13 +403,7 @@ public class Scheduler implements Runnable {
         this.listo = listo;
     }
 
-    public Cola getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Cola plan) {
-        this.plan = plan;
-    }
+   
 
     public Cola getBloq() {
         return bloq;
