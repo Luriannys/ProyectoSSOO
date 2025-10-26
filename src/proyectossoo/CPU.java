@@ -74,6 +74,7 @@ public class CPU implements Runnable {
         int v = p1.getCantidad_instrucciones();
         int e = p1.getCiclofinex();
         p1.setEstado("Ejecutando");
+        
         sf.bloquear();
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
@@ -115,6 +116,7 @@ public class CPU implements Runnable {
         } else {
             System.out.println("Ejecutando");
             p1.setEstado("Ejecutando");
+           
             sf.bloquear();
             for (i = 0; i < v; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
@@ -166,10 +168,11 @@ public class CPU implements Runnable {
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
         sf.bloquear();
+        n.setProceso(p1);
         if (e > 0) {
 
             for (i = 0; i < e; i++) {
-                
+               
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
@@ -197,6 +200,7 @@ public class CPU implements Runnable {
                 if(p1.getCantidad_instrucciones()>0){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 p1.setEstado("Ejecutando");
+                n.setProceso(p1);
 
                 try {
                     //aqui el hilo espera el tiempo del ciclo
