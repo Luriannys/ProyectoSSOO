@@ -251,7 +251,7 @@ public class View extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         logList.setToolTipText("");
-        logList.setVisibleRowCount(0);
+        logList.setVisibleRowCount(10);
         logPane.setViewportView(logList);
 
         runningLabel.setForeground(java.awt.Color.black);
@@ -642,7 +642,7 @@ public class View extends javax.swing.JFrame {
     public ChartPanel crearGraficoLineasThroughput() {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Throughput",
-                "Ciclo",
+                "Segundo",
                 "Proceso/seg",
                 controlador.getDatasetThroughput()
         );
@@ -652,7 +652,7 @@ public class View extends javax.swing.JFrame {
     public ChartPanel crearGraficoLineasCPU() {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Utilización del Procesador",
-                "Ciclo",
+                "Segundo",
                 "%",
                 controlador.getDatasetCPU()
         );
@@ -662,7 +662,7 @@ public class View extends javax.swing.JFrame {
     public ChartPanel crearGraficoLineasRespuesta() {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Tiempo de Respuesta",
-                "Ciclo",
+                "Segundo",
                 "ms",
                 controlador.getDatasetRespuesta()
         );

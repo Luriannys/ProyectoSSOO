@@ -28,6 +28,15 @@ public class Controlador extends Thread {
     public Controlador() {
         this.start();
         view.setVisible(true);
+        view.getPlanificationPolicy().addActionListener(e -> {
+            String seleccion = (String) view.getPlanificationPolicy().getSelectedItem();
+            System.out.println("Política seleccionada: " + seleccion);
+
+            // Aquí puedes actualizar la lógica de planificación, reiniciar métricas, etc.
+            cpu.getSch().politica_planificacion(seleccion);
+            cpu.getLogList().apilar(new NodoPila("Planificación seleccionada: " + seleccion));
+        });
+
     }
 
     public DefaultListModel createModel(Cola cola) {
@@ -91,12 +100,16 @@ public class Controlador extends Thread {
 
             //Seleccion de la politica de planificacion
             cpu.getSch().politica_planificacion((String) view.getPlanificationPolicy().getSelectedItem());
-            cpu.getLogList().apilar(new NodoPila("Planificación seleccionada: " + (String) view.getPlanificationPolicy().getSelectedItem()));
 
             //Log de eventos
             if (cpu.getLogList().createModel() != view.getLogList().getModel()) {
                 DefaultListModel eventLogList = cpu.getLogList().createModel();
                 view.getLogList().setModel(eventLogList);
+//                try {
+//                    Thread.sleep(5);
+//                } catch (InterruptedException ex) {
+//                    System.getLogger(Controlador.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+//                }
             }
 
             //Cola de listos
