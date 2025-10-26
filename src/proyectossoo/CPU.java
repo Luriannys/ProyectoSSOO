@@ -24,7 +24,7 @@ public class CPU implements Runnable {
     
     public void iniciar(long tiempo) {
         
-        Proceso p1 = new Proceso("a", 10, "CPU", 3, 4,1);
+        Proceso p1 = new Proceso("a", 10, "CPU", 6, 4,1);
         sch.agregar_listo(p1);
         Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0,1);
         sch.agregar_listo(p2);
@@ -37,7 +37,7 @@ public class CPU implements Runnable {
 //        pc.siguiente_proceso(listo);
 
         while (true) {     
-            sch.politica_planificacion("FIFO");
+            sch.politica_planificacion("Round Robin");
             while (!sch.listo.estaVacia()) {
                 
                 if(sch.getCiclosRR()!=0){
@@ -47,7 +47,7 @@ public class CPU implements Runnable {
                 }                        
             }
             if (sch.listo.estaVacia()) {
-                System.out.println("WEY SE ACABARON LOS PROCESOS");
+                //System.out.println("WEY SE ACABARON LOS PROCESOS");
                 
             }            
             
@@ -84,6 +84,7 @@ public class CPU implements Runnable {
                 }
                 u--;
                 if (u==0&& p1.getCantidad_instrucciones()>0){
+                    sch.setMemoria(sch.getMemoria()+p1.getCantidad_instrucciones_iniciales());
                     sch.agregar_listo(p1);
                     System.out.println("Se te acabo el tiempo perro");
                     break;
@@ -113,6 +114,7 @@ public class CPU implements Runnable {
                 System.out.println(p1.getCantidad_instrucciones());
                 u--;
                 if (u==0 && p1.getCantidad_instrucciones()>0){
+                    sch.setMemoria(sch.getMemoria()+p1.getCantidad_instrucciones_iniciales());
                     sch.agregar_listo(p1);
                     System.out.println("Se te acabo el tiempo perro");
                     

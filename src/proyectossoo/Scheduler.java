@@ -35,7 +35,7 @@ public class Scheduler implements Runnable {
     public void agregar_listo(Proceso p) {
         int nueva_memoria = memoria - p.getCantidad_instrucciones();
         if (nueva_memoria < 0) {
-            setMemoria(0);
+            
             this.suspender_listo(p);
             
        }else {
@@ -52,6 +52,7 @@ public class Scheduler implements Runnable {
     public void terminar_proceso(Proceso p) {
         p.setEstado("Terminado");
         terminado.add(p);
+        this.setMemoria(this.getMemoria()+p.getCantidad_instrucciones_iniciales());
     }
 
     // Bloquear proceso
@@ -331,6 +332,39 @@ public class Scheduler implements Runnable {
            
 
         }
+        if (this.getListoSuspendido().getTamano()==0){
+            System.out.println("no hay suspendidos");
+            try {
+                //aqui el hilo espera el tiempo del ciclo
+                t2.sleep(tiempo * 1000);
+            } catch (InterruptedException ex) {
+                System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }else{
+            if(this.getMemoria()>this.getListoSuspendido().getCabeza().getProceso().getCantidad_instrucciones()){
+                this.agregar_listo(this.getListoSuspendido().getCabeza().getProceso());
+                this.getListoSuspendido().desencolar();
+            }
+            
+        }
+        if (this.getBloqSuspendido().getTamano()==0){
+            System.out.println("no hay suspendidos bloqueados");
+            try {
+                //aqui el hilo espera el tiempo del ciclo
+                t2.sleep(tiempo * 1000);
+            } catch (InterruptedException ex) {
+                System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }else{
+            if(this.getMemoria()>this.getBloqSuspendido().getCabeza().getProceso().getCantidad_instrucciones()){
+                this.agregar_listo(this.getBloqSuspendido().getCabeza().getProceso());
+                this.getBloqSuspendido().desencolar();
+            }
+          
+            
+            
+        }
+    
     }
 
     public int getMemoria() {

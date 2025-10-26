@@ -8,7 +8,7 @@ public class Proceso {
 
     String nombre;
     int cantidad_instrucciones;
-    int instrucciones_ejecutadas;
+    int cantidad_instrucciones_iniciales;
     String bound;
     int registros;
     String estado;
@@ -20,6 +20,7 @@ public class Proceso {
     int ciclofinex;
     int tiempoLlegada;
     int prioridad ;
+    
 
     /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
         this.nombre = nombre;
@@ -45,6 +46,7 @@ public class Proceso {
     public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
+        this.cantidad_instrucciones_iniciales=cantidad_instrucciones;
         this.bound = bound;
         this.estado = "Nuevo";
         this.cicloex = cicloex;
@@ -54,6 +56,7 @@ public class Proceso {
     public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex,int prioridad) {
          this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
+         this.cantidad_instrucciones_iniciales=cantidad_instrucciones;
         this.bound = bound;
         this.estado = "Nuevo";
         this.cicloex = cicloex;
@@ -154,6 +157,22 @@ public class Proceso {
 
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
+    }
+
+    public int getCantidad_instrucciones_iniciales() {
+        return cantidad_instrucciones_iniciales;
+    }
+
+    public void setCantidad_instrucciones_iniciales(int cantidad_instrucciones_iniciales) {
+        this.cantidad_instrucciones_iniciales = cantidad_instrucciones_iniciales;
+    }
+
+    public int getMAR() {
+        return MAR;
+    }
+
+    public void setMAR(int MAR) {
+        this.MAR = MAR;
     }
 
     
