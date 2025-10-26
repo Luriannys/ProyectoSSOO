@@ -1,5 +1,6 @@
 package proyectossoo;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -396,7 +397,7 @@ public class Scheduler implements Runnable {
         }
     
     }
-
+    
     public int getMemoria() {
         return memoria;
     }

@@ -2,6 +2,8 @@ package interfaces;
 
 import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import proyectossoo.CPU;
 import proyectossoo.Cola;
 import proyectossoo.Nodo;
@@ -16,6 +18,10 @@ public class Controlador extends Thread {
     private CPU cpu = new CPU();
     private View view = new View(this);
     private volatile long segundos = 0L;
+    private XYSeries seriesThroughput = new XYSeries("Throughput");
+    private XYSeriesCollection datasetThroughput = new XYSeriesCollection(seriesThroughput);
+    private XYSeries seriesCPU = new XYSeries("Utilización CPU");
+    private XYSeriesCollection datasetCPU = new XYSeriesCollection(seriesCPU);
 
     public Controlador() {
         this.start();
@@ -35,46 +41,46 @@ public class Controlador extends Thread {
     @Override
     public void run() {
 
-         //Reloj/Cronometro
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    long inicio = System.currentTimeMillis(); // Marca de tiempo inicial
-                    while (true) {
-                        try {
-                            Thread.sleep(500);
-                            long ahora = System.currentTimeMillis();
-                            long transcurrido = ahora - inicio;
+        //Reloj/Cronometro
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                long inicio = System.currentTimeMillis(); // Marca de tiempo inicial
+                while (true) {
+                    try {
+                        Thread.sleep(500);
+                        long ahora = System.currentTimeMillis();
+                        long transcurrido = ahora - inicio;
 
-                            // Convertimos milisegundos a horas, minutos y segundos
-                            long segundos = (transcurrido / 1000);
-                            long horas = (segundos / 3600);
-                            long minutos = ((segundos % 3600) / 60);
-                            long seg = (segundos % 60);
+                        // Convertimos milisegundos a horas, minutos y segundos
+                        long segundos = (transcurrido / 1000);
+                        long horas = (segundos / 3600);
+                        long minutos = ((segundos % 3600) / 60);
+                        long seg = (segundos % 60);
 
-                            // Formateamos como HH:mm:ss
-                            String tiempo = String.format("%02d:%02d:%02d", horas, minutos, seg);
-                            getView().getClockLabel().setText(tiempo);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        // Formateamos como HH:mm:ss
+                        String tiempo = String.format("%02d:%02d:%02d", horas, minutos, seg);
+                        getView().getClockLabel().setText(tiempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
         while (true) {
 
             //Proceso que esta corriendo
             if (cpu.getN() != null && cpu.getN().getProceso() != null) {
-                String actualprocess = cpu.getN().getProceso().getPCB() ;
+                String actualprocess = cpu.getN().getProceso().getPCB();
                 view.getRunningLabel().setText(actualprocess);
                 view.getPCLabel().setText("PC: " + String.valueOf(cpu.getPc()));
             }
 
-            cpu.setTiempo((long) view.getCycleDuration().getValue());   
+            cpu.setTiempo((long) view.getCycleDuration().getValue());
             cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
             cpu.getSch().setTranscurrido(segundos);
 
@@ -84,7 +90,6 @@ public class Controlador extends Thread {
             //Seleccion de la politica de planificacion
             cpu.getSch().politica_planificacion((String) view.getPlanificationPolicy().getSelectedItem());
             cpu.getLogList().apilar(new NodoPila("Planificación seleccionada: " + (String) view.getPlanificationPolicy().getSelectedItem()));
-
 
             //Log de eventos
             if (cpu.getLogList().createModel() != view.getLogList().getModel()) {
@@ -121,6 +126,13 @@ public class Controlador extends Thread {
                 DefaultListModel modelFinished = createModel(cpu.getSch().getTerminado());
                 view.getFinished().setModel(modelFinished);
             }
+
+            double nuevoValor = cpu.calcularThroughput();
+            seriesThroughput.add(segundos, nuevoValor);
+
+            double usoCPU = cpu.calcularUtilizacionCPU();
+            seriesCPU.add(segundos, usoCPU);
+
         }
     }
 
@@ -138,6 +150,46 @@ public class Controlador extends Thread {
 
     public void setCpu(CPU cpu) {
         this.cpu = cpu;
+    }
+
+    public XYSeriesCollection getDatasetThroughput() {
+        return datasetThroughput;
+    }
+
+    public void setDatasetThroughput(XYSeriesCollection datasetThroughput) {
+        this.datasetThroughput = datasetThroughput;
+    }
+
+    public long getSegundos() {
+        return segundos;
+    }
+
+    public void setSegundos(long segundos) {
+        this.segundos = segundos;
+    }
+
+    public XYSeries getSeriesThroughput() {
+        return seriesThroughput;
+    }
+
+    public void setSeriesThroughput(XYSeries seriesThroughput) {
+        this.seriesThroughput = seriesThroughput;
+    }
+
+    public XYSeries getSeriesCPU() {
+        return seriesCPU;
+    }
+
+    public void setSeriesCPU(XYSeries seriesCPU) {
+        this.seriesCPU = seriesCPU;
+    }
+
+    public XYSeriesCollection getDatasetCPU() {
+        return datasetCPU;
+    }
+
+    public void setDatasetCPU(XYSeriesCollection datasetCPU) {
+        this.datasetCPU = datasetCPU;
     }
 
 }
