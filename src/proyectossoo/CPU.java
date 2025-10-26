@@ -32,7 +32,7 @@ public class CPU implements Runnable {
 
     public void iniciar(long tiempo) {
         
-        Proceso p1 = new Proceso("Proceso 0", 10, "CPU", 6, 4,1);
+        Proceso p1 = new Proceso("Proceso 0", 10, "CPU Bound", 0,0 ,1);
         sch.agregar_listo(p1);
 //        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0, 1);
   //      sch.agregar_listo(p2);
@@ -89,11 +89,12 @@ public class CPU implements Runnable {
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 
-               if(p1.getCantidad_instrucciones()==0){
+               if(p1.getCantidad_instrucciones()<=0){
                    
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
                 sf.desbloquear();
+                break;
             
                }
                 System.out.println(p1.getCantidad_instrucciones());
@@ -129,13 +130,13 @@ public class CPU implements Runnable {
             for (i = 0; i < v; i++) {
                 this.tiempo_cpu++;
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-                if (p1.getCantidad_instrucciones() == 0) {
+                if (p1.getCantidad_instrucciones() <= 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
                 getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
-
-                
                 sf.desbloquear();
+                break;
+               
             }
                 try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -155,10 +156,12 @@ public class CPU implements Runnable {
                 }
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
+                sf.desbloquear();
                 System.out.println("Proceso Terminado");
                 getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                break;
 
-                sf.desbloquear();
+                
             }
             }
             
@@ -193,10 +196,11 @@ public class CPU implements Runnable {
             for (i = 0; i < e; i++) {
                this.tiempo_cpu++;
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-                if (p1.getCantidad_instrucciones() == 0) {
+                if (p1.getCantidad_instrucciones() <= 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
                 getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                break;
 
             }
                 System.out.println(p1.getCantidad_instrucciones());
@@ -218,7 +222,7 @@ public class CPU implements Runnable {
             sf.bloquear();
             for (i = 0; i < v; i++) {
                 this.tiempo_cpu++;
-                if(p1.getCantidad_instrucciones()>0){
+                
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 p1.setEstado("Ejecutando");
                 n.setProceso(p1);
@@ -230,15 +234,18 @@ public class CPU implements Runnable {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
                 System.out.println(p1.getCantidad_instrucciones());
-                }else{
-                    sch.terminar_proceso(p1);
-                    System.out.println("Proceso Terminado");
-                    getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                if (p1.getCantidad_instrucciones() <= 0) {
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+                    break;
+                }
+                
 
                 }
             }sf.desbloquear();
             
-        }
+        
     }
 
     // Lee datos de CSV632

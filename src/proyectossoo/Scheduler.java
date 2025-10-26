@@ -80,6 +80,7 @@ public class Scheduler implements Runnable {
         switch (s) {
             case "FIFO" -> {
                 // LOGICA FIFO
+                this.setCiclosRR(0);
 //                int i;
 //                int e = this.getPlan().getTamano();
 //                for (i = 0; i < e; i++) {
@@ -102,7 +103,9 @@ public class Scheduler implements Runnable {
             }
             case "SPN" -> {
                 // LOGICA SPN
+                this.setCiclosRR(0);
              this.getListo().sort();
+             
 //             int i;
 //                int e = this.getListo().getTamano();
 //                for (i = 0; i < e; i++) {
@@ -123,6 +126,7 @@ public class Scheduler implements Runnable {
             }
             case "HRRN" -> {
                 // LOGICA HRRN
+                this.setCiclosRR(0);
               this.listo.add(this.getListo().sorthrrn(this));
 
         
