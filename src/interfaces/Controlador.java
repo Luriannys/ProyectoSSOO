@@ -5,6 +5,7 @@ import javax.swing.DefaultListModel;
 import proyectossoo.CPU;
 import proyectossoo.Cola;
 import proyectossoo.Nodo;
+import proyectossoo.NodoPila;
 
 /**
  *
@@ -34,9 +35,7 @@ public class Controlador extends Thread {
     @Override
     public void run() {
 
-        while (true) {
-
-            //Reloj/Cronometro
+         //Reloj/Cronometro
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             Runnable runnable = new Runnable() {
                 @Override
@@ -65,11 +64,17 @@ public class Controlador extends Thread {
             };
             Thread thread = new Thread(runnable);
             thread.start();
+        
+        while (true) {
 
             //Proceso que esta corriendo
-            //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
-            //runningLabel.setText(actualprocess);
-            cpu.setTiempo((long) view.getCycleDuration().getValue());
+            if (cpu.getN() != null && cpu.getN().getProceso() != null) {
+                String actualprocess = cpu.getN().getProceso().getPCB() ;
+                view.getRunningLabel().setText(actualprocess);
+                view.getPCLabel().setText("PC: " + String.valueOf(cpu.getPC()));
+            }
+
+            cpu.setTiempo((long) view.getCycleDuration().getValue());   
             cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
             cpu.getSch().setTranscurrido(segundos);
 
@@ -78,6 +83,8 @@ public class Controlador extends Thread {
 
             //Seleccion de la politica de planificacion
             cpu.getSch().politica_planificacion((String) view.getPlanificationPolicy().getSelectedItem());
+            cpu.getLogList().apilar(new NodoPila("Planificación seleccionada: " + (String) view.getPlanificationPolicy().getSelectedItem()));
+
 
             //Log de eventos
             if (cpu.getLogList().createModel() != view.getLogList().getModel()) {

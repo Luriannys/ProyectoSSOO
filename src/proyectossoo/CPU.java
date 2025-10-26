@@ -21,6 +21,7 @@ public class CPU implements Runnable {
     Pila logList = new Pila();
     Semaforo sf= new Semaforo();
     Nodo n = new Nodo();
+    int PC = 0;
 
     @Override
     public void run() {
@@ -64,7 +65,7 @@ public class CPU implements Runnable {
         int u = this.sch.getCiclosRR();
 
         Proceso p1 = sch.getListo().getCabeza().getProceso();
-        n.setProceso(p1);
+        
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
 
@@ -74,10 +75,13 @@ public class CPU implements Runnable {
         int v = p1.getCantidad_instrucciones();
         int e = p1.getCiclofinex();
         p1.setEstado("Ejecutando");
+        n.setProceso(p1);
         
         sf.bloquear();
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
+        getLogList().apilar(new NodoPila("Procesando " + p1.getNombre()));
+
         if (e > 0) {
 
             for (i = 0; i < e; i++) {
@@ -123,6 +127,9 @@ public class CPU implements Runnable {
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+
+                
                 sf.desbloquear();
             }
                 try {
@@ -144,6 +151,8 @@ public class CPU implements Runnable {
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+
                 sf.desbloquear();
             }
             }
@@ -165,8 +174,11 @@ public class CPU implements Runnable {
         int v = p1.getCantidad_instrucciones();
         int e = p1.getCiclofinex();
         p1.setEstado("Ejecutando");
+        n.setProceso(p1);
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
+        getLogList().apilar(new NodoPila("Procesando " + p1.getNombre()));
+
         sf.bloquear();
         n.setProceso(p1);
         if (e > 0) {
@@ -177,6 +189,8 @@ public class CPU implements Runnable {
                 if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
+                getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+
             }
                 System.out.println(p1.getCantidad_instrucciones());
                 try {
@@ -212,6 +226,8 @@ public class CPU implements Runnable {
                 }else{
                     sch.terminar_proceso(p1);
                     System.out.println("Proceso Terminado");
+                    getLogList().apilar(new NodoPila("Proceso terminado: " + p1.getNombre()));
+
                 }
             }sf.desbloquear();
             
@@ -332,4 +348,13 @@ public class CPU implements Runnable {
         this.n = n;
     }
 
+    public int getPC() {
+        return PC;
+    }
+
+    public void setPC(int PC) {
+        this.PC = PC;
+    }
+
+    
 }

@@ -29,6 +29,8 @@ public class View extends javax.swing.JFrame {
         this.controlador = controlador;
         
         initComponents();
+
+           
     }
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
@@ -72,6 +74,7 @@ public class View extends javax.swing.JFrame {
         logPane = new javax.swing.JScrollPane();
         logList = new javax.swing.JList<>();
         runningLabel = new javax.swing.JLabel();
+        PCLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         creationProcess = new javax.swing.JPanel();
@@ -247,6 +250,11 @@ public class View extends javax.swing.JFrame {
         runningLabel.setText("Proceso corriendo");
         runningLabel.setBorder(new javax.swing.border.MatteBorder(null));
 
+        PCLabel.setForeground(java.awt.Color.black);
+        PCLabel.setText("Proceso corriendo");
+        PCLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        PCLabel.setBorder(new javax.swing.border.MatteBorder(null));
+
         javax.swing.GroupLayout processLayout = new javax.swing.GroupLayout(process);
         process.setLayout(processLayout);
         processLayout.setHorizontalGroup(
@@ -258,7 +266,8 @@ public class View extends javax.swing.JFrame {
                     .addGroup(processLayout.createSequentialGroup()
                         .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(runningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(logPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(logPane, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PCLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(processLayout.createSequentialGroup()
@@ -303,8 +312,10 @@ public class View extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(processLayout.createSequentialGroup()
-                        .addComponent(runningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(runningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(PCLabel)
+                        .addGap(18, 18, 18)
                         .addComponent(logPane))
                     .addGroup(processLayout.createSequentialGroup()
                         .addGroup(processLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -502,6 +513,7 @@ public class View extends javax.swing.JFrame {
     private void saveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsActionPerformed
         // TODO add your handling code here:
         controlador.getCpu().guardarDatos((Long)getCycleDuration().getValue());
+        controlador.getCpu().getLogList().apilar(new NodoPila("Se ha guardado las configuraciones en el archivo 'configuraciones.csv'"));
     }//GEN-LAST:event_saveSettingsActionPerformed
 
     private void planificationPolicyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_planificationPolicyActionPerformed
@@ -588,6 +600,7 @@ public class View extends javax.swing.JFrame {
 
     private void initSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initSimulationActionPerformed
         // TODO add your handling code here:
+        controlador.getCpu().getLogList().apilar(new NodoPila("Iniciando simulación"));
         Thread t2 = new Thread(controlador.getCpu());
         Thread t3 = new Thread(controlador.getCpu().getSch());
         t2.start();
@@ -597,6 +610,7 @@ public class View extends javax.swing.JFrame {
     private void loadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSettingsActionPerformed
         // TODO add your handling code here:
         getCycleDuration().setValue(controlador.getCpu().leerDatos());
+        controlador.getCpu().getLogList().apilar(new NodoPila("Se ha cargado las configuraciones desde archivo 'configuraciones.csv'"));
     }//GEN-LAST:event_loadSettingsActionPerformed
 
     /**
@@ -976,7 +990,16 @@ public class View extends javax.swing.JFrame {
         this.viewApp = viewApp;
     }
 
+    public JLabel getPCLabel() {
+        return PCLabel;
+    }
+
+    public void setPCLabel(JLabel PCLabel) {
+        this.PCLabel = PCLabel;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel PCLabel;
     private javax.swing.JList<String> blocked;
     private javax.swing.JComboBox<String> boundsProcess;
     private javax.swing.JLabel clockLabel;
