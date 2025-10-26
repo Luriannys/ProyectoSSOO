@@ -30,7 +30,7 @@ public class CPU implements Runnable {
 
     public void iniciar(long tiempo) {
         
-        Proceso p1 = new Proceso("a", 10, "CPU", 6, 4,1);
+        Proceso p1 = new Proceso("Proceso 0", 10, "CPU", 6, 4,1);
         sch.agregar_listo(p1);
         Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0, 1);
         sch.agregar_listo(p2);
@@ -172,6 +172,7 @@ public class CPU implements Runnable {
         } else {
             System.out.println("Ejecutando");
             for (i = 0; i < v; i++) {
+                if(p1.getCantidad_instrucciones()!=0){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 p1.setEstado("Ejecutando");
 
@@ -182,10 +183,12 @@ public class CPU implements Runnable {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
                 System.out.println(p1.getCantidad_instrucciones());
-
+                }else{
+                    sch.terminar_proceso(p1);
+                    System.out.println("Proceso Terminado");
+                }
             }
-            sch.terminar_proceso(p1);
-            System.out.println("Proceso Terminado");
+            
         }
     }
 
@@ -206,7 +209,7 @@ public class CPU implements Runnable {
                         partes.getpFirst().getSiguiente().getSiguiente().getTexto(), // bound
                         Integer.parseInt(partes.getpFirst().getSiguiente().getSiguiente().getSiguiente().getTexto()),// cicloex
                         Integer.parseInt(partes.getpFirst().getSiguiente().getSiguiente().getSiguiente().getSiguiente().getTexto()));// finex
-                getSch().getListo().add(p);
+                getSch().agregar_listo(p);
             }
         } catch (IOException e) {
             e.printStackTrace();
