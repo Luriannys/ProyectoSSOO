@@ -71,7 +71,7 @@ public class Controlador extends Thread {
             if (cpu.getN() != null && cpu.getN().getProceso() != null) {
                 String actualprocess = cpu.getN().getProceso().getPCB() ;
                 view.getRunningLabel().setText(actualprocess);
-                view.getPCLabel().setText("PC: " + String.valueOf(cpu.getPC()));
+                view.getPCLabel().setText("PC: " + String.valueOf(cpu.getPc()));
             }
 
             cpu.setTiempo((long) view.getCycleDuration().getValue());   

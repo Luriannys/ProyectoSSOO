@@ -363,4 +363,12 @@ public class CPU implements Runnable {
         this.tiempo_cpu = tiempo_cpu;
     }
 
+    public int getPc() {
+        return pc;
+    }
+
+    public void setPc(int pc) {
+        this.pc = pc;
+    }
+
 }
