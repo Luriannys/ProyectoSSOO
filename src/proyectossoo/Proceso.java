@@ -1,62 +1,94 @@
 package proyectossoo;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author rgabr
  */
 public class Proceso {
+
     String nombre;
     int cantidad_instrucciones;
-    int instrucciones_ejecutadas;
+    int cantidad_instrucciones_iniciales;
     String bound;
     int registros;
     String estado;
     //Estado (nuevo, Listo,Bloqueado,Ejecutar,terminado, suspendido)
-    int ID ;
+    int ID;
     int MAR;
     //si esbound 
     int cicloex;
     int ciclofinex;
-    //CPU cpu;
+    int tiempoLlegada;
+    int prioridad ;
+    
 
-   /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
+    /* public Proceso(String nombre, int cantidad_instrucciones, String bound) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
         this.bound = bound;
         this.estado = "Nuevo";
     }*/
-    
-    
+    public double calcularFactorRespuesta(int tiempoActual) {
+        // Tiempo de Espera (Tw) = Tiempo Actual (T) - Tiempo de Llegada (Ta)
+        int tiempoEspera = tiempoActual - this.tiempoLlegada; 
+        
+        // HRRN Ratio = (Tw + Ts) / Ts
+        // donde Ts = cantidadInstrucciones
+        
+        if (this.cantidad_instrucciones == 0) {
+            // Prevenir división por cero si la ráfaga es 0 (caso teórico, pero seguro)
+            return Double.MAX_VALUE;
+        }
 
+        // El cálculo debe ser con números de punto flotante (double) para precisión
+        return (double) (tiempoEspera + this.cantidad_instrucciones) / this.cantidad_instrucciones;
+    }
     public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex) {
         this.nombre = nombre;
         this.cantidad_instrucciones = cantidad_instrucciones;
+        this.cantidad_instrucciones_iniciales=cantidad_instrucciones;
         this.bound = bound;
         this.estado = "Nuevo";
         this.cicloex = cicloex;
         this.ciclofinex = ciclofinex;
+        this.prioridad = 0;
     }
-    
-    public void crearProcesos(String nombre, int cantidad_instrucciones, String bound){
-        Proceso p1 = new Proceso(nombre,cantidad_instrucciones,bound,0,0);
-        
+    public Proceso(String nombre, int cantidad_instrucciones, String bound, int cicloex, int ciclofinex,int prioridad) {
+         this.nombre = nombre;
+        this.cantidad_instrucciones = cantidad_instrucciones;
+         this.cantidad_instrucciones_iniciales=cantidad_instrucciones;
+        this.bound = bound;
+        this.estado = "Nuevo";
+        this.cicloex = cicloex;
+        this.ciclofinex = ciclofinex;
+        this.prioridad=prioridad;
     }
 
-    public String getPCB(){
+    public void crearProcesos(String nombre, int cantidad_instrucciones, String bound) {
+        Proceso p1 = new Proceso(nombre, cantidad_instrucciones, bound, 0, 0);
+
+    }
+
+    public String getPCBLog() {
         this.getRegistros();
         this.getID();
         this.getNombre();
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "this.getRegistros(), this.getID(), this.getNombre(), this.getEstado()";
+        return "<html>Registros: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>----------------------------" + "</html>";
     }
 
+    public String getPCB() {
+        this.getRegistros();
+        this.getID();
+        this.getNombre();
+        this.getEstado();
+        //this.getMAR();
+        //this.getPC();
+        return "<html>Registros: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() +  "<br>----------------------------" + "</html>";
+    }
+    
     public String getEstado() {
         return estado;
     }
@@ -72,8 +104,7 @@ public class Proceso {
     public void setRegistros(int registros) {
         this.registros = registros;
     }
-    
-    
+
     public int getCicloex() {
         return cicloex;
     }
@@ -89,7 +120,7 @@ public class Proceso {
     public void setCiclofinex(int ciclofinex) {
         this.ciclofinex = ciclofinex;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -113,7 +144,7 @@ public class Proceso {
     public void setBound(String bound) {
         this.bound = bound;
     }
-    
+
     public int getID() {
         return ID;
     }
@@ -121,5 +152,41 @@ public class Proceso {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+    public int getTiempoLlegada() {
+        return tiempoLlegada;
+    }
+
+    public void setTiempoLlegada(int tiempoLlegada) {
+        this.tiempoLlegada = tiempoLlegada;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public int getCantidad_instrucciones_iniciales() {
+        return cantidad_instrucciones_iniciales;
+    }
+
+    public void setCantidad_instrucciones_iniciales(int cantidad_instrucciones_iniciales) {
+        this.cantidad_instrucciones_iniciales = cantidad_instrucciones_iniciales;
+    }
+
+    public int getMAR() {
+        return MAR;
+    }
+
+    public void setMAR(int MAR) {
+        this.MAR = MAR;
+    }
+
     
+
+   
+
 }
