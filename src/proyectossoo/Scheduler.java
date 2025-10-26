@@ -8,7 +8,8 @@ import java.util.Set;
  */
 public class Scheduler implements Runnable {
 
-    int memoria;
+    int memoria=100;
+    
     long tiempo;
     Cola listo = new Cola("Listo");
     Cola bloq = new Cola("Bloqueado");
@@ -32,9 +33,20 @@ public class Scheduler implements Runnable {
 
     // Agregar proceso a cola Listo
     public void agregar_listo(Proceso p) {
-        listo.add(p);
-        p.setEstado("Listo");
+        int nueva_memoria = memoria - p.getCantidad_instrucciones();
+        if (nueva_memoria < 0) {
+            setMemoria(0);
+            this.suspender_listo(p);
+            
+       }else {
+            setMemoria(nueva_memoria);
+            listo.add(p);
+            p.setEstado("Listo");
+        }
     }
+        
+            
+        
 
     // Terminar proceso y agregar a cola Terminados
     public void terminar_proceso(Proceso p) {
@@ -53,24 +65,15 @@ public class Scheduler implements Runnable {
     public void suspender_listo(Proceso p) {
         p.setEstado("Listo suspendido");
         listoSuspendido.add(p);
-        int nueva_memoria = memoria - p.getCantidad_instrucciones();
-        if (nueva_memoria < 0) {
-            setMemoria(0);
-        } else {
-            setMemoria(nueva_memoria);
-        }
+        this.setMemoria(memoria+p.getCantidad_instrucciones());
+        
     }
 
     // Suspender proceso bloqueado
     public void suspender_bloqueado(Proceso p) {
         p.setEstado("Bloqueado suspendido");
         bloqSuspendido.add(p);
-        int nueva_memoria = memoria - p.getCantidad_instrucciones();
-        if (nueva_memoria < 0) {
-            setMemoria(0);
-        } else {
-            setMemoria(nueva_memoria);
-        }
+        this.setMemoria(memoria+p.getCantidad_instrucciones());
     }
 
     // Cambiar politica de planificacion
@@ -420,6 +423,9 @@ public class Scheduler implements Runnable {
     public void setP1(Cola p1) {
         this.p1 = p1;
     }
+
+   
+    
 
     
 

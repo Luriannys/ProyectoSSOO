@@ -30,26 +30,25 @@ public class CPU implements Runnable {
         sch.agregar_listo(p2);
         Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
         sch.agregar_listo(p3);
-        Proceso p4 = new Proceso("d", 4, "CPU", 0, 0);
+        Proceso p4 = new Proceso("d", 90, "CPU", 0, 0);
         sch.agregar_listo(p4);
         
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
 
         while (true) {     
-            sch.politica_planificacion("Realimentación");
+            sch.politica_planificacion("FIFO");
             while (!sch.listo.estaVacia()) {
                 
                 if(sch.getCiclosRR()!=0){
                     this.ejecutar_RR(sch.bloq, sch.listo);
                 }else{
                     this.ejecutar_p(sch.bloq, sch.listo);
-                }
-                
-                
+                }                        
             }
             if (sch.listo.estaVacia()) {
                 System.out.println("WEY SE ACABARON LOS PROCESOS");
+                
             }            
             
         }
@@ -93,7 +92,7 @@ public class CPU implements Runnable {
             System.out.println("Bloqueado");
             
                     sch.bloquear_proceso(p1);
-                    p1.setEstado("Bloqueado");
+                    
             
 
             //se mueve a cola de bloqueado
