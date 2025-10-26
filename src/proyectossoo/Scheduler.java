@@ -16,7 +16,7 @@ public class Scheduler implements Runnable {
     Cola terminado = new Cola("Terminado");
     Cola listoSuspendido = new Cola("Listo suspendido");
     Cola bloqSuspendido = new Cola("Bloqueado suspendido");
-    String plan ;
+    String plan ="FIFO";
     Semaforo sfbloq = new Semaforo();
     Semaforo sflisto = new Semaforo();
     Cola p0 = new Cola("Prioridad alta");
@@ -470,6 +470,14 @@ public class Scheduler implements Runnable {
 
     public void setP1(Cola p1) {
         this.p1 = p1;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
     }
 
    

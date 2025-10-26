@@ -43,7 +43,7 @@ public class CPU implements Runnable {
 //        pc.siguiente_proceso(listo);
 
         while (true) {     
-            sch.politica_planificacion("Round Robin");
+            sch.politica_planificacion(this.getSch().getPlan());
             while (!sch.listo.estaVacia()) {
                 
                 if(sch.getCiclosRR()!=0){

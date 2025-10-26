@@ -585,7 +585,7 @@ public class View extends javax.swing.JFrame {
 
             Proceso newProcess = new Proceso(nameNewProcess, instructionsNewProcess, boundNewProcess, cicloex, ciclofinex);
 
-            controlador.getCpu().getSch().getPlan().add(newProcess);
+            controlador.getCpu().getSch().agregar_listo(newProcess);
             controlador.getCpu().getLogList().apilar(new NodoPila(newProcess.getPCBLog()));
 
             System.out.println(newProcess.getNombre());
