@@ -29,36 +29,6 @@ public class View extends javax.swing.JFrame {
         this.controlador = controlador;
         
         initComponents();
-
-        //Reloj/Cronometro
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                long inicio = System.currentTimeMillis(); // Marca de tiempo inicial
-                while (true) {
-                    try {
-                        Thread.sleep(500);
-                        long ahora = System.currentTimeMillis();
-                        long transcurrido = ahora - inicio;
-
-                        // Convertimos milisegundos a horas, minutos y segundos
-                        long segundos = (transcurrido / 1000);
-                        long horas = (segundos / 3600);
-                        long minutos = ((segundos % 3600) / 60);
-                        long seg = (segundos % 60);
-
-                        // Formateamos como HH:mm:ss
-                        String tiempo = String.format("%02d:%02d:%02d", horas, minutos, seg);
-                        clockLabel.setText(tiempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
     }
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());

@@ -22,6 +22,7 @@ public class Scheduler implements Runnable {
     Cola p0 = new Cola("Prioridad alta");
     Cola p1 = new Cola("Prioridad baja");
     int ciclosRR=0;
+    long transcurrido;
 
     @Override
     public void run() {
@@ -43,10 +44,7 @@ public class Scheduler implements Runnable {
             listo.add(p);
             p.setEstado("Listo");
         }
-    }
-        
-            
-        
+    }        
 
     // Terminar proceso y agregar a cola Terminados
     public void terminar_proceso(Proceso p) {
@@ -131,14 +129,14 @@ public class Scheduler implements Runnable {
         // 1. Inicializar con el nodo cabeza
         Nodo nodoSeleccionado = this.getListo().getCabeza();
         // Calcular el Factor de Respuesta del primer proceso
-        double mayorFactorRespuesta = this.getListo().getCabeza().getProceso().calcularFactorRespuesta(tiempoActual);
+        double mayorFactorRespuesta = this.getListo().getCabeza().getProceso().calcularFactorRespuesta(getTranscurrido());
 
         // 2. Iterar sobre el resto de la lista
         Nodo actual = this.getListo().getCabeza().getSiguiente();
 
         while (actual != null) {
             // 3. Calcular el factor de respuesta para el proceso actual
-            double factorActual = actual.getProceso().calcularFactorRespuesta(tiempoActual);
+            double factorActual = actual.getProceso().calcularFactorRespuesta(getTranscurrido());
             
             // 4. Comparar: HRRN selecciona el MÁS ALTO (mayor)
             if (factorActual > mayorFactorRespuesta) {
@@ -192,7 +190,7 @@ public class Scheduler implements Runnable {
             }
         }
     }
-    public static Nodo seleccionarProcesoHRRN(Nodo cabeza, int tiempoActual) {
+    public Nodo seleccionarProcesoHRRN(Nodo cabeza) {
         
         if (cabeza == null) {
             return null;
@@ -201,14 +199,14 @@ public class Scheduler implements Runnable {
         // 1. Inicializar con el nodo cabeza
         Nodo nodoSeleccionado = cabeza;
         // Calcular el Factor de Respuesta del primer proceso
-        double mayorFactorRespuesta = cabeza.getProceso().calcularFactorRespuesta(tiempoActual);
+        double mayorFactorRespuesta = cabeza.getProceso().calcularFactorRespuesta(getTranscurrido());
 
         // 2. Iterar sobre el resto de la lista
         Nodo actual = cabeza.getSiguiente();
 
         while (actual != null) {
             // 3. Calcular el factor de respuesta para el proceso actual
-            double factorActual = actual.getProceso().calcularFactorRespuesta(tiempoActual);
+            double factorActual = actual.getProceso().calcularFactorRespuesta(getTranscurrido());
             
             // 4. Comparar: HRRN selecciona el MÁS ALTO (mayor)
             if (factorActual > mayorFactorRespuesta) {
@@ -504,6 +502,14 @@ public class Scheduler implements Runnable {
 
     public void setPlan(String plan) {
         this.plan = plan;
+    }
+
+    public long getTranscurrido() {
+        return transcurrido;
+    }
+
+    public void setTranscurrido(long transcurrido) {
+        this.transcurrido = transcurrido;
     }
 
    

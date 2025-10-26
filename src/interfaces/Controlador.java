@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.time.format.DateTimeFormatter;
 import javax.swing.DefaultListModel;
 import proyectossoo.CPU;
 import proyectossoo.Cola;
@@ -13,6 +14,7 @@ public class Controlador extends Thread {
 
     private CPU cpu = new CPU();
     private View view = new View(this);
+    private volatile long segundos = 0L;
 
     public Controlador() {
         this.start();
@@ -34,19 +36,49 @@ public class Controlador extends Thread {
 
         while (true) {
 
+            //Reloj/Cronometro
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    long inicio = System.currentTimeMillis(); // Marca de tiempo inicial
+                    while (true) {
+                        try {
+                            Thread.sleep(500);
+                            long ahora = System.currentTimeMillis();
+                            long transcurrido = ahora - inicio;
+
+                            // Convertimos milisegundos a horas, minutos y segundos
+                            long segundos = (transcurrido / 1000);
+                            long horas = (segundos / 3600);
+                            long minutos = ((segundos % 3600) / 60);
+                            long seg = (segundos % 60);
+
+                            // Formateamos como HH:mm:ss
+                            String tiempo = String.format("%02d:%02d:%02d", horas, minutos, seg);
+                            getView().getClockLabel().setText(tiempo);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+
             //Proceso que esta corriendo
             //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
             //runningLabel.setText(actualprocess);
-            
             cpu.setTiempo((long) view.getCycleDuration().getValue());
             cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
-            
+            cpu.getSch().setTranscurrido(segundos);
+
             //Visualizacion de la etiqueta politica de planificacion
-            view.getPlanPolicy().setText("Política de planificación: " + (String)view.getPlanificationPolicy().getSelectedItem());
-            
+            view.getPlanPolicy().setText("Política de planificación: " + (String) view.getPlanificationPolicy().getSelectedItem());
+
             //Seleccion de la politica de planificacion
-            cpu.getSch().politica_planificacion((String)view.getPlanificationPolicy().getSelectedItem());
-                       
+            cpu.getSch().politica_planificacion((String) view.getPlanificationPolicy().getSelectedItem());
+
             //Log de eventos
             if (cpu.getLogList().createModel() != view.getLogList().getModel()) {
                 DefaultListModel eventLogList = cpu.getLogList().createModel();
