@@ -1,5 +1,10 @@
 package proyectossoo;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
 
 /**
@@ -15,54 +20,59 @@ public class CPU implements Runnable {
     long tiempo = sch.getTiempo();
     Pila logList = new Pila();
     Semaforo sf;
-    Nodo n =new Nodo();
+    Nodo n = new Nodo();
+
     @Override
     public void run() {
         this.iniciar(tiempo);
-        
+
     }
-    
+
     public void iniciar(long tiempo) {
-        
-        Proceso p1 = new Proceso("a", 10, "CPU", 3, 4,1);
+
+        Proceso p1 = new Proceso("a", 10, "CPU", 3, 4, 1);
         sch.agregar_listo(p1);
-        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0,1);
+        Proceso p2 = new Proceso("b", 13, "I/O Bound", 0, 0, 1);
         sch.agregar_listo(p2);
         Proceso p3 = new Proceso("c", 5, "CPU", 4, 3);
         sch.agregar_listo(p3);
         Proceso p4 = new Proceso("d", 4, "CPU", 0, 0);
         sch.agregar_listo(p4);
-        
+
 //        PC pc = new PC(listo);
 //        pc.siguiente_proceso(listo);
-
-        while (true) {     
+        while (true) {
             sch.politica_planificacion("Realimentación");
-            while (!sch.listo.estaVacia()) {
-                
-                if(sch.getCiclosRR()!=0){
-                    this.ejecutar_RR(sch.bloq, sch.listo);
-                }else{
-                    this.ejecutar_p(sch.bloq, sch.listo);
+
+//        PC pc = new PC(listo);
+//        pc.siguiente_proceso(listo);
+            while (true) {
+                sch.politica_planificacion("Realimentación");
+                while (!sch.listo.estaVacia()) {
+
+                    if (sch.getCiclosRR() != 0) {
+                        this.ejecutar_RR(sch.bloq, sch.listo);
+                    } else {
+                        this.ejecutar_p(sch.bloq, sch.listo);
+                    }
+
                 }
-                
-                
+                if (sch.listo.estaVacia()) {
+                    System.out.println("WEY SE ACABARON LOS PROCESOS");
+                }
+
             }
-            if (sch.listo.estaVacia()) {
-                System.out.println("WEY SE ACABARON LOS PROCESOS");
-            }            
-            
         }
     }
-    
+
     public void ejecutar_RR(Cola bloq, Cola listo) {
-        int u= this.sch.getCiclosRR();
-            
+        int u = this.sch.getCiclosRR();
+
         Proceso p1 = sch.getListo().getCabeza().getProceso();
         n.setProceso(p1);
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
-        
+
         Thread t1 = new Thread();
         t1.start();
         int i;
@@ -72,10 +82,10 @@ public class CPU implements Runnable {
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
         if (e > 0) {
-            
+
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-                
+
                 System.out.println(p1.getCantidad_instrucciones());
                 try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -84,17 +94,16 @@ public class CPU implements Runnable {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
                 u--;
-                if (u==0&& p1.getCantidad_instrucciones()>0){
+                if (u == 0 && p1.getCantidad_instrucciones() > 0) {
                     sch.agregar_listo(p1);
                     System.out.println("Se te acabo el tiempo perro");
                     break;
                 }
             }
             System.out.println("Bloqueado");
-            
-                    sch.bloquear_proceso(p1);
-                    p1.setEstado("Bloqueado");
-            
+
+            sch.bloquear_proceso(p1);
+            p1.setEstado("Bloqueado");
 
             //se mueve a cola de bloqueado
             //metodo del scheduler que movera el proceso a bloqueado
@@ -103,8 +112,7 @@ public class CPU implements Runnable {
             p1.setEstado("Ejecutando");
             for (i = 0; i < v; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-                
-                
+
                 try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(Duration.ofSeconds(tiempo));
@@ -113,29 +121,28 @@ public class CPU implements Runnable {
                 }
                 System.out.println(p1.getCantidad_instrucciones());
                 u--;
-                if (u==0 && p1.getCantidad_instrucciones()>0){
+                if (u == 0 && p1.getCantidad_instrucciones() > 0) {
                     sch.agregar_listo(p1);
                     System.out.println("Se te acabo el tiempo perro");
-                    
+
                     break;
                 }
             }
-            if(p1.getCantidad_instrucciones()==0){
+            if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
-            System.out.println("Proceso Terminado");
+                System.out.println("Proceso Terminado");
             }
-            
+
         }
-            
-            
-        }
-    
+
+    }
+
     public void ejecutar_p(Cola bloq, Cola listo) {
-        
+
         Proceso p1 = sch.getListo().getCabeza().getProceso();
         //Proceso p2=this.getListo().getCabeza().getSiguiente().getProceso();
         listo.desencolar();
-        
+
         Thread t1 = new Thread();
         t1.start();
         int i;
@@ -145,10 +152,10 @@ public class CPU implements Runnable {
         //poner el ciclo de excepcion 
         System.out.println("Procesando " + p1.getNombre());
         if (e > 0) {
-            
+
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-                
+
                 System.out.println(p1.getCantidad_instrucciones());
                 try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -158,9 +165,8 @@ public class CPU implements Runnable {
                 }
             }
             System.out.println("Bloqueado");
-            
+
             sch.bloquear_proceso(p1);
-           
 
             //se mueve a cola de bloqueado
             //metodo del scheduler que movera el proceso a bloqueado
@@ -169,7 +175,7 @@ public class CPU implements Runnable {
             for (i = 0; i < v; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 p1.setEstado("Ejecutando");
-                
+
                 try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(Duration.ofSeconds(tiempo));
@@ -177,41 +183,115 @@ public class CPU implements Runnable {
                     System.getLogger(CPU.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
                 System.out.println(p1.getCantidad_instrucciones());
-                
+
             }
             sch.terminar_proceso(p1);
             System.out.println("Proceso Terminado");
         }
     }
-    
+
+    // Lee datos de CSV632
+    public Long leerDatos() {
+        Long tiempoCiclo = 0L;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("configuracion.csv"));
+            String ciclo = reader.readLine();
+            String ciclo_sin_pcomas = ciclo.replaceAll("[^0-9]", "");
+            tiempoCiclo = Long.valueOf(ciclo_sin_pcomas);
+            for (int i = 0; i < 40; i++) {
+                String proceso = reader.readLine();
+                Lista partes = splitt(proceso);
+                Proceso p = new Proceso(
+                        partes.getpFirst().getTexto(), //nombre
+                        Integer.parseInt(partes.getpFirst().getSiguiente().getTexto()), // cantidad de instrucciones
+                        partes.getpFirst().getSiguiente().getSiguiente().getTexto(), // bound
+                        Integer.parseInt(partes.getpFirst().getSiguiente().getSiguiente().getSiguiente().getTexto()),// cicloex
+                        Integer.parseInt(partes.getpFirst().getSiguiente().getSiguiente().getSiguiente().getSiguiente().getTexto()));// finex
+                getSch().getListo().add(p);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tiempoCiclo;
+    }
+
+    public void guardarDatos(Long nuevoTiempoCiclo) {
+        String[] lineas = new String[41]; // 1 línea de tiempo + 40 procesos
+        int contador = 0;
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("configuracion.csv"));
+            String linea;
+
+            while ((linea = reader.readLine()) != null && contador < 41) {
+                if (contador == 0) {
+                    lineas[contador] = String.valueOf(nuevoTiempoCiclo); // reemplaza la primera línea
+                } else {
+                    lineas[contador] = linea; // conserva el resto
+                }
+                contador++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("configuracion.csv"));
+            for (int i = 0; i < contador; i++) {
+                writer.write(lineas[i]);
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Arregla datos del CSV para manipularlos
+    public Lista splitt(String cadena) {
+        String palabra = "";
+        Lista resultado = new Lista();
+        for (int i = 0; i < cadena.length(); i++) {
+            char letra = cadena.charAt(i);
+            if (letra != ';') {
+                palabra += letra;
+            } else {
+                resultado.addAtTheEnd(new NodoPila(palabra));
+                palabra = "";
+            }
+        }
+        return resultado;
+    }
+
     public Scheduler getSch() {
         return sch;
     }
-    
+
     public void setSch(Scheduler sch) {
         this.sch = sch;
-    }    
-    
+    }
+
     public long getTiempo() {
         return tiempo;
     }
-    
+
     public void setTiempo(long tiempo) {
         this.tiempo = tiempo;
     }
-    
+
     public Semaforo getSf() {
         return sf;
     }
-    
+
     public void setSf(Semaforo sf) {
         this.sf = sf;
     }
-    
+
     public Pila getLogList() {
         return logList;
     }
-    
+
     public void setLogList(Pila logList) {
         this.logList = logList;
     }
@@ -223,5 +303,5 @@ public class CPU implements Runnable {
     public void setN(Nodo n) {
         this.n = n;
     }
-    
+
 }

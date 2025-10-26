@@ -15,16 +15,15 @@ public class Controlador extends Thread {
     private View view = new View(this);
 
     public Controlador() {
+        this.start();
         view.setVisible(true);
-        cpu.setTiempo((long) view.getCycleDuration().getValue());
-        cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
     }
 
     public DefaultListModel createModel(Cola cola) {
         DefaultListModel model = new DefaultListModel();
         Nodo actual = cola.getCabeza();
         while (actual != null) {
-            model.addElement(actual.getProceso().getNombre());
+            model.addElement(actual.getProceso().getPCB());
             actual = actual.getSiguiente();
         }
         return model;
@@ -38,6 +37,9 @@ public class Controlador extends Thread {
             //Proceso que esta corriendo
             //String actualprocess = (String) cpu.getPc().getP_actual().getPCB();
             //runningLabel.setText(actualprocess);
+            
+            cpu.setTiempo((long) view.getCycleDuration().getValue());
+            cpu.getSch().setTiempo((long) view.getCycleDuration().getValue());
             
             //Visualizacion de la etiqueta politica de planificacion
             view.getPlanPolicy().setText("Política de planificación: " + (String)view.getPlanificationPolicy().getSelectedItem());

@@ -36,8 +36,8 @@ public class Cola {
         }
         tamano++;
     }
-        
-        public void sort() {
+
+    public void sort() {
         if (cabeza == null) {
             return;
         }
@@ -49,7 +49,7 @@ public class Cola {
 
             while (actual.siguiente != null) {
                 if (actual.getProceso().getCantidad_instrucciones() > actual.siguiente.getProceso().getCantidad_instrucciones()) {
-                    // Intercambiar los valores
+                    // Intercambiar los procesos (Porque arreglar nodos esta dificil)
                     Proceso temp = actual.getProceso();
                     actual.setProceso(actual.siguiente.getProceso());
                     actual.siguiente.setProceso(temp);

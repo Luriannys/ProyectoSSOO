@@ -13,13 +13,7 @@ public class ProyectoSSOO {
      */
     public static void main(String[] args) {
 
-        Controlador app = new Controlador();
-
-        Thread t2 = new Thread(app.getCpu());
-        Thread t3 = new Thread(app.getCpu().getSch());
-        t2.start();
-        t3.start();
-        app.start();
-
+        
+        View v = new View(new Controlador());       
     }
 }

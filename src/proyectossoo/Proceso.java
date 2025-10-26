@@ -66,6 +66,16 @@ public class Proceso {
 
     }
 
+    public String getPCBLog() {
+        this.getRegistros();
+        this.getID();
+        this.getNombre();
+        this.getEstado();
+        //this.getMAR();
+        //this.getPC();
+        return "<html>Registros: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>----------------------------" + "</html>";
+    }
+
     public String getPCB() {
         this.getRegistros();
         this.getID();
@@ -73,9 +83,9 @@ public class Proceso {
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "<html>Nombre: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>----------------------------" + "</html>";
+        return "<html>Registros: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() +  "<br>----------------------------" + "</html>";
     }
-
+    
     public String getEstado() {
         return estado;
     }
