@@ -22,6 +22,8 @@ public class Controlador extends Thread {
     private XYSeriesCollection datasetThroughput = new XYSeriesCollection(seriesThroughput);
     private XYSeries seriesCPU = new XYSeries("Utilización CPU");
     private XYSeriesCollection datasetCPU = new XYSeriesCollection(seriesCPU);
+    private XYSeries seriesRespuesta = new XYSeries("Tiempo de Respuesta");
+    private XYSeriesCollection datasetRespuesta = new XYSeriesCollection(seriesRespuesta);
 
     public Controlador() {
         this.start();
@@ -54,7 +56,7 @@ public class Controlador extends Thread {
                         long transcurrido = ahora - inicio;
 
                         // Convertimos milisegundos a horas, minutos y segundos
-                        long segundos = (transcurrido / 1000);
+                        segundos = (transcurrido / 1000);
                         long horas = (segundos / 3600);
                         long minutos = ((segundos % 3600) / 60);
                         long seg = (segundos % 60);
@@ -133,6 +135,9 @@ public class Controlador extends Thread {
             double usoCPU = cpu.calcularUtilizacionCPU();
             seriesCPU.add(segundos, usoCPU);
 
+           // double tiempoRespuesta = cpu.calcularTiempoRespuesta(); // método que devuelve el tiempo en ms
+           // seriesRespuesta.add(segundos, tiempoRespuesta); // agrega nuevo punto
+
         }
     }
 
@@ -190,6 +195,22 @@ public class Controlador extends Thread {
 
     public void setDatasetCPU(XYSeriesCollection datasetCPU) {
         this.datasetCPU = datasetCPU;
+    }
+
+    public XYSeries getSeriesRespuesta() {
+        return seriesRespuesta;
+    }
+
+    public void setSeriesRespuesta(XYSeries seriesRespuesta) {
+        this.seriesRespuesta = seriesRespuesta;
+    }
+
+    public XYSeriesCollection getDatasetRespuesta() {
+        return datasetRespuesta;
+    }
+
+    public void setDatasetRespuesta(XYSeriesCollection datasetRespuesta) {
+        this.datasetRespuesta = datasetRespuesta;
     }
 
 }

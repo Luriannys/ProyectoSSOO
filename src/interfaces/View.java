@@ -659,6 +659,16 @@ public class View extends javax.swing.JFrame {
         return new ChartPanel(chart);
     }
 
+    public ChartPanel crearGraficoLineasRespuesta() {
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Tiempo de Respuesta",
+                "Ciclo",
+                "ms",
+                controlador.getDatasetRespuesta()
+        );
+        return new ChartPanel(chart);
+    }
+
 
     private void initSimulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initSimulationActionPerformed
         // TODO add your handling code here:
@@ -681,6 +691,14 @@ public class View extends javax.swing.JFrame {
         getUtilizacionProcesadorPane().add(crearGraficoLineasCPU(), BorderLayout.CENTER);
         getUtilizacionProcesadorPane().revalidate();
         getUtilizacionProcesadorPane().repaint();
+
+        //Grafica tiempo de respuesta
+        getTiempoRespuestaPane().removeAll();
+        getTiempoRespuestaPane().setLayout(new BorderLayout());
+        getTiempoRespuestaPane().add(crearGraficoLineasRespuesta(), BorderLayout.CENTER);
+        getTiempoRespuestaPane().revalidate();
+        getTiempoRespuestaPane().repaint();
+
 
     }//GEN-LAST:event_initSimulationActionPerformed
 
