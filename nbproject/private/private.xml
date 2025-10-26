@@ -4,14 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/interfaces/View.java</file>
-            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/Proceso.java</file>
+            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/interfaces/Controlador.java</file>
+            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/Scheduler.java</file>
             <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/CPU.java</file>
             <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/Pila.java</file>
-            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/NodoPila.java</file>
-            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/ProyectoSSOO.java</file>
-            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/Scheduler.java</file>
-            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/interfaces/Controlador.java</file>
-            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/Cola.java</file>
+            <file>file:/C:/Users/luria/OneDrive/Desktop/ProyectoSSOO/src/proyectossoo/Proceso.java</file>
         </group>
     </open-files>
 </project-private>

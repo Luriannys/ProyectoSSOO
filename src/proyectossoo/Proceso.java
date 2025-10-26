@@ -76,7 +76,7 @@ public class Proceso {
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "<html>Registros: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>----------------------------" + "</html>";
+        return "<html>" + "<br>Nombre: " + getNombre() + "<br>Estado: " + getEstado() + "<br>Tamaño: " + Integer.toString(getCantidad_instrucciones_iniciales()) + "<br>Tipo: " + getBound() + "<br>----------------------------" + "</html>";
     }
 
     public String getPCB() {
@@ -86,7 +86,7 @@ public class Proceso {
         this.getEstado();
         //this.getMAR();
         //this.getPC();
-        return "<html>Registros: " + Integer.toString(getRegistros()) + "<br>ID: " + Integer.toString(getID()) + "<br>Nombre: " + getNombre() +  "<br>----------------------------" + "</html>";
+        return "<html>" + "<br>Nombre: " + getNombre() + "<br>Tamaño: " + Integer.toString(getCantidad_instrucciones_iniciales()) + "<br>Tipo: " + getBound() + "<br>----------------------------" + "</html>";
     }
     
     public String getEstado() {

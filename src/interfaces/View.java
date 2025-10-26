@@ -256,7 +256,7 @@ public class View extends javax.swing.JFrame {
 
         runningLabel.setForeground(java.awt.Color.black);
         runningLabel.setText("Proceso corriendo");
-        runningLabel.setBorder(new javax.swing.border.MatteBorder(null));
+        runningLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         PCLabel.setForeground(java.awt.Color.black);
         PCLabel.setText("Proceso corriendo");
