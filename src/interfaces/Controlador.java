@@ -135,8 +135,8 @@ public class Controlador extends Thread {
             double usoCPU = cpu.calcularUtilizacionCPU();
             seriesCPU.add(segundos, usoCPU);
 
-           // double tiempoRespuesta = cpu.calcularTiempoRespuesta(); // método que devuelve el tiempo en ms
-           // seriesRespuesta.add(segundos, tiempoRespuesta); // agrega nuevo punto
+            double tiempoRespuesta = cpu.calcularTiempoRespuesta();
+            seriesRespuesta.add(segundos, tiempoRespuesta);
 
         }
     }
