@@ -114,6 +114,7 @@ public class Scheduler implements Runnable {
             }
             case "SRT" -> {
                 // LOGICA SRT
+                this.setCiclosRR(5);
                 this.getListo().sort();
 //                int i;
 //                int e = this.getPlan().getTamano();

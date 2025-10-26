@@ -80,7 +80,12 @@ public class CPU implements Runnable {
 
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-
+               if(p1.getCantidad_instrucciones()==0){
+                   if (p1.getCantidad_instrucciones() == 0) {
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+            }
+               }
                 System.out.println(p1.getCantidad_instrucciones());
                 try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -93,7 +98,7 @@ public class CPU implements Runnable {
                     sch.setMemoria(sch.getMemoria()+p1.getCantidad_instrucciones_iniciales());
                
                     sch.agregar_listo(p1);
-                    System.out.println("Se te acabo el tiempo perro");
+                    System.out.println("Se te acabo el tiempo ");
                     break;
                 }
             }
@@ -110,7 +115,10 @@ public class CPU implements Runnable {
             p1.setEstado("Ejecutando");
             for (i = 0; i < v; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-
+                if (p1.getCantidad_instrucciones() == 0) {
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+            }
                 try {
                     //aqui el hilo espera el tiempo del ciclo
                     t1.sleep(Duration.ofSeconds(tiempo));
@@ -126,11 +134,12 @@ public class CPU implements Runnable {
 
                     break;
                 }
-            }
-            if (p1.getCantidad_instrucciones() == 0) {
+                if (p1.getCantidad_instrucciones() == 0) {
                 sch.terminar_proceso(p1);
                 System.out.println("Proceso Terminado");
             }
+            }
+            
 
         }
 
@@ -154,7 +163,10 @@ public class CPU implements Runnable {
 
             for (i = 0; i < e; i++) {
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
-
+                if (p1.getCantidad_instrucciones() == 0) {
+                sch.terminar_proceso(p1);
+                System.out.println("Proceso Terminado");
+            }
                 System.out.println(p1.getCantidad_instrucciones());
                 try {
                     //aqui el hilo espera el tiempo del ciclo
@@ -172,7 +184,8 @@ public class CPU implements Runnable {
         } else {
             System.out.println("Ejecutando");
             for (i = 0; i < v; i++) {
-                if(p1.getCantidad_instrucciones()!=0){
+                
+                if(p1.getCantidad_instrucciones()>0){
                 p1.setCantidad_instrucciones(p1.getCantidad_instrucciones() - 1);
                 p1.setEstado("Ejecutando");
 
